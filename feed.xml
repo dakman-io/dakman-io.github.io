@@ -4,17 +4,17 @@
   <link>https://dakman-io.github.io/</link>
   <description>개발 · AI 실전기 — 삽질과 완성의 기록</description>
   <item>
-    <title>로컬 AI로 4컷 만화를 만들었습니다 — 맥북 한 대에서 겪은 삽질과 완성까지</title>
-    <link>https://dakman-io.github.io/posts/local-ai-comic-pipeline/</link>
-    <guid>https://dakman-io.github.io/posts/local-ai-comic-pipeline/</guid>
-    <description>맥북 M3 Pro 한 대에서 클라우드 없이 로컬 AI로 캐릭터 4컷 만화 파이프라인을 세운 이틀간의 기록 — mflux·flux2-klein-4b, 모델 선택·캐릭터 일관성·CRT 스타일·합성까지.</description>
-    <pubDate>Fri, 03 Jul 2026 15:00:00 GMT</pubDate>
-  </item>
-  <item>
     <title>암호화폐 시총 상위 100 — 저점 회복률 스크리닝 (2018~2026)</title>
     <link>https://dakman-io.github.io/posts/crypto-top100-low-recovery/</link>
     <guid>https://dakman-io.github.io/posts/crypto-top100-low-recovery/</guid>
     <description>시총 top100을 2018년 이후 저점 대비 회복률로 줄 세운 데이터 리포트 — 3중 교차검증(CoinGecko·Yahoo·Binance)·방법론·데이터 한계까지. 투자 판단 아닌 과거 데이터 관측.</description>
+    <pubDate>Fri, 03 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
+    <title>로컬 AI로 4컷 만화를 만들었습니다 — 맥북 한 대에서 겪은 삽질과 완성까지</title>
+    <link>https://dakman-io.github.io/posts/local-ai-comic-pipeline/</link>
+    <guid>https://dakman-io.github.io/posts/local-ai-comic-pipeline/</guid>
+    <description>맥북 M3 Pro 한 대에서 클라우드 없이 로컬 AI로 캐릭터 4컷 만화 파이프라인을 세운 이틀간의 기록 — mflux·flux2-klein-4b, 모델 선택·캐릭터 일관성·CRT 스타일·합성까지.</description>
     <pubDate>Fri, 03 Jul 2026 15:00:00 GMT</pubDate>
   </item>
 </channel></rss>
