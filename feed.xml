@@ -4,6 +4,13 @@
   <link>https://dakman-io.github.io/</link>
   <description>개발 · AI 실전기 — 삽질과 완성의 기록</description>
   <item>
+    <title>AI 벤더 공식 가이드와 우리 워크플로가 수렴했다 — 그리고 우리가 틀린 것 셋</title>
+    <link>https://dakman-io.github.io/posts/fable5-convergence/</link>
+    <guid>https://dakman-io.github.io/posts/fable5-convergence/</guid>
+    <description>Anthropic 최신 모델(Fable 5) 공식 프롬프팅 가이드를 우리 멀티세션 워크플로와 대조한 기록 — 검증·게이트·메모리 원칙 6개가 수렴했고, 이전 세대용 처방적 스킬 등 마찰 3개가 드러났다. 모델은 렌트, 운영 계층은 자산.</description>
+    <pubDate>Sat, 04 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>dakman 캐릭터 로스터 — 알통 &amp; 오토토 (픽셀 치비 마스코트)</title>
     <link>https://dakman-io.github.io/posts/dakman-roster/</link>
     <guid>https://dakman-io.github.io/posts/dakman-roster/</guid>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e1116;
+    --bg2:#151a22;
+    --card:#1a212b;
+    --line:#2a3442;
+    --paper:#eef2f7;
+    --muted:#8f9bab;
+    --ok:#39c07a;        /* 정답 */
+    --no:#ef6a5a;        /* 오답 */
+    --gold:#e2b23c;
+    --twi:#5aa9ff;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:
+      radial-gradient(900px 500px at 88% -8%, #1d2b22 0%, transparent 55%),
+      radial-gradient(900px 500px at 5% 20%, #23202b 0%, transparent 55%),
+      var(--bg);
+    color:var(--paper);
+    font-family:'Noto Sans KR',system-ui,sans-serif;line-height:1.78;font-weight:400;
+    -webkit-font-smoothing:antialiased}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(/content-assets/2026-07/%23n)' opacity='0.05'/%3E%3C/svg%3E")}
+  .wrap{position:relative;z-index:1;max-width:840px;margin:0 auto;padding:52px 24px 90px}
+
+  .kicker{display:flex;gap:9px;flex-wrap:wrap;font-size:11.5px;letter-spacing:.1em;color:var(--muted);font-weight:700}
+  .tag{border:1px solid var(--line);border-radius:999px;padding:3px 11px;background:#131922}
+  .tag.x{color:#dfe7f2;border-color:#3a4658}
+
+  h1{font-family:'Gowun Batang',serif;font-weight:700;font-size:clamp(28px,5vw,46px);line-height:1.2;letter-spacing:-.01em;margin:20px 0 8px}
+  .score{display:inline-flex;gap:6px;align-items:baseline}
+  .score .n{font-family:'JetBrains Mono';font-weight:700}
+  .s6{color:var(--ok)} .s3{color:var(--no)}
+  .sub{color:var(--muted);font-size:15.5px;margin:0 0 28px}
+
+  .tldr{border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#182029,#12171e);padding:20px 22px;box-shadow:0 12px 40px -26px #000}
+  .tldr .lab{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:900;margin-bottom:8px}
+  .tldr ol{margin:0;padding-left:0;list-style:none;counter-reset:t}
+  .tldr li{counter-increment:t;position:relative;padding:9px 0 9px 42px;border-top:1px dashed var(--line);font-size:15.8px}
+  .tldr li:first-child{border-top:none}
+  .tldr li::before{content:counter(t);position:absolute;left:0;top:9px;width:27px;height:27px;border-radius:8px;background:#0c0f14;border:1px solid var(--line);color:var(--gold);font-family:'JetBrains Mono';font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
+
+  .rule{text-align:center;color:var(--line);margin:38px 0 30px;font-family:'JetBrains Mono';letter-spacing:.5em}
+
+  .sec{margin:44px 0 0}
+  .sec-h{display:flex;align-items:center;gap:12px;margin:0 0 14px}
+  .chip{font-family:'JetBrains Mono';font-weight:700;font-size:12px;padding:4px 10px;border-radius:8px}
+  .chip.ok{background:rgba(57,192,122,.14);color:var(--ok);border:1px solid rgba(57,192,122,.35)}
+  .chip.no{background:rgba(239,106,90,.14);color:var(--no);border:1px solid rgba(239,106,90,.35)}
+  .chip.g{background:rgba(226,178,60,.14);color:var(--gold);border:1px solid rgba(226,178,60,.35)}
+  .sec-h h2{font-family:'Gowun Batang',serif;font-size:23px;font-weight:700;margin:0}
+
+  p{font-size:16px;margin:15px 0;max-width:66ch}
+  .lead{font-family:'Gowun Batang',serif;font-size:clamp(19px,3vw,24px);line-height:1.55;color:#f6f8fb}
+  .lead .pop{color:var(--gold)}
+  .whisper{color:var(--muted);font-size:15px}
+
+  .grade{list-style:none;margin:18px 0;padding:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#141a22}
+  .grade li{display:grid;grid-template-columns:26px 1fr;gap:12px;padding:13px 16px;border-top:1px solid var(--line);font-size:15px;align-items:start}
+  .grade li:first-child{border-top:none}
+  .grade .mk{color:var(--ok);font-family:'JetBrains Mono';font-weight:700;text-align:center}
+  .grade b{color:#dbe6d9}
+  .grade .arw{color:var(--muted)}
+
+  .flip{border-left:4px solid var(--no);background:linear-gradient(90deg,rgba(239,106,90,.10),transparent);padding:13px 18px;border-radius:0 12px 12px 0;margin:16px 0}
+  .flip .mk{color:var(--no);font-family:'JetBrains Mono';font-weight:700;margin-right:8px}
+
+  .confess{border:1px dashed #4a5566;border-radius:14px;background:#12161d;padding:18px 20px;margin:18px 0}
+  .confess .lg{color:var(--gold);font-weight:700}
+
+  .coin{margin:32px 0;padding:26px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(135deg,#111821,#191f14);position:relative}
+  .coin::before{content:"“";position:absolute;left:14px;top:-6px;font-family:'Gowun Batang';font-size:74px;color:#2f3a2c;line-height:1}
+  .coin p{font-family:'Gowun Batang',serif;font-weight:700;font-size:clamp(20px,3.6vw,28px);line-height:1.42;margin:0;padding-left:24px}
+  .coin .keep{color:var(--ok)} .coin .peel{color:var(--no)}
+
+  .ask{margin:36px 0 6px;font-family:'Gowun Batang',serif;font-size:19px;line-height:1.55;color:#f2f5f9}
+  .hash{margin-top:16px;color:var(--twi);font-weight:700;font-size:15px}
+
+  .prov{margin-top:52px;border:1px solid var(--line);border-radius:14px;background:#12161d;padding:18px 20px}
+  .prov h3{margin:0 0 12px;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:900}
+  .leg{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+  .b{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px}
+  .b.v{background:rgba(57,192,122,.13);color:var(--ok);border:1px solid rgba(57,192,122,.4)}
+  .b.f{background:rgba(90,169,255,.13);color:var(--twi);border:1px solid rgba(90,169,255,.4)}
+  .b.x{background:#171b21;color:var(--muted);border:1px dashed #454f5e}
+  .prov ul{margin:6px 0 0;padding-left:18px}
+  .prov li{font-size:13px;color:#b7c1cf;margin:6px 0}
+  .prov li em{color:#dfe7f2;font-style:italic}
+  .prov .draft{margin-top:12px;font-size:12px;color:var(--gold);font-weight:700}
+
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media print{.reveal{opacity:1!important;transform:none!important;transition:none!important}}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+<title>AI 벤더 공식 가이드와 우리 워크플로가 수렴했다 — 그리고 우리가 틀린 것 셋 — dakman blog</title>
+<meta name="description" content="Anthropic 최신 모델(Fable 5) 공식 프롬프팅 가이드를 우리 멀티세션 워크플로와 대조한 기록 — 검증·게이트·메모리 원칙 6개가 수렴했고, 이전 세대용 처방적 스킬 등 마찰 3개가 드러났다. 모델은 렌트, 운영 계층은 자산.">
+<link rel="canonical" href="https://dakman-io.github.io/posts/fable5-convergence/">
+<link rel="alternate" type="application/rss+xml" title="dakman blog" href="/feed.xml">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI 벤더 공식 가이드와 우리 워크플로가 수렴했다 — 그리고 우리가 틀린 것 셋">
+<meta property="og:description" content="Anthropic 최신 모델(Fable 5) 공식 프롬프팅 가이드를 우리 멀티세션 워크플로와 대조한 기록 — 검증·게이트·메모리 원칙 6개가 수렴했고, 이전 세대용 처방적 스킬 등 마찰 3개가 드러났다. 모델은 렌트, 운영 계층은 자산.">
+<meta property="og:url" content="https://dakman-io.github.io/posts/fable5-convergence/">
+<meta property="og:image" content="https://dakman-io.github.io/content-assets/2026-07/2026-07-05-x-fable5-convergence-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"AI 벤더 공식 가이드와 우리 워크플로가 수렴했다 — 그리고 우리가 틀린 것 셋","datePublished":"2026-07-05","image":["https://dakman-io.github.io/content-assets/2026-07/2026-07-05-x-fable5-convergence-cover.png"]}</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8V9J4DVLJ3"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-8V9J4DVLJ3');</script>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="kicker reveal">
+    <span class="tag x">X · 아티클</span>
+    <span class="tag">series · fable5-convergence</span>
+    <span class="tag">domain · dakman</span>
+    <span class="tag">status · draft</span>
+  </div>
+
+  <h1 class="reveal">Anthropic Fable 5 공식 가이드로<br>우리 워크플로를 채점했더니 —<br><span class="score"><span class="n s6">정답 여섯</span>, <span class="n s3">오답 셋</span></span></h1>
+  <p class="sub reveal">멀티에이전트 워크플로 자가채점 · 반전 서사 + 웃픈 자기고발</p>
+
+  <div class="tldr reveal">
+    <div class="lab">세 줄 요약 ↓</div>
+    <ol>
+      <li>Anthropic이 최신 모델 Fable 5용 공식 프롬프팅 가이드를 냈길래 열어봤는데, 우리가 몇 달 삽질로 세운 워크플로 원칙 여섯 개가 거의 그대로 있었어요. 잠깐 우쭐했죠.</li>
+      <li>근데 같은 문서가 우리가 틀린 것 세 개도 짚더라고요. 그중 하나는 웃프게도, 우리가 '수렴했다'고 자랑하던 그 검증 루프가 정작 우리 실수를 잡아낸 얘기예요.</li>
+      <li>정답 여섯은 모델이 바뀌어도 남는 뼈대, 오답 셋은 대부분 이번 세대에만 해당하는 잔소리. 그래서 결론은 — 뼈대는 두고 잔소리만 줄이면 됩니다.</li>
+    </ol>
+  </div>
+
+  <div class="rule reveal">— ◇ —</div>
+
+  <div class="sec reveal">
+    <div class="sec-h"><span class="chip g">쌓기</span><h2>열어보자마자 우쭐했어요</h2></div>
+    <p class="lead">Anthropic이 최신 모델(Fable 5) 전용 프롬프팅 가이드를 공식 문서로 냈어요. 이런 건 그냥 못 지나치죠. 열어봤어요.</p>
+    <p>읽는 내내 기분이 묘했어요. 우리가 지난 몇 달 멀티에이전트 워크플로를 굴리면서 삽질 끝에 세운 원칙들이, 거기 거의 그대로 적혀 있는 거예요. 잠깐 우쭐했죠. <span style="color:var(--gold)">"거봐, 우리가 맞았지."</span></p>
+    <p>먼저 그 겹친 여섯 개부터 훑을게요. 베낀 게 아니라, 서로 모르고 같은 곳에 도착한 거예요. 이게 이 글의 반전 재료이기도 하고요.</p>
+  </div>
+
+  <div class="sec reveal">
+    <div class="sec-h"><span class="chip ok">정답 6</span><h2>이건 우리가 맞았어요</h2></div>
+    <p>가장 통쾌하게 겹친 건 이거였어요. 가이드는 "자기비판(self-critique)보다, 컨텍스트가 깨끗한 별도 검증 에이전트가 더 낫다"고 해요. 우리는 이미 쓰는 쪽과 검수하는 쪽을 다른 세션으로 갈라놨거든요. 만든 놈이 자기 걸 통과 못 시키게요.</p>
+    <p class="whisper">나머지도 짧게.</p>
+    <ul class="grade">
+      <li><span class="mk">✓</span><span><b>진행 상황을 보고하기 전에 실제 도구 결과와 대조하라</b> <span class="arw">→</span> 우리 '수용 게이트'. 근거와 대조되기 전엔 '완료'가 아니에요. (가이드는 이렇게 하면 지어낸 상태 보고가 거의 사라진다고, 자기들 테스트에서 관찰했다고 해요. 수치는 없어요.)</span></li>
+      <li><span class="mk">✓</span><span><b>메모리 시스템을 붙여라, 마크다운 파일이면 충분하다</b> <span class="arw">→</span> 우리 중앙 지식 위키.</span></li>
+      <li><span class="mk">✓</span><span><b>요청만 던지지 말고 이유·맥락을 줘라</b> <span class="arw">→</span> 우리는 요약 대신 풀 문서를 통째로 넘겨요.</span></li>
+      <li><span class="mk">✓</span><span><b>서브에이전트를 병렬로, 비동기로 굴려라</b> <span class="arw">→</span> 우리 프로젝트별 세션 병렬 구동.</span></li>
+      <li><span class="mk">✓</span><span><b>되돌릴 수 없거나 사용자만 아는 지점에서만 멈춰라</b> <span class="arw">→</span> 우리 사람 게이트. 공개처럼 비가역 지점에서만 사람이 GO.</span></li>
+    </ul>
+    <p class="whisper">여기까지면 자랑 글로 끝났을 거예요. 근데 같은 문서가 뒤통수를 쳤어요.</p>
+  </div>
+
+  <div class="sec reveal">
+    <div class="sec-h"><span class="chip no">오답 3</span><h2>이건 우리가 틀렸어요</h2></div>
+    <div class="flip"><span class="mk">✗</span>같은 가이드가, 이전 세대 모델용으로 잔뜩 처방적으로 짜둔 스킬은 최신 모델에선 오히려 품질을 깎을 수 있다고 해요. 우리 스킬, 딱 그거예요. 의도적으로 잔소리가 많거든요. 뜨끔했죠.</div>
+    <div class="flip"><span class="mk">✗</span>또 하나. 우리는 위험한 지점마다 사람이 끊고 들어가게 해뒀는데, 이런 잦은 개입이 최신 모델의 장기 자율성을 깎는 트레이드오프가 있어요. 우리가 통제를 택한 대가죠.</div>
+    <div class="flip"><span class="mk">✗</span>마지막은 진짜 몰랐던 거예요. "네 추론을 그대로 옮겨 적어라" 같은 지시가, 이 모델에선 특정 거부(refusal) 범주를 건드려서 이전 모델로 폴백을 늘릴 수 있대요. 우리 스킬 중에 '왜 그렇게 판단했는지 적어라'류가 있는데, 이건 감사해봐야겠더라고요. 솔직한 숙제로 남겨둡니다.</div>
+  </div>
+
+  <div class="sec reveal">
+    <div class="sec-h"><span class="chip g">자기고발</span><h2>웃픈 고백 하나</h2></div>
+    <p>여기서 자기고발을 안 할 수가 없어요.</p>
+    <div class="confess">
+      <p>얼마 전에 제가 "완료는 스스로 선언하는 게 아니라 근거로 판정된다"는 문장을, 어떤 유명한 프레임워크(LangChain)에서 나온 명언인 줄 알고 인용했어요. 그럴듯하잖아요. 근데 <span class="lg">우리 검증 절차가 그걸 잡아냈어요.</span> 출처가 안 맞는다고요. 다시 파보니, 그 문장의 진짜 뿌리는 바로 이 Fable 5 공식 문서의 '진행 주장 정박'이었어요.</p>
+    </div>
+    <p>포인트가 뭐냐면요. 남의 것인 줄 알고 인용한 그 명제를, 정작 잡아낸 게 우리가 "공식 가이드랑 수렴했다"고 자랑하던 바로 그 검증 루프였다는 거예요. 자화자찬을 하려다 자기 발등을 찍은 셈인데, 저는 이게 오히려 안심이 됐어요. 자랑이 사실이라는 걸, 자랑하던 그 장치가 증명해준 거니까요.</p>
+  </div>
+
+  <div class="sec reveal">
+    <div class="sec-h"><span class="chip g">다시 뒤집기</span><h2>그래서 뭐가 남냐면</h2></div>
+    <p>정리하면 이래요.</p>
+    <p>수렴한 여섯 개는 모델이 바뀌어도 유효한 엔지니어링 원칙이에요. 검증·게이트·메모리·분리는 다음 세대에도 그대로 필요하고요. 반대로 오답 셋은 대부분 '지금 이 세대'에 특이한 얘기예요. 모델이 똑똑해지면 잔소리는 덜어내면 그만이죠.</p>
+    <p style="font-weight:500;margin-bottom:2px">그래서 저는 이렇게 봐요.</p>
+    <div class="coin"><p>좋은 워크플로는 벤더가 공식 문서로 낼 때까지 <span class="keep">남고</span>, 나쁜 잔소리는 다음 모델이 나올 때마다 한 겹씩 <span class="peel">벗겨진다.</span></p></div>
+    <p>모델은 벤더가 세대마다 갈아줘요. 우리 손 밖이죠. 근데 검증·게이트·조직 메모리라는 뼈대는 모델이 바뀌어도 우리한테 그대로 남아요. 세대가 오르면, 뼈대는 두고 잔소리만 줄이면 됩니다.</p>
+    <p class="ask">혹시 AI 에이전트 여러 개를 굴려보신 분 계시면 궁금해요. 최신 모델로 갈아탈 때, 여러분은 뭘 지우고 뭘 남기셨어요?</p>
+    <p class="hash">#AI #AI에이전트 #워크플로 #개발생산성</p>
+  </div>
+
+  <div class="prov reveal">
+    <h3>근거 · 검증 상태</h3>
+    <div class="leg">
+      <span class="b v">✔ 원문 대조 완료</span>
+      <span class="b f">◆ 우리 1차 경험</span>
+      <span class="b x">⋯ 미검증 · 인용 안 함</span>
+    </div>
+    <ul>
+      <li><span class="b v">✔</span> Anthropic 공식 'Prompting Claude Fable 5' 가이드(platform.claude.com) — 6개 처방 + 3개 마찰 워딩 2026-07-05 원문 대조 완료. '실측' 주장은 수치 없는 정성표현(<em>"nearly eliminated fabricated status reports"</em>)이라 "관찰했다고 밝힌"으로 귀속, % 창작 없음.</li>
+      <li><span class="b f">◆</span> 수렴 6원칙·마찰 대응·'완료=판정' 오귀속 정정담 = dakman 멀티세션 워크플로 1차 경험. 정정된 사실 = LangChain 것으로 잘못 귀속했다가 verify로 정정, 진짜 뿌리는 이 문서.</li>
+      <li><span class="b x">⋯</span> 정본 위키 페이지(fable5-prompting-patterns)는 미머지·미검증·조회 불가 → 사실 근거로 인용하지 않음.</li>
+    </ul>
+    <p class="draft">※ 초안(draft) — 마스킹·사실·컴플라이언스 최종 검수와 발행은 게이트·검수 에이전트·사람 GO 몫. 이 파일은 사용자 검토용 시각본.</p>
+  </div>
+
+</div>
+<script>
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(Math.min(i,8)*45)+'ms';io.observe(el)});
+  setTimeout(()=>document.querySelectorAll('.reveal:not(.in)').forEach(el=>el.classList.add('in')),4000);
+</script>
+<div style="max-width:760px;margin:48px auto 40px;padding:18px 22px;border:1px solid rgba(139,150,177,.35);border-radius:12px;text-align:center;font-family:'Noto Sans KR',sans-serif;font-size:14.5px;line-height:1.6;color:#8b96b1">
+이 글의 대화는 X에서 이어져요 — <a href="https://x.com/dakman_io/status/2073752830159315012" rel="noopener" target="_blank" style="color:#2fe0cd;font-weight:700;text-decoration:none">원문에서 답글 남기기 ↗</a>
+<div style="margin-top:8px;font-size:11.5px;opacity:.7"><a href="/" style="color:inherit;text-decoration:none">← dakman blog</a> · <a href="/privacy/" style="color:inherit">개인정보처리방침</a></div>
+</div>
+</body>
+</html>
