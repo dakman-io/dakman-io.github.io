@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>#만화 — dakman blog</title>
+<meta name="description" content="#만화 태그 글 목록">
+<link rel="canonical" href="https://dakman-io.github.io/tags/%EB%A7%8C%ED%99%94/">
+<link rel="alternate" type="application/rss+xml" title="dakman blog" href="/feed.xml">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{--bg:#0a0d13;--panel:#10141d;--line:#242c3f;--ink:#e8edf8;--mut:#8b96b1;--dim:#5f6884;--teal:#2fe0cd;--gold:#ffc648;--mag:#ff5fa8}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:radial-gradient(900px 480px at 10% -6%,rgba(47,224,205,.08),transparent 60%),var(--bg);
+  color:var(--ink);font-family:'Noto Sans KR',sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px 80px}
+header.site{padding:56px 0 34px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.18em;color:var(--teal);margin-bottom:12px}
+h1{font-size:clamp(28px,4.5vw,40px);font-weight:900;color:#fff}
+.dek{margin-top:10px;color:var(--mut)}
+a{text-decoration:none;color:inherit}
+.backlink{font-family:'JetBrains Mono';font-size:13px;color:var(--teal)}
+.count{padding:22px 0 18px;font-family:'JetBrains Mono';font-size:12px;color:var(--dim)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:960px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+.card{display:block;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:20px;transition:border-color .15s}
+.card:hover{border-color:var(--teal)}
+.card img.cover{width:100%;aspect-ratio:1.9/1;object-fit:cover;border-radius:8px;border:1px solid var(--line);margin-bottom:14px}
+.card .meta{display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono';font-size:11.5px;color:var(--dim);margin-bottom:8px;flex-wrap:wrap}
+.badge{border:1px solid;border-radius:4px;padding:2px 6px}
+.badge.ia{color:var(--mag);border-color:var(--mag)}
+.badge.pv{color:var(--gold);border-color:var(--gold);border-style:dashed}
+.card h2{font-size:17px;font-weight:700;line-height:1.45;color:#fff;margin-bottom:8px}
+.card p.desc{font-size:13.5px;color:var(--mut);margin-bottom:12px}
+.card .tags{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--teal)}
+.notice{display:inline-block;margin-top:16px;border:1px dashed var(--gold);border-radius:6px;padding:7px 12px;
+  font-family:'JetBrains Mono';font-size:12px;color:var(--gold)}
+footer.site{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);
+  font-family:'JetBrains Mono';font-size:11px;color:var(--dim);text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="site">
+<a class="backlink" href="/">← dakman blog</a>
+<h1 style="margin-top:14px">#만화</h1>
+</header>
+<p class="count">1 posts</p>
+<div class="grid"><a class="card" href="/posts/local-ai-comic-pipeline/">
+<img class="cover" src="/content-assets/2026-07/2026-07-04-x-local-ai-comic-pipeline-cover.png" alt="" loading="lazy"><div class="meta"><span>2026-07-04</span><span class="badge ia">INTERACTIVE</span></div>
+<h2>로컬 AI로 4컷 만화를 만들었습니다 — 맥북 한 대에서 겪은 삽질과 완성까지</h2><p class="desc">맥북 M3 Pro 한 대에서 클라우드 없이 로컬 AI로 캐릭터 4컷 만화 파이프라인을 세운 이틀간의 기록 — mflux·flux2-klein-4b, 모델 선택·캐릭터 일관성·CRT 스타일·합성까지.</p><div class="tags"><span>#로컬AI</span><span>#mflux</span><span>#이미지생성</span><span>#AppleSilicon</span><span>#캐릭터</span></div></a></div>
+<footer class="site">dakman blog · OWNED HOME · powered by dakman-sns (One Source) · <a href="/privacy/" style="color:inherit">개인정보처리방침</a></footer>
+</div>
+</body>
+</html>

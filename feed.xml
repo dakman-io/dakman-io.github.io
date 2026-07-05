@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0"><channel>
+  <title>dakman blog</title>
+  <link>https://dakman-io.github.io/</link>
+  <description>개발 · AI 실전기 — 삽질과 완성의 기록</description>
+  <item>
+    <title>로컬 AI로 4컷 만화를 만들었습니다 — 맥북 한 대에서 겪은 삽질과 완성까지</title>
+    <link>https://dakman-io.github.io/posts/local-ai-comic-pipeline/</link>
+    <guid>https://dakman-io.github.io/posts/local-ai-comic-pipeline/</guid>
+    <description>맥북 M3 Pro 한 대에서 클라우드 없이 로컬 AI로 캐릭터 4컷 만화 파이프라인을 세운 이틀간의 기록 — mflux·flux2-klein-4b, 모델 선택·캐릭터 일관성·CRT 스타일·합성까지.</description>
+    <pubDate>Fri, 03 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+</channel></rss>

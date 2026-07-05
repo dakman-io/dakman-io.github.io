@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=DungGeunMo&family=JetBrains+Mono:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0c12; --panel:#0f131c; --panel2:#141926; --line:#232a40;
+  --ink:#e7ecf7; --mut:#8994b0; --dim:#6b7290;
+  --teal:#38e6d4; --red:#e3312d; --mag:#e64ba0; --gold:#ffc94a;
+  --green:#3ecf7a; --bad:#e3554d; --blue:#38a0e6;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(900px 520px at 12% -4%,rgba(56,230,212,.10),transparent 60%),
+    radial-gradient(820px 520px at 100% 8%,rgba(227,49,45,.12),transparent 55%),
+    var(--bg);
+  color:var(--ink); font-family:'Noto Sans KR',sans-serif; line-height:1.72;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+/* global CRT scanline — the article's own motif */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.16) 0 1px,transparent 1px 4px)}
+.wrap{max-width:920px;margin:0 auto;padding:0 22px 90px}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;margin:0 -22px 46px;padding:56px 22px 40px;overflow:hidden;
+  border-bottom:2px solid var(--line);
+  background:linear-gradient(180deg,rgba(56,230,212,.05),transparent 70%)}
+.eyebrow{display:inline-block;font-family:'Press Start 2P';font-size:11px;letter-spacing:.14em;
+  color:var(--teal);border:2px solid var(--teal);padding:9px 14px;border-radius:4px;
+  box-shadow:4px 4px 0 rgba(56,230,212,.22);margin-bottom:24px}
+h1.title{font-family:'DungGeunMo',sans-serif;font-weight:400;font-size:clamp(30px,5.2vw,52px);
+  line-height:1.2;color:#fff;text-shadow:4px 4px 0 var(--red);max-width:15ch}
+.dek{margin-top:20px;font-size:clamp(15px,2vw,18px);color:#c3cde3;font-weight:500;max-width:60ch}
+.metastrip{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}
+.chip{font-family:'JetBrains Mono';font-size:12px;font-weight:700;color:#0e1119;background:var(--gold);
+  padding:7px 11px;border-radius:4px}
+.chip.b{background:var(--teal)}.chip.c{background:var(--mag);color:#fff}
+.byline{margin-top:22px;font-family:'Press Start 2P';font-size:10px;color:var(--dim)}
+
+/* ---------- verdict banner ---------- */
+.verdict{display:flex;align-items:center;gap:16px;margin:0 0 44px;padding:18px 22px;
+  border:2px solid var(--green);border-radius:12px;background:rgba(62,207,122,.08)}
+.verdict .big{font-family:'DungGeunMo',sans-serif;font-size:26px;color:var(--green);white-space:nowrap}
+.verdict .t{font-size:14.5px;color:#cdd6ea}
+
+/* ---------- section headers ---------- */
+section{margin-bottom:50px}
+.sh{display:flex;align-items:baseline;gap:14px;margin-bottom:20px;padding-bottom:12px;
+  border-bottom:1px dashed var(--line)}
+.sh .no{font-family:'Press Start 2P';font-size:13px;color:var(--teal)}
+.sh h2{font-family:'DungGeunMo',sans-serif;font-weight:400;font-size:clamp(22px,3.4vw,30px);color:#fff}
+p{margin:0 0 16px;color:#d3dbec;font-size:15.5px}
+p .hl{color:var(--gold);font-weight:700}
+strong{color:#fff;font-weight:700}
+code{font-family:'JetBrains Mono';font-size:.9em;background:#1a2030;color:var(--teal);
+  padding:2px 6px;border-radius:4px;border:1px solid #26304a}
+
+/* ---------- condition cards ---------- */
+.cond{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:6px 0 4px}
+.cc{border:2px solid var(--line);border-radius:12px;background:var(--panel2);padding:20px}
+.cc .n{font-family:'Press Start 2P';font-size:22px;color:var(--mag);opacity:.85}
+.cc h3{font-family:'DungGeunMo',sans-serif;font-weight:400;font-size:20px;color:#fff;margin:10px 0 8px}
+.cc p{font-size:14px;color:var(--mut);margin:0}
+
+/* ---------- spec compare ---------- */
+.figure{margin:8px 0 6px;border:2px solid var(--line);border-radius:12px;overflow:hidden;background:#0b0e16}
+.figure img{display:block;width:100%;image-rendering:auto}
+.figure.pix img{image-rendering:pixelated}
+.cap{font-size:13px;color:var(--dim);text-align:center;margin-top:10px;font-style:italic}
+.specgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.spec{border:2px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel2)}
+.spec.bad{border-color:var(--bad)}.spec.good{border-color:var(--green)}
+.spec .top{padding:13px 16px;font-family:'DungGeunMo',sans-serif;font-size:19px;color:#fff;display:flex;align-items:center;gap:9px}
+.spec.bad .top{background:linear-gradient(180deg,rgba(227,85,77,.2),transparent)}
+.spec.good .top{background:linear-gradient(180deg,rgba(62,207,122,.18),transparent)}
+.spec .top .b{font-family:'JetBrains Mono';font-size:12px;color:var(--mut);margin-left:auto}
+.spec .r{display:flex;justify-content:space-between;gap:10px;padding:9px 16px;border-top:1px dashed var(--line);font-size:13.5px}
+.spec .r .l{color:var(--mut);font-family:'DungGeunMo',sans-serif}
+.spec .r .v{color:var(--ink);font-weight:700;font-family:'JetBrains Mono';font-size:12.5px;text-align:right}
+.spec.bad .v.x{color:#ff8a82}.spec.good .v.x{color:#66e39a}
+.spec .foot{padding:11px;text-align:center;font-family:'DungGeunMo',sans-serif;font-size:15px}
+.spec.bad .foot{background:rgba(227,85,77,.12);color:#ff9a93}
+.spec.good .foot{background:rgba(62,207,122,.12);color:#7ceaa6}
+
+/* ---------- problems ---------- */
+.prob{border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:10px;
+  background:var(--panel);padding:18px 20px;margin-bottom:14px}
+.prob:nth-child(2){border-left-color:var(--mag)}
+.prob:nth-child(3){border-left-color:var(--gold)}
+.prob:nth-child(4){border-left-color:var(--red)}
+.prob:nth-child(5){border-left-color:var(--blue)}
+.prob:nth-child(6){border-left-color:var(--green)}
+.prob h4{font-family:'DungGeunMo',sans-serif;font-weight:400;font-size:19px;color:#fff;margin-bottom:8px;
+  display:flex;align-items:center;gap:10px}
+.prob h4 .pn{font-family:'Press Start 2P';font-size:13px;color:var(--teal)}
+.prob:nth-child(2) h4 .pn{color:var(--mag)}
+.prob:nth-child(3) h4 .pn{color:var(--gold)}
+.prob:nth-child(4) h4 .pn{color:var(--red)}
+.prob:nth-child(5) h4 .pn{color:var(--blue)}
+.prob:nth-child(6) h4 .pn{color:var(--green)}
+.prob p{margin:0;font-size:14.5px;color:var(--mut)}
+.prob p .fix{color:var(--teal);font-weight:700}
+
+/* ---------- takeaways ---------- */
+.takes{list-style:none;display:grid;gap:12px}
+.takes li{border:1px solid var(--line);border-radius:10px;background:var(--panel2);padding:15px 18px;
+  font-size:14.5px;color:#d3dbec;display:flex;gap:13px;align-items:flex-start}
+.takes li .k{font-family:'Press Start 2P';font-size:12px;color:var(--gold);margin-top:2px;flex:none}
+.takes li b{color:#fff}
+
+/* ---------- outro ---------- */
+.outro{border:2px solid var(--mag);border-radius:14px;background:
+  linear-gradient(180deg,rgba(230,75,160,.1),transparent);padding:26px 26px 22px;margin-top:6px}
+.outro p{font-size:15.5px;color:#e7ecf7}
+.tags{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+.tags span{font-family:'JetBrains Mono';font-size:12.5px;color:var(--teal);background:#141c2a;
+  border:1px solid #26304a;padding:5px 10px;border-radius:20px}
+footer{text-align:center;margin-top:44px;padding-top:22px;border-top:1px solid var(--line);
+  font-family:'Press Start 2P';font-size:10px;color:var(--dim);line-height:2}
+
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+@media print{.reveal{opacity:1!important;transform:none!important;transition:none!important}}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+@media (max-width:720px){
+  .cond,.specgrid{grid-template-columns:1fr}
+  .verdict{flex-direction:column;align-items:flex-start;gap:8px}
+}
+</style>
+<title>로컬 AI로 4컷 만화를 만들었습니다 — 맥북 한 대에서 겪은 삽질과 완성까지 — dakman blog</title>
+<meta name="description" content="맥북 M3 Pro 한 대에서 클라우드 없이 로컬 AI로 캐릭터 4컷 만화 파이프라인을 세운 이틀간의 기록 — mflux·flux2-klein-4b, 모델 선택·캐릭터 일관성·CRT 스타일·합성까지.">
+<link rel="canonical" href="https://dakman-io.github.io/posts/local-ai-comic-pipeline/">
+<link rel="alternate" type="application/rss+xml" title="dakman blog" href="/feed.xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="로컬 AI로 4컷 만화를 만들었습니다 — 맥북 한 대에서 겪은 삽질과 완성까지">
+<meta property="og:description" content="맥북 M3 Pro 한 대에서 클라우드 없이 로컬 AI로 캐릭터 4컷 만화 파이프라인을 세운 이틀간의 기록 — mflux·flux2-klein-4b, 모델 선택·캐릭터 일관성·CRT 스타일·합성까지.">
+<meta property="og:url" content="https://dakman-io.github.io/posts/local-ai-comic-pipeline/">
+<meta property="og:image" content="https://dakman-io.github.io/content-assets/2026-07/2026-07-04-x-local-ai-comic-pipeline-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"로컬 AI로 4컷 만화를 만들었습니다 — 맥북 한 대에서 겪은 삽질과 완성까지","datePublished":"2026-07-04","image":["https://dakman-io.github.io/content-assets/2026-07/2026-07-04-x-local-ai-comic-pipeline-cover.png"]}</script>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero reveal">
+    <span class="eyebrow">LOCAL AI · APPLE SILICON</span>
+    <h1 class="title">로컬 AI로<br>4컷 만화 만들기</h1>
+    <div class="dek">맥북 M3 Pro 한 대에서 겪은 삽질과 완성까지 — 클라우드 크레딧 0원, 전 과정 CLI 자동화로 캐릭터 만화 파이프라인을 세운 이틀간의 기록.</div>
+    <div class="metastrip">
+      <span class="chip">mflux</span>
+      <span class="chip b">flux2-klein-4b</span>
+      <span class="chip c">CLI-DRIVEN</span>
+    </div>
+    <div class="byline">@dakman_io · 2026-07-04 · X ARTICLE</div>
+  </div>
+
+  <div class="verdict reveal">
+    <div class="big">→ 됩니다.</div>
+    <div class="t">설치·디버그·모델전환·생성·합성·조립까지 전부 CLI로 굴렸고, 결과물은 캐릭터 로스터 + 총출동 4컷 만화. 다만 가는 길에 삽질을 꽤 했습니다. 그 과정을 처음부터 끝까지 적었어요.</div>
+  </div>
+
+  <div class="figure reveal">
+    <img src="/content-assets/2026-07/2026-07-04-x-local-ai-comic-pipeline-cover.png" alt="로컬 AI로 4컷 만화 만들기 커버">
+  </div>
+  <p style="margin-top:12px">개발·AI 얘기를 SNS에 올리다 보면 글만으론 좀 심심하더라고요. 캐릭터가 나오는 4컷 만화 한 장이면 훨씬 잘 읽히겠다 싶었어요. 그래서 이틀에 걸쳐 <strong>로컬 AI로 캐릭터 만화 뽑는 파이프라인</strong>을 직접 세워봤습니다. 클라우드 API 안 쓰고, 제 맥북 한 대에서요.</p>
+
+  <section class="reveal">
+    <div class="sh"><span class="no">01</span><h2>조건을 두 개 걸었어요</h2></div>
+    <p>시작할 때 스스로 조건을 두 개 걸었어요. 이게 도구 선택을 거의 다 결정했습니다.</p>
+    <div class="cond">
+      <div class="cc"><div class="n">01</div><h3>캐릭터 일관성</h3>
+        <p>4컷이면 같은 캐릭터가 네 번 나와야 해요. 컷마다 딴 사람이 되면 만화가 아니죠. 이게 이미지 생성에서 제일 어려운 부분입니다.</p></div>
+      <div class="cc"><div class="n">02</div><h3>CLI로, 에이전트가 직접</h3>
+        <p>저는 마크다운 기반으로 작업하고 AI 코딩 에이전트로 자동화해요. 그래서 클릭해서 쓰는 GUI 툴(Draw Things, ComfyUI)은 후보에서 빠졌어요. "대본 쓰면 → 에이전트가 알아서 이미지까지"가 목표였습니다.</p></div>
+    </div>
+    <p style="margin-top:14px">이 두 번째 조건 덕분에 선택지가 확 줄었습니다.</p>
+  </section>
+
+  <section class="reveal">
+    <div class="sh"><span class="no">02</span><h2>도구: mflux (MLX 네이티브 CLI)</h2></div>
+    <p>애플 실리콘에서 로컬 이미지 생성을 하려면 MLX(애플의 머신러닝 프레임워크)를 타는 게 제일 빠릅니다. 그걸 CLI로 감싼 게 <strong>mflux</strong>예요. Huggingface Diffusers를 MLX로 포팅한 프로젝트인데, 재밌는 게 공식 문서에서 <em>"CLI 탐색은 코딩 에이전트로 하라"</em>고 대놓고 권합니다. 제 두 번째 조건이랑 딱 맞았어요.</p>
+    <p><code>pip install mflux</code> 한 줄로 깔리고, 모델마다 전용 명령이 따로 있습니다(<code>mflux-generate-flux2</code>, <code>mflux-generate-flux2-edit</code> 이런 식). 이 "모델별 전용 명령" 구조를 처음에 몰라서 한 번 넘어졌는데, 그 얘기는 아래에서요.</p>
+    <p>참고로 제 머신은 <span class="hl">맥북 프로 M3 Pro · GPU 14코어 · 통합 메모리 36GB</span>입니다. 이 사양이 이 글 내내 중요하게 작용해요.</p>
+  </section>
+
+  <section class="reveal">
+    <div class="sh"><span class="no">03</span><h2>첫 삽질: 무거운 모델은 M3 Pro에서 죽습니다</h2></div>
+    <p>처음엔 욕심을 부렸어요. 최신이라길래 <strong>z-image-turbo(6B)</strong>부터 붙였습니다. 결과는 삼연속 실패였어요.</p>
+    <div class="specgrid">
+      <div class="spec bad">
+        <div class="top">❌ z-image-turbo <span class="b">6B</span></div>
+        <div class="r"><span class="l">명령 구조</span><span class="v">범용 플래그 → vae 못 찾고 죽음</span></div>
+        <div class="r"><span class="l">모델 크기</span><span class="v x">31 GB</span></div>
+        <div class="r"><span class="l">생성 속도</span><span class="v">512²에서도 3~5분 무응답</span></div>
+        <div class="r"><span class="l">GPU 워치독</span><span class="v x">Timeout — 강제 종료</span></div>
+        <div class="foot">M3 Pro 36GB엔 과부하</div>
+      </div>
+      <div class="spec good">
+        <div class="top">✅ flux2-klein-4b <span class="b">4B</span></div>
+        <div class="r"><span class="l">명령 구조</span><span class="v">모델 전용 명령 사용</span></div>
+        <div class="r"><span class="l">모델 크기</span><span class="v x">15 GB</span></div>
+        <div class="r"><span class="l">생성 속도</span><span class="v x">14~22초 / 장 (4step)</span></div>
+        <div class="r"><span class="l">GPU 워치독</span><span class="v x">안 걸림 · 피크 10.5GB</span></div>
+        <div class="foot">스위트스팟</div>
+      </div>
+    </div>
+    <p style="margin-top:16px">z-image가 삼연속으로 넘어진 이유는 세 가지였어요.</p>
+    <p><strong>명령이 틀렸다</strong> — <code>mflux-generate --base-model z-image-turbo</code> 같은 범용 플래그로 부르니 <code>vae</code> 컴포넌트를 못 찾는다고 죽더라고요. 알고 보니 모델마다 전용 명령을 써야 했습니다(<code>mflux-generate-z-image-turbo</code>).</p>
+    <p><strong>모델이 31GB</strong> — 6B인데 텍스트 인코더·VAE까지 풀로 받으니 다운로드만 한참이었어요.</p>
+    <p><strong>Metal GPU 워치독에 걸려 죽었다</strong> — 이게 핵심입니다. 1024 해상도로 돌리니 첫 스텝에서 <code>Command buffer execution failed ... Timeout</code>. macOS는 GPU 커맨드 하나가 너무 오래 걸리면 강제로 죽이는데(워치독), 무거운 모델이 딱 거기 걸렸어요. 해상도를 512로 낮춰도 3~5분 안에 그림 한 장을 못 뽑았습니다.</p>
+    <p style="margin-top:14px"><span class="hl">교훈 하나:</span> 파라미터가 크다고 좋은 게 아니라, 내 하드웨어에 맞아야 합니다. 6B는 M3 Pro 36GB엔 과했어요.</p>
+  </section>
+
+  <section class="reveal">
+    <div class="sh"><span class="no">04</span><h2>해결: 4B가 스위트스팟이었어요</h2></div>
+    <p>무게를 낮췄습니다. <strong>flux2-klein-4b(4B)</strong>로 갈아탔더니 딴 세상이었어요. 다운로드 <span class="hl">15GB</span>(절반 수준), 생성 <span class="hl">한 장에 14~22초</span>(4스텝), 피크 메모리 <span class="hl">10.5GB</span>로 36GB에 여유가 넉넉했고, GPU 워치독은 안 걸립니다.</p>
+    <div class="figure reveal">
+      <img src="/content-assets/2026-07/2026-07-04-x-local-ai-comic-pipeline-spec.png" alt="z-image-turbo vs flux2-klein-4b 비교">
+    </div>
+    <p style="margin-top:14px">같은 맥북인데 모델 하나 바꿨다고 "안 됨"에서 "잘 됨"으로 넘어갔어요. <strong>모델 무게가 로컬 추론의 진짜 제약</strong>이라는 걸 몸으로 배웠습니다.</p>
+  </section>
+
+  <section class="reveal">
+    <div class="sh"><span class="no">05</span><h2>진짜 난제들은 여기서부터였어요</h2></div>
+    <p>모델이 돈다고 만화가 되는 건 아니었어요. 실제로 쓸만한 캐릭터 만화를 뽑으려니 문제가 줄줄이 나왔고, 하나씩 풀었습니다.</p>
+    <div class="prob"><h4><span class="pn">01</span> 캐릭터 일관성 = 이미지→이미지 편집</h4>
+      <p>텍스트로만 뽑으면 매번 딴 캐릭터가 나와요. 대신 <code>flux2-edit</code>(image-to-image)에 <b style="color:#fff">기준 이미지를 물려주고</b> "같은 캐릭터, 이번엔 이런 포즈"라고 시키면 얼굴·옷·소품이 유지됩니다. <span class="fix">4컷의 제일 큰 난제가 여기서 풀렸어요.</span></p></div>
+    <div class="prob"><h4><span class="pn">02</span> 표정 바꾸면 선글라스가 벗겨진다</h4>
+      <p>제 캐릭터들이 선글라스를 꼈는데, "놀란 표정" "눈썹 올리고" 같이 <b style="color:#fff">눈을 언급하면</b> 모델이 눈을 그리려고 선글라스를 지워버리더라고요. <span class="fix">해법은 단순했어요. 눈 얘기는 빼고, 입·손·고갯짓만 바꾸라고 시키니 선글라스가 살았습니다.</span></p></div>
+    <div class="prob"><h4><span class="pn">03</span> 한글은 모델 밖에서</h4>
+      <p>로컬 diffusion 모델은 한글 렌더가 약해요. 그래서 말풍선·자막은 <b style="color:#fff">모델이 아니라 HTML로 합성</b>했습니다. 그림은 AI가, 글자는 HTML→스크린샷으로. <span class="fix">저는 어차피 마크다운·HTML로 작업하니 워크플로에 딱 맞았어요.</span></p></div>
+    <div class="prob"><h4><span class="pn">04</span> CRT 스캔라인은 사실 실수에서 나왔어요</h4>
+      <p>시각화 페이지에 가로 주사선(CRT 느낌) 오버레이를 깔아뒀는데, 그게 캐릭터 위에 겹쳐 보이는 게 예뻤어요. 그래서 아예 <b style="color:#fff">그 가로줄을 이미지에 구워넣었습니다</b>(픽셀 행마다 살짝 어둡게). <span class="fix">레트로 게임 화면 같은 통일감이 생겼죠.</span> (지금 이 페이지에도 그 스캔라인이 깔려 있어요.)</p></div>
+    <div class="prob"><h4><span class="pn">05</span> 두 캐릭터를 한 컷에 = 배경 투명화 후 합성</h4>
+      <p>대화 컷은 두 명이 마주봐야 하는데, 각 캐릭터는 주황 배경 위에 따로 뽑혀요. 그래서 <b style="color:#fff">주황 배경을 투명하게 도려내고</b>(크로마키) 공유 씬 위에 나란히 올렸습니다. 함정이 있었는데, 스캔라인 명암차 때문에 단순 색 임계값으론 배경이 안 지워졌어요. <span class="fix">가장자리에서부터 채워 들어가는 방식(flood fill)으로 바꿔 해결했습니다.</span></p></div>
+    <div class="prob"><h4><span class="pn">06</span> 키 맞추기</h4>
+      <p>캐릭터마다 뽑히는 키가 제각각이라 나란히 세우면 들쭉날쭉했어요. <span class="fix">각 캐릭터의 실제 높이를 재서 같은 높이로 정규화하고 발끝을 맞췄습니다.</span></p></div>
+  </section>
+
+  <section class="reveal">
+    <div class="sh"><span class="no">06</span><h2>그래서 뭐가 나왔냐면</h2></div>
+    <p>이 파이프라인으로 <strong>캐릭터 로스터</strong>를 만들었어요. 메인 둘(빨간 머리·금발), 엑스트라 셋(각자 성격 있음). 캐릭터마다 표정·방향·"노트북 하는 모습"·"먹는 모습" 같은 <span class="hl">변형을 8종씩</span> 미리 뽑아뒀습니다. 이걸 정본 JSON 한 파일로 관리해요. 새 만화 만들 때 재생성 없이 꽂아 쓰려고요.</p>
+    <div class="figure pix reveal">
+      <img src="/content-assets/2026-07/2026-07-04-x-local-ai-comic-pipeline-roster.png" alt="캐릭터 로스터 — 메인 2 + 엑스트라 3">
+    </div>
+    <p class="cap">메인 2(알통·오토토) + 엑스트라 3(9222·2329·0264) · 캐릭터마다 표정·포즈 변형 8종 · 정본 JSON 한 파일 관리</p>
+    <p style="margin-top:18px">그리고 오늘, 그 캐릭터들 <strong>총출동 4컷</strong>을 완성했습니다. 주제는 제가 늘 밀던 거예요 — <em>"AI가 코드 다 짜준 날, 팀의 반응."</em> 누구는 "완벽해요, 다 봤어요"(사실 안 봄), 누구는 시킨 대로 통과만 누르고, 누구는 "돌아가던데요" 하고 넘기는데, 딱 한 명이 한 줄씩 읽다가 버그를 잡아냅니다.</p>
+    <div class="figure pix reveal">
+      <img src="/content-assets/2026-07/2026-07-04-x-local-ai-comic-pipeline-comic.png" alt="총출동 4컷 만화 — AI가 코드 다 짜준 날, 팀의 반응">
+    </div>
+    <p class="cap">maker ≠ checker — AI가 짜도, 읽고 이해하는 사람이 검증하는 거예요.</p>
+  </section>
+
+  <section class="reveal">
+    <div class="sh"><span class="no">07</span><h2>정리하면</h2></div>
+    <ul class="takes">
+      <li><span class="k">01</span><span><b>로컬 AI로 만화 파이프라인, 됩니다.</b> 설치·디버그·모델전환·생성·합성·조립까지 전부 CLI 자동화로 굴렸어요. 클라우드 크레딧 0원.</span></li>
+      <li><span class="k">02</span><span><b>모델 무게가 관건.</b> 4B는 M3 Pro에서 잘 돌고, 6B는 워치독에 죽어요. 큰 모델이 항상 답은 아닙니다.</span></li>
+      <li><span class="k">03</span><span><b>일관성은 image-to-image, 한글·조립은 모델 밖에서(HTML).</b> 각자 잘하는 걸 시키니 깔끔했어요.</span></li>
+      <li><span class="k">04</span><span>제일 좋았던 건, <b>실수(스캔라인)가 스타일이 되고</b> 삽질(z-image)이 교훈이 된 거예요. 원래 만드는 게 다 그렇더라고요.</span></li>
+    </ul>
+  </section>
+
+  <div class="outro reveal">
+    <p>혹시 애플 실리콘에서 로컬 이미지 생성 붙여보신 분? 어떤 모델 쓰시는지 궁금해요. 4B가 제 스위트스팟이었는데, 다른 분들 경험도 듣고 싶습니다.</p>
+    <div class="tags">
+      <span>#로컬AI</span><span>#AppleSilicon</span><span>#AITools</span>
+    </div>
+  </div>
+
+  <footer>@dakman_io · LOCAL AI COMIC PIPELINE · MADE ON ONE MACBOOK</footer>
+
+</div>
+<script>
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+  var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}})},{threshold:.08});
+  els.forEach(function(e,i){setTimeout(function(){io.observe(e)},i*20)});
+  setTimeout(function(){document.querySelectorAll('.reveal:not(.in)').forEach(function(e){e.classList.add('in')})},4000);
+})();
+</script>
+<div style="max-width:760px;margin:48px auto 40px;padding:18px 22px;border:1px solid rgba(139,150,177,.35);border-radius:12px;text-align:center;font-family:'Noto Sans KR',sans-serif;font-size:14.5px;line-height:1.6;color:#8b96b1">
+이 글의 대화는 X에서 이어져요 — <a href="https://x.com/dakman_io/status/2073360194692940221" rel="noopener" target="_blank" style="color:#2fe0cd;font-weight:700;text-decoration:none">원문에서 답글 남기기 ↗</a>
+<div style="margin-top:8px;font-size:11.5px;opacity:.7"><a href="/" style="color:inherit;text-decoration:none">← dakman blog</a> · <a href="/privacy/" style="color:inherit">개인정보처리방침</a></div>
+</div>
+</body>
+</html>
