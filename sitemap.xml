@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://dakman-io.github.io/</loc></url>
+  <url><loc>https://dakman-io.github.io/posts/ai-slop-anatomy/</loc></url>
   <url><loc>https://dakman-io.github.io/posts/fable5-convergence/</loc></url>
   <url><loc>https://dakman-io.github.io/posts/dakman-roster/</loc></url>
   <url><loc>https://dakman-io.github.io/posts/local-ai-comic-pipeline/</loc></url>
+  <url><loc>https://dakman-io.github.io/tags/AI%EC%8A%AC%EB%A1%AD/</loc></url>
   <url><loc>https://dakman-io.github.io/tags/AI/</loc></url>
+  <url><loc>https://dakman-io.github.io/tags/%EA%B2%80%EC%A6%9D/</loc></url>
+  <url><loc>https://dakman-io.github.io/tags/%EA%B0%9C%EB%B0%9C%EB%AC%B8%ED%99%94/</loc></url>
   <url><loc>https://dakman-io.github.io/tags/AI%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8/</loc></url>
   <url><loc>https://dakman-io.github.io/tags/%EC%9B%8C%ED%81%AC%ED%94%8C%EB%A1%9C/</loc></url>
   <url><loc>https://dakman-io.github.io/tags/%EA%B0%9C%EB%B0%9C%EC%83%9D%EC%82%B0%EC%84%B1/</loc></url>
