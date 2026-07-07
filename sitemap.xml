@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://dakman-io.github.io/</loc></url>
+  <url><loc>https://dakman-io.github.io/posts/bigtech-design-systems/</loc></url>
   <url><loc>https://dakman-io.github.io/posts/ai-slop-anatomy/</loc></url>
   <url><loc>https://dakman-io.github.io/posts/fable5-convergence/</loc></url>
   <url><loc>https://dakman-io.github.io/posts/dakman-roster/</loc></url>
   <url><loc>https://dakman-io.github.io/posts/local-ai-comic-pipeline/</loc></url>
+  <url><loc>https://dakman-io.github.io/tags/%EB%94%94%EC%9E%90%EC%9D%B8%EC%8B%9C%EC%8A%A4%ED%85%9C/</loc></url>
+  <url><loc>https://dakman-io.github.io/tags/%EB%B9%85%ED%85%8C%ED%81%AC/</loc></url>
+  <url><loc>https://dakman-io.github.io/tags/Astryx/</loc></url>
+  <url><loc>https://dakman-io.github.io/tags/MCP/</loc></url>
+  <url><loc>https://dakman-io.github.io/tags/StyleX/</loc></url>
+  <url><loc>https://dakman-io.github.io/tags/%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C/</loc></url>
   <url><loc>https://dakman-io.github.io/tags/AI%EC%8A%AC%EB%A1%AD/</loc></url>
   <url><loc>https://dakman-io.github.io/tags/AI/</loc></url>
   <url><loc>https://dakman-io.github.io/tags/%EA%B2%80%EC%A6%9D/</loc></url>

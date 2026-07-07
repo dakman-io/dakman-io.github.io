@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f6f5f0;
+  --panel:#fffefa;
+  --ink:#16181d;
+  --ink-soft:#4a4e57;
+  --ink-mute:#8a8e97;
+  --hair:#dedbd2;
+  --accent:#1f4fff;
+  --accent-soft:#e8edff;
+  --green:#0c7a43;
+  --green-soft:#e2f3e8;
+  --amber:#9a6b00;
+  --amber-soft:#f7edd4;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'IBM Plex Sans KR',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.75;
+  font-size:16.5px;
+  -webkit-font-smoothing:antialiased;
+}
+/* paper grain + vignette */
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(ellipse at 50% -10%,rgba(31,79,255,.045),transparent 55%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}
+.wrap{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:0 28px 90px}
+
+/* ---------- header ---------- */
+header{padding:64px 0 8px;border-bottom:3px solid var(--ink);margin-bottom:14px}
+.kicker{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--ink-mute);margin-bottom:26px}
+.kicker .dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.chip-draft{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;color:var(--amber);border:1px dashed var(--amber);padding:2px 9px;border-radius:3px;background:var(--amber-soft)}
+h1{font-size:clamp(28px,4.6vw,42px);font-weight:700;line-height:1.28;letter-spacing:-.02em;margin-bottom:18px}
+h1 .accent{color:var(--accent)}
+.standfirst{font-size:17px;color:var(--ink-soft);max-width:640px;margin-bottom:34px}
+.meta-line{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--ink-mute);padding:14px 0;border-top:1px solid var(--hair)}
+
+/* ---------- TLDR ---------- */
+.tldr{background:var(--ink);color:#f2f1ec;border-radius:6px;padding:28px 30px;margin:34px 0 10px;position:relative;overflow:hidden}
+.tldr::after{content:"TL;DR";position:absolute;top:18px;right:22px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:rgba(242,241,236,.4)}
+.tldr h2{font-size:14px;font-family:var(--mono);font-weight:600;letter-spacing:.1em;color:#9db4ff;margin-bottom:16px}
+.tldr ol{list-style:none;counter-reset:t}
+.tldr li{counter-increment:t;display:flex;gap:14px;padding:9px 0;font-size:15.5px;line-height:1.65;border-top:1px solid rgba(242,241,236,.12)}
+.tldr li:first-child{border-top:0}
+.tldr li::before{content:counter(t);font-family:var(--mono);font-weight:600;color:#9db4ff;flex:0 0 18px;padding-top:1px}
+
+/* ---------- stat strip ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--hair);border:1px solid var(--hair);border-radius:6px;overflow:hidden;margin:26px 0 8px}
+.stat{background:var(--panel);padding:18px 16px 15px;text-align:center}
+.stat b{display:block;font-family:var(--mono);font-size:clamp(19px,2.6vw,26px);font-weight:600;letter-spacing:-.02em;color:var(--accent)}
+.stat span{font-size:12px;color:var(--ink-mute);letter-spacing:.04em}
+.stats-note{font-family:var(--mono);font-size:11.5px;color:var(--ink-mute);text-align:right;margin-bottom:8px}
+
+/* ---------- sections ---------- */
+section{margin-top:64px}
+.sec-label{display:flex;align-items:baseline;gap:12px;margin-bottom:20px}
+.sec-num{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--accent);letter-spacing:.1em}
+h2.sec-title{font-size:clamp(21px,3vw,27px);font-weight:700;letter-spacing:-.015em;line-height:1.35}
+p{margin-bottom:18px;color:var(--ink)}
+p.soft{color:var(--ink-soft)}
+strong{font-weight:600}
+.hl{background:linear-gradient(transparent 62%,var(--accent-soft) 62%);padding:0 2px}
+
+/* MCP callout */
+.callout{border-left:3px solid var(--accent);background:var(--accent-soft);padding:16px 20px;border-radius:0 6px 6px 0;margin:22px 0;font-size:15.5px;color:var(--ink-soft)}
+.callout b{color:var(--ink)}
+.callout .term{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--accent)}
+
+/* ---------- tables ---------- */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--hair);border-radius:6px;background:var(--panel);margin:8px 0 14px;box-shadow:0 1px 0 rgba(22,24,29,.03)}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:760px}
+thead th{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.06em;text-align:left;color:var(--ink-mute);background:#efede6;padding:11px 14px;border-bottom:2px solid var(--ink);white-space:nowrap}
+tbody td{padding:12px 14px;border-bottom:1px solid var(--hair);vertical-align:top;color:var(--ink-soft)}
+tbody tr:last-child td{border-bottom:0}
+tbody td:first-child{font-weight:600;color:var(--ink);white-space:nowrap}
+td .sys{font-weight:600;color:var(--ink)}
+tr.astryx{background:linear-gradient(90deg,var(--accent-soft),rgba(232,237,255,.35))}
+tr.astryx td{border-bottom:1px solid #c9d5ff}
+tr.astryx td:first-child{position:relative}
+tr.astryx td:first-child::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+.tbl-caption{font-family:var(--mono);font-size:11.5px;color:var(--ink-mute);margin-bottom:26px}
+
+/* badges */
+.badge{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.05em;padding:2px 9px;border-radius:3px;white-space:nowrap;margin-right:6px}
+.b-native{background:var(--green-soft);color:var(--green);border:1px solid #b5dcc4}
+.b-ref{background:var(--accent-soft);color:var(--accent);border:1px solid #c9d5ff}
+.b-unknown{background:transparent;color:var(--ink-mute);border:1px dashed var(--ink-mute)}
+tr.muted td{color:var(--ink-mute)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:var(--ink-mute);margin-bottom:22px}
+
+/* ---------- pattern cards ---------- */
+.patterns{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:6px 0 8px}
+.pat{background:var(--panel);border:1px solid var(--hair);border-radius:6px;padding:20px 22px;position:relative}
+.pat .n{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--accent);display:block;margin-bottom:8px}
+.pat h3{font-size:16px;font-weight:700;margin-bottom:8px;letter-spacing:-.01em}
+.pat p{font-size:14.5px;color:var(--ink-soft);margin:0;line-height:1.7}
+.pat.frontline{border:1px solid var(--accent);background:linear-gradient(180deg,var(--panel),var(--accent-soft))}
+.pat.frontline .n::after{content:" — 새 전선";color:var(--ink-soft);font-weight:400}
+
+/* ---------- astryx feature rows ---------- */
+.features{border:1px solid var(--hair);border-radius:6px;background:var(--panel);overflow:hidden;margin:6px 0 8px}
+.feat{display:grid;grid-template-columns:190px 1fr;border-bottom:1px solid var(--hair)}
+.feat:last-child{border-bottom:0}
+.feat dt{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--ink);background:#efede6;padding:16px 18px;letter-spacing:.02em;line-height:1.5}
+.feat dd{padding:16px 20px;font-size:14.8px;color:var(--ink-soft);line-height:1.7}
+.feat dd b{color:var(--ink)}
+.feat.mcp dt{background:var(--ink);color:#9db4ff}
+.feat.mcp dd{background:var(--accent-soft)}
+
+/* 3-layer mini diagram */
+.layers{display:flex;flex-direction:column;gap:5px;margin:8px 0 2px;max-width:420px}
+.layer{font-family:var(--mono);font-size:12px;padding:7px 12px;border-radius:4px;border:1px solid var(--hair);background:#efede6;color:var(--ink-soft)}
+.layer b{color:var(--ink)}
+.layer:nth-child(1){margin-left:0}
+.layer:nth-child(2){margin-left:22px}
+.layer:nth-child(3){margin-left:44px}
+.layer:nth-child(4){margin-left:66px;border-style:dashed}
+
+/* ---------- closing ---------- */
+.pull{font-size:clamp(19px,2.8vw,24px);font-weight:600;line-height:1.55;letter-spacing:-.015em;border-top:3px solid var(--ink);border-bottom:1px solid var(--hair);padding:26px 4px;margin:30px 0;color:var(--ink)}
+.pull .accent{color:var(--accent)}
+.action{background:var(--panel);border:1px solid var(--ink);border-radius:6px;padding:24px 26px;margin:26px 0;position:relative}
+.action::before{content:"오늘 해볼 것 · 30초";position:absolute;top:-11px;left:18px;background:var(--ink);color:#f2f1ec;font-family:var(--mono);font-size:11px;letter-spacing:.1em;padding:3px 10px;border-radius:3px}
+.action p{margin:0;font-size:15.5px}
+.action .q{font-family:var(--mono);font-size:14px;color:var(--accent);font-weight:600}
+.final-q{text-align:center;font-size:18px;font-weight:600;margin:38px 0 6px;letter-spacing:-.01em}
+
+/* ---------- sources ---------- */
+.sources{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:6px}
+.src{display:block;background:var(--panel);border:1px solid var(--hair);border-radius:5px;padding:13px 16px;text-decoration:none;transition:border-color .15s}
+.src:hover{border-color:var(--accent)}
+.src b{display:block;font-size:13.5px;color:var(--ink);font-weight:600;margin-bottom:2px}
+.src span{font-family:var(--mono);font-size:11.5px;color:var(--accent);word-break:break-all}
+footer{margin-top:70px;padding-top:18px;border-top:1px solid var(--hair);font-family:var(--mono);font-size:11.5px;color:var(--ink-mute);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease}
+.reveal.in{opacity:1;transform:none}
+@media print{.reveal{opacity:1!important;transform:none!important;transition:none!important}}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+@media (max-width:780px){
+  .stats{grid-template-columns:1fr 1fr}
+  .patterns{grid-template-columns:1fr}
+  .feat{grid-template-columns:1fr}
+  .feat dt{padding:12px 18px 4px;background:transparent;border-bottom:0}
+  .feat.mcp dt{background:var(--ink)}
+  .sources{grid-template-columns:1fr}
+  body{font-size:15.5px}
+}
+</style>
+<title>빅테크 디자인 시스템 비교 2026 — Material, Carbon, 그리고 Meta Astryx — dakman blog</title>
+<meta name="description" content="빅테크 7사 디자인 시스템 비교. 토큰·컴포넌트·접근성으로 수렴한 판에서 새 차별축이 된 AI/MCP 대응, 그리고 그 첫 대형 실물인 Meta Astryx를 정리했어요.">
+<link rel="canonical" href="https://dakman-io.github.io/posts/bigtech-design-systems/">
+<link rel="alternate" type="application/rss+xml" title="dakman blog" href="/feed.xml">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="빅테크 디자인 시스템 비교 2026 — Material, Carbon, 그리고 Meta Astryx">
+<meta property="og:description" content="빅테크 7사 디자인 시스템 비교. 토큰·컴포넌트·접근성으로 수렴한 판에서 새 차별축이 된 AI/MCP 대응, 그리고 그 첫 대형 실물인 Meta Astryx를 정리했어요.">
+<meta property="og:url" content="https://dakman-io.github.io/posts/bigtech-design-systems/">
+<meta property="og:image" content="https://dakman-io.github.io/og-default.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"빅테크 디자인 시스템 비교 2026 — Material, Carbon, 그리고 Meta Astryx","datePublished":"2026-07-07","image":["https://dakman-io.github.io/og-default.png"]}</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8V9J4DVLJ3"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-8V9J4DVLJ3');</script>
+</head>
+<body>
+<div class="wrap">
+
+<header class="reveal">
+  <div class="kicker">
+    <span>dakman · blog</span><span class="dot"></span>
+    <span>2026-07-07</span><span class="dot"></span>
+    <span>비교 분석</span>
+    <span class="chip-draft">DRAFT — 미발행</span>
+  </div>
+  <h1>빅테크 디자인 시스템 비교 2026<br>— Material, Carbon, 그리고 <span class="accent">Meta Astryx</span></h1>
+  <p class="standfirst">토큰·컴포넌트·접근성으로 수렴한 판에서 새 차별축이 된 AI/MCP 대응, 그리고 그 첫 대형 실물인 Meta Astryx를 정리했어요.</p>
+  <div class="meta-line">
+    <span>tags: 디자인시스템 · 빅테크 · Astryx · MCP · StyleX · 프론트엔드</span>
+  </div>
+</header>
+
+<div class="tldr reveal">
+  <h2>세 줄 요약 ↓</h2>
+  <ol>
+    <li>빅테크 디자인 시스템은 토큰 + 컴포넌트 + 접근성이라는 같은 골격으로 수렴을 끝냈어요. 표로 놓고 보면 정말 다 비슷합니다.</li>
+    <li>이제 갈리는 축은 하나, AI/MCP 대응이에요. 디자인 시스템을 사람만 읽는 게 아니라 AI가 직접 읽고 쓰게 여느냐.</li>
+    <li>Meta가 공개한 Astryx가 그걸 전면에 내건 첫 대형 사례예요. 내부에서 8년, 13,000개 넘는 앱을 굴리던 시스템을 MIT로 풀면서 MCP를 같이 들고 나왔습니다.</li>
+  </ol>
+</div>
+
+<div class="stats reveal">
+  <div class="stat"><b>8년</b><span>Meta 내부 성장</span></div>
+  <div class="stat"><b>13,000+</b><span>구동 중인 앱</span></div>
+  <div class="stat"><b>MIT</b><span>라이선스로 공개</span></div>
+  <div class="stat"><b>7사</b><span>비교 대상 빅테크</span></div>
+</div>
+<div class="stats-note">Astryx 수치 출처: astryx.atmeta.com · github.com/facebook/astryx</div>
+
+<section class="reveal">
+  <div class="sec-label"><span class="sec-num">01</span><h2 class="sec-title">진짜 뉴스는 오픈소스가 아니에요</h2></div>
+  <p>Meta가 Astryx를 공개했다는 소식을 처음 봤을 때는 "또 하나 나왔네" 정도였어요. 빅테크가 디자인 시스템을 오픈소스로 푸는 건 이제 뉴스가 아니거든요. Google, IBM, Shopify, Atlassian까지 다 하고 있으니까요.</p>
+  <p>근데 내용을 뜯어보니 헤드라인이 잘못 잡혔다는 생각이 들었어요. 내부에서 8년을 키우고 13,000개 넘는 앱을 굴리던 시스템을 MIT 라이선스로 풀었다, 여기까지는 익숙한 이야기예요. <span class="hl">진짜 뉴스는 그 옆에 붙어 있던 한 줄이었습니다. 프로젝트 스캐폴딩과 CLI를 MCP로 노출한다는 것.</span></p>
+  <div class="callout">
+    <span class="term">MCP(Model Context Protocol)</span> — AI 도구가 외부 시스템을 읽고 쓸 수 있게 연결하는 규약이에요. 그러니까 Astryx는 사람 개발자용 라이브러리로 끝나는 게 아니라, <b>AI 코딩 도구가 디자인 시스템을 직접 읽고 프로젝트를 깔아주는 경로까지 공식 기능으로</b> 내놓은 거예요.
+  </div>
+  <p>이게 왜 큰일인지는 판 전체를 놓고 보면 더 잘 보여요.</p>
+</section>
+
+<section class="reveal">
+  <div class="sec-label"><span class="sec-num">02</span><h2 class="sec-title">빅테크 7사, 표 하나로</h2></div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>회사</th><th>시스템</th><th>오픈/라이선스</th><th>프레임워크</th><th>스타일·토큰</th><th>특징</th></tr>
+      </thead>
+      <tbody>
+        <tr class="astryx"><td>Meta</td><td><span class="sys">Astryx</span></td><td>오픈 · <b>MIT</b></td><td>React</td><td>StyleX + CSS 커스텀 속성 토큰</td><td><b>MCP/CLI로 AI 대응 전면화</b>, 내부 8년 · 13,000+ 앱</td></tr>
+        <tr><td>Google</td><td><span class="sys">Material(M3)</span></td><td>오픈</td><td>크로스플랫폼</td><td>동적 색(Material You)</td><td>최신 메이저 · 모바일 강세</td></tr>
+        <tr><td>Apple</td><td><span class="sys">HIG</span></td><td>가이드 중심(오픈 라이브러리 아님)</td><td>—</td><td>—</td><td>플랫폼 규범 · 문서 중심</td></tr>
+        <tr><td>IBM</td><td><span class="sys">Carbon</span></td><td>오픈 · Apache 2.0</td><td>프레임워크 중립(React·Vue·Svelte·웹 컴포넌트)</td><td>시멘틱 토큰</td><td>엔터프라이즈 · 중립성</td></tr>
+        <tr><td>Salesforce</td><td><span class="sys">Lightning(SLDS)</span></td><td>오픈</td><td>자체</td><td>토큰</td><td>'디자인 토큰' 개념의 발상지</td></tr>
+        <tr><td>Shopify</td><td><span class="sys">Polaris</span></td><td>오픈</td><td>React</td><td>파운데이션 + 토큰</td><td>머천트/어드민 특화</td></tr>
+        <tr><td>Atlassian</td><td><span class="sys">Atlassian DS</span></td><td>오픈</td><td>React</td><td>시멘틱 토큰(멀티 제품)</td><td>Jira · Confluence 구동</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="tbl-caption">7행 × 6열 — Astryx 행만 강조 표시</p>
+  <p>표를 보면 두 가지가 동시에 보여요. 정말 다 비슷하다는 것. 그리고 <span class="hl">Astryx 줄에만 다른 종류의 단어가 들어 있다는 것.</span></p>
+</section>
+
+<section class="reveal">
+  <div class="sec-label"><span class="sec-num">03</span><h2 class="sec-title">표에서 읽히는 패턴 넷</h2></div>
+  <div class="patterns">
+    <div class="pat">
+      <span class="n">패턴 1</span>
+      <h3>골격은 수렴이 끝났어요</h3>
+      <p>어느 시스템을 봐도 토큰(색·타이포·간격 같은 디자인 값) 위에 컴포넌트를 쌓고, 접근성을 기본으로 까는 구조예요. Foundation에서 Component, Pattern으로 올라가는 계단은 이제 업계 공통 문법입니다.</p>
+    </div>
+    <div class="pat">
+      <span class="n">패턴 2</span>
+      <h3>오픈소스가 기본값이에요</h3>
+      <p>표에서 유일한 예외가 Apple HIG인데, 이건 코드 라이브러리가 아니라 가이드 문서 중심이라 결이 달라요. 나머지는 전부 MIT나 Apache 같은 라이선스로 열려 있어요.</p>
+    </div>
+    <div class="pat">
+      <span class="n">패턴 3</span>
+      <h3>토큰은 표준으로 가는 중이에요</h3>
+      <p>'디자인 토큰'이라는 개념 자체가 Salesforce Lightning에서 나왔고, 지금은 DTCG(Design Tokens Community Group)에서 도구를 가리지 않고 통하는 표준 포맷으로 다듬고 있어요. 어느 표를 봐도 토큰 열이 비어 있지 않은 이유예요.</p>
+    </div>
+    <div class="pat frontline">
+      <span class="n">패턴 4</span>
+      <h3>그리고 AI 대응이 새 전선이에요</h3>
+      <p>앞의 셋이 "왜 다 비슷해졌나"에 대한 답이라면, 이건 지금 막 갈리기 시작한 축이에요. 아래에서 따로 봅니다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="sec-label"><span class="sec-num">04</span><h2 class="sec-title">Astryx를 조금 더 뜯어보면</h2></div>
+  <dl class="features">
+    <div class="feat">
+      <dt>스택<br>React + StyleX</dt>
+      <dd>StyleX는 Meta가 만든 아토믹 CSS 엔진인데, <b>스타일을 빌드 시점에 컴파일하는 방식</b>이에요. 여기에 CSS 커스텀 속성 기반 디자인 토큰을 얹어서 다중 테마를 지원합니다.</dd>
+    </div>
+    <div class="feat">
+      <dt>컴포넌트 수<br>소스마다 상이</dt>
+      <dd>마케팅 페이지는 <b>160+</b>, 문서는 <b>150+</b>, 일부 커버리지 자료는 <b>90+</b>로 표기가 갈려요. 정확한 숫자 하나를 박기는 어렵고, <b>150개 안팎의 접근성 지원 React 컴포넌트</b>로 잡는 게 정직한 것 같아요.</dd>
+    </div>
+    <div class="feat">
+      <dt>구조<br>3계층 + 템플릿</dt>
+      <dd>
+        <div class="layers">
+          <div class="layer"><b>Foundations</b> — 타이포·색·레이아웃 토큰</div>
+          <div class="layer"><b>Components</b> — UI 빌딩 블록</div>
+          <div class="layer"><b>Patterns</b> — 테이블·폼·내비게이션처럼 검증된 설계 묶음</div>
+          <div class="layer"><b>+ 프로덕션 템플릿</b> — 바로 쓸 수 있는 완성 골격</div>
+        </div>
+      </dd>
+    </div>
+    <div class="feat">
+      <dt>개방성<br>잠그지 않음</dt>
+      <dd>컴포넌트 소스를 내 프로젝트로 추출해서 고치는 <b>swizzle</b>을 공식 지원하고, <b>Tailwind · CSS modules · 일반 CSS</b>와도 호환돼요. 규칙으로 강제하기보다 문서와 예제로 안내하는 <b>guide-first</b>를 표방하고요.</dd>
+    </div>
+    <div class="feat mcp">
+      <dt>MCP + CLI</dt>
+      <dd>프로젝트 스캐폴딩을 MCP로 노출해서, <b>AI 에이전트가 Astryx 기반 프로젝트를 직접 세팅하고 컴포넌트를 쓰게</b> 했어요. 저는 이 마지막 항목이 나머지 전부와 급이 다른 이야기라고 봐요.</dd>
+    </div>
+  </dl>
+</section>
+
+<section class="reveal">
+  <div class="sec-label"><span class="sec-num">05</span><h2 class="sec-title">AI/MCP 축, 지금 판세</h2></div>
+  <div class="legend">
+    <span><span class="badge b-native">MCP 네이티브</span>공식 확인</span>
+    <span><span class="badge b-ref">참고</span>회사 DS 아닌 툴 계층</span>
+    <span><span class="badge b-unknown">미확인</span>공개 자료에서 확인 못 함 — 단정 아님</span>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>시스템</th><th>AI/MCP 대응</th></tr></thead>
+      <tbody>
+        <tr class="astryx"><td>Astryx (Meta)</td><td><span class="badge b-native">MCP 네이티브</span>스캐폴딩·CLI를 MCP로 노출, <b>코드 라이브러리 자체가 AI에 열림</b></td></tr>
+        <tr><td>(참고) Figma Dev Mode MCP</td><td><span class="badge b-ref">참고</span>디자인 소스 쪽을 AI에 여는 계열 — 회사 DS가 아니라 툴 계층</td></tr>
+        <tr><td>(참고) Vercel v0</td><td><span class="badge b-ref">참고</span>레지스트리·툴 계열의 AI 네이티브 접근</td></tr>
+        <tr class="muted"><td>Material · Carbon · SLDS · Polaris · Atlassian</td><td><span class="badge b-unknown">미확인</span>네이티브 MCP 지원을 공개 자료에서 확인 못 함</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>주의점 하나. 아래 다섯이 "안 한다"는 뜻이 아니에요. 제가 공개 자료에서 확인하지 못했다는 것까지가 사실이고, 내부에서 준비 중일 수도 있어요. 다만 적어도 공개된 범위에선, <span class="hl">빅테크가 자기 디자인 시스템에 AI 대응을 전면으로 내건 대형 사례는 Astryx가 처음이에요.</span></p>
+  <p>방향 차이도 재미있어요. Figma의 MCP가 디자인 파일을 AI가 읽게 하는 쪽이라면, Astryx는 코드 라이브러리를 AI가 쓰게 하는 쪽이에요. 같은 MCP인데 서 있는 자리가 달라요. 디자인 소스에서 출발하느냐, 코드에서 출발하느냐.</p>
+</section>
+
+<section class="reveal">
+  <div class="sec-label"><span class="sec-num">06</span><h2 class="sec-title">남은 생각</h2></div>
+  <p>디자인 시스템은 오랫동안 "사람이 읽는 라이브러리"였어요. 문서 사이트 열어두고, 컴포넌트 이름 찾아서, 사람이 조립하는 것. 근데 코드를 조립하는 주체에 AI가 섞이기 시작하면서, 디자인 시스템의 정의가 "AI가 소비하는 컨텍스트 인프라" 쪽으로 밀리고 있는 것 같아요. Astryx는 그 방향에 놓인 첫 큰 돌이고요.</p>
+  <div class="pull">디자인 시스템은 <span class="accent">"사람이 읽는 라이브러리"</span>에서 <span class="accent">"AI가 소비하는 컨텍스트 인프라"</span>로 밀리는 중.</div>
+  <div class="action">
+    <p>오늘 딱 하나 해볼 만한 게 있다면 이거예요. 지금 쓰는 AI 코딩 도구에 <span class="q">"우리 프로젝트 디자인 시스템의 버튼 규칙 알아?"</span>라고 물어보는 것. 30초면 됩니다. 술술 답하면 이미 AI가 읽을 수 있는 형태로 정리돼 있는 거고, 얼버무리면 그 간극이 위에서 말한 새 전선이에요.</p>
+  </div>
+  <p class="final-q">여러분 팀의 디자인 시스템은, AI가 읽을 수 있나요?</p>
+</section>
+
+<section class="reveal">
+  <div class="sec-label"><span class="sec-num">07</span><h2 class="sec-title">참고 (공식 소스)</h2></div>
+  <div class="sources">
+    <a class="src" href="https://astryx.atmeta.com" target="_blank" rel="noopener"><b>Astryx — 공식 사이트</b><span>astryx.atmeta.com</span></a>
+    <a class="src" href="https://github.com/facebook/astryx" target="_blank" rel="noopener"><b>Astryx — GitHub</b><span>github.com/facebook/astryx</span></a>
+    <a class="src" href="https://m3.material.io" target="_blank" rel="noopener"><b>Google Material</b><span>m3.material.io</span></a>
+    <a class="src" href="https://developer.apple.com/design/human-interface-guidelines" target="_blank" rel="noopener"><b>Apple HIG</b><span>developer.apple.com/design/human-interface-guidelines</span></a>
+    <a class="src" href="https://carbondesignsystem.com" target="_blank" rel="noopener"><b>IBM Carbon</b><span>carbondesignsystem.com</span></a>
+    <a class="src" href="https://www.lightningdesignsystem.com" target="_blank" rel="noopener"><b>Salesforce Lightning</b><span>lightningdesignsystem.com</span></a>
+    <a class="src" href="https://polaris.shopify.com" target="_blank" rel="noopener"><b>Shopify Polaris</b><span>polaris.shopify.com</span></a>
+    <a class="src" href="https://atlassian.design" target="_blank" rel="noopener"><b>Atlassian Design System</b><span>atlassian.design</span></a>
+  </div>
+</section>
+
+<footer>
+  <span>dakman blog · 2026-07-07 · status: draft</span>
+  <span>원본: 2026-07-07-blog-bigtech-design-systems.md</span>
+</footer>
+
+</div>
+<script>
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+setTimeout(()=>document.querySelectorAll('.reveal:not(.in)').forEach(el=>el.classList.add('in')),4000);
+</script>
+<div style="max-width:760px;margin:48px auto 40px;padding:18px 22px;border:1px solid rgba(139,150,177,.35);border-radius:12px;text-align:center;font-family:'Noto Sans KR',sans-serif;font-size:14.5px;line-height:1.6;color:#8b96b1">
+
+<div style="margin-top:0;font-size:11.5px;opacity:.7"><a href="/" style="color:inherit;text-decoration:none">← dakman blog</a> · <a href="/privacy/" style="color:inherit">개인정보처리방침</a></div>
+</div>
+</body>
+</html>

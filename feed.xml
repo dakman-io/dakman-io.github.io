@@ -4,6 +4,13 @@
   <link>https://dakman-io.github.io/</link>
   <description>개발 · AI 실전기 — 삽질과 완성의 기록</description>
   <item>
+    <title>빅테크 디자인 시스템 비교 2026 — Material, Carbon, 그리고 Meta Astryx</title>
+    <link>https://dakman-io.github.io/posts/bigtech-design-systems/</link>
+    <guid>https://dakman-io.github.io/posts/bigtech-design-systems/</guid>
+    <description>빅테크 7사 디자인 시스템 비교. 토큰·컴포넌트·접근성으로 수렴한 판에서 새 차별축이 된 AI/MCP 대응, 그리고 그 첫 대형 실물인 Meta Astryx를 정리했어요.</description>
+    <pubDate>Mon, 06 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>AI 슬롭 해부 — 특징 다섯 개를 원인까지 파봤더니 범인은 AI가 아니었어요</title>
     <link>https://dakman-io.github.io/posts/ai-slop-anatomy/</link>
     <guid>https://dakman-io.github.io/posts/ai-slop-anatomy/</guid>
