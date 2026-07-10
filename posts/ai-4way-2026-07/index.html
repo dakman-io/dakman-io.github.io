@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<title>2026년 7월 AI 대전 총정리 — Claude·ChatGPT·Gemini·Grok 한 방에 — dakman blog</title>
+<meta name="description" content="2026년 7월, Claude·ChatGPT·Gemini·Grok가 한 주에 쏟아낸 신모델과 가격, 강약점을 한 페이지에 정리했습니다. 무슨 작업엔 뭘 써야 하는지 레인 가이드부터 자주 나오는 질문(FAQ)까지 한 번에 훑어보세요.">
+<link rel="canonical" href="https://dakman-io.github.io/posts/ai-4way-2026-07/">
+<link rel="alternate" type="application/rss+xml" title="dakman blog" href="/feed.xml">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2026년 7월 AI 대전 총정리 — Claude·ChatGPT·Gemini·Grok 한 방에">
+<meta property="og:description" content="2026년 7월, Claude·ChatGPT·Gemini·Grok가 한 주에 쏟아낸 신모델과 가격, 강약점을 한 페이지에 정리했습니다. 무슨 작업엔 뭘 써야 하는지 레인 가이드부터 자주 나오는 질문(FAQ)까지 한 번에 훑어보세요.">
+<meta property="og:url" content="https://dakman-io.github.io/posts/ai-4way-2026-07/">
+<meta property="og:image" content="https://dakman-io.github.io/content-assets/2026-07/2026-07-10-ai-4way-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"2026년 7월 AI 대전 총정리 — Claude·ChatGPT·Gemini·Grok 한 방에","datePublished":"2026-07-10","image":["https://dakman-io.github.io/content-assets/2026-07/2026-07-10-ai-4way-cover.png"]}</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8V9J4DVLJ3"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-8V9J4DVLJ3');</script>
+<style>
+:root{--bg:#0a0d13;--panel:#10141d;--line:#242c3f;--ink:#e8edf8;--mut:#8b96b1;--teal:#2fe0cd;--gold:#ffc648}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',sans-serif;line-height:1.75}
+.wrap{max-width:760px;margin:0 auto;padding:0 22px 40px}
+header.top{padding:26px 0;border-bottom:1px solid var(--line);margin-bottom:40px}
+header.top a{color:var(--teal);text-decoration:none;font-family:'JetBrains Mono';font-size:13px}
+h1{font-size:clamp(26px,4.5vw,38px);font-weight:900;line-height:1.3;color:#fff;margin-bottom:14px}
+.meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:var(--mut);font-size:13.5px;margin-bottom:36px;font-family:'JetBrains Mono'}
+.tag{color:var(--teal);text-decoration:none}
+article{font-size:16px;color:#d5deef}
+article h2{font-size:23px;color:#fff;margin:38px 0 14px;padding-bottom:8px;border-bottom:1px dashed var(--line)}
+article h3{font-size:19px;color:#fff;margin:28px 0 10px}
+article p{margin-bottom:16px}
+article a{color:var(--teal)}
+article img{max-width:100%;border-radius:10px;border:1px solid var(--line);margin:10px 0}
+article code{font-family:'JetBrains Mono';font-size:.88em;background:#1a2130;color:var(--teal);padding:2px 6px;border-radius:4px}
+article pre{background:#10151f;border:1px solid var(--line);border-radius:10px;padding:16px;overflow-x:auto;margin-bottom:16px}
+article pre code{background:none;padding:0}
+article ul,article ol{margin:0 0 16px 22px}
+article blockquote{border-left:3px solid var(--teal);padding-left:16px;color:var(--mut);margin-bottom:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top"><a href="/">← dakman blog</a></header>
+  <h1>2026년 7월 AI 대전 총정리 — Claude·ChatGPT·Gemini·Grok 한 방에</h1>
+  <div class="meta"><span>2026-07-10</span><a class="tag" href="/tags/AI/">#AI</a><a class="tag" href="/tags/Claude/">#Claude</a><a class="tag" href="/tags/ChatGPT/">#ChatGPT</a><a class="tag" href="/tags/Gemini/">#Gemini</a><a class="tag" href="/tags/Grok/">#Grok</a><a class="tag" href="/tags/LLM/">#LLM</a><a class="tag" href="/tags/%EB%AA%A8%EB%8D%B8%EB%B9%84%EA%B5%90/">#모델비교</a><a class="tag" href="/tags/%EA%B0%80%EC%9D%B4%EB%93%9C/">#가이드</a></div>
+  <article><h1>2026년 7월 AI 대전 총정리 — Claude·ChatGPT·Gemini·Grok 한 방에</h1>
+<p>이번 주는 좀 심했어요. 하루이틀 눈 돌린 사이에 새 모델이 세 개나 튀어나왔고, 회사 하나는 이름까지 바꿨습니다. 저도 타임라인 따라가다가 &quot;그래서 지금 뭘 써야 하는 거지?&quot; 하고 멈칫했어요.</p>
+<p>그래서 정리했습니다. 이 글 하나만 읽으면 2026년 7월 현재 Claude·ChatGPT·Gemini·Grok가 각각 어디까지 와 있는지, 가격은 얼마인지, 뭘 잘하고 뭘 못하는지, 그리고 <strong>내 작업엔 뭘 골라야 하는지</strong>까지 한 번에 잡힙니다. 마케팅 문구가 아니라 공개된 사실만 담았고, 애매한 부분은 애매하다고 그대로 적었어요.</p>
+<hr>
+<h2>이번 주에 무슨 일이 있었나 (타임라인)</h2>
+<p>한 주에 이만큼 몰린 건 AI 역사에서도 손에 꼽힐 정도예요.</p>
+<ul>
+<li><strong>6/30</strong> — Anthropic이 <strong>Sonnet 5</strong>를 냈습니다. 무료·Pro 사용자의 기본 모델이 됐어요. Claude는 큰 걸 직전에 끝내놓은 상태라 이번 주엔 상대적으로 조용했습니다.</li>
+<li><strong>7/1</strong> — Claude 플래그십 <strong>Fable 5</strong>가 글로벌 배포로 복귀했습니다. (이 앞뒤 사정은 아래 &#39;정부 게이트&#39; 부분에서 따로 다룰게요.)</li>
+<li><strong>7/6</strong> — <strong>SpaceX가 xAI를 &#39;SpaceXAI&#39;로 리브랜드</strong>했습니다. 회사 이름이 바뀐 거예요.</li>
+<li><strong>7/8</strong> — Grok의 새 모델 <strong>grok-4.5</strong>가 나왔습니다. 코딩 특화, 컨텍스트 500k.</li>
+<li><strong>7/9</strong> — OpenAI가 **GPT-5.6를 정식 출시(GA)**하고, 같은 날 <strong>ChatGPT Work</strong>도 공개했습니다. 채팅이 아니라 완성물(시트·슬라이드·웹앱)을 만들어 주는 쪽이에요. 덤으로, 전 연준 의장 **벤 버냉키(Ben Bernanke)**가 Anthropic Long-Term Benefit Trust에 합류한다는 소식도 이날 나왔습니다.</li>
+</ul>
+<p>정리하면 <strong>Grok·GPT는 이번 주에 새로 쏟아냈고, Claude는 직전에 끝내고 소프트 업데이트, Gemini만 프런티어급 신모델 공백</strong>이라는 그림이에요.</p>
+<hr>
+<h2>네 AI, 지금 어디까지 왔나</h2>
+<h3>Claude (Anthropic) — 코딩과 정직함</h3>
+<ul>
+<li><strong>라인업</strong>: Fable 5(플래그십·1M 컨텍스트), Opus 4.8, Sonnet 5(6/30 출시·무료/Pro 기본), Haiku 4.5. 여기에 Fable 5 기반으로 세이프가드를 푼 <strong>Mythos 5</strong>가 있는데, 이건 Project Glasswing이라는 초대제로 약 150개 조직만 접근합니다.</li>
+<li><strong>강점</strong>: 코딩, 복잡한 추론, 긴 리팩터링, 그리고 &quot;모르면 모른다&quot;고 하는 <strong>정직한 거절</strong>. 긴 컨텍스트와 에이전트, 안전 쪽에서 평이 좋아요.</li>
+<li><strong>약점</strong>: <strong>멀티모달 공백</strong>. 이미지 생성도, 영상도, 네이티브 음성도 없습니다. 텍스트·코드는 최상위인데 그림 한 장을 못 만들어요. 이 역설은 아래 FAQ에서 한 번 더 짚을게요.</li>
+</ul>
+<h3>ChatGPT (OpenAI) — 완성물과 생태계</h3>
+<ul>
+<li><strong>라인업</strong>: <strong>GPT-5.6</strong>(7/9 정식 출시)가 Sol(플래그십)·Terra(균형)·Luna(최저가) 3종으로 나옵니다. 여기에 <strong>ChatGPT Work</strong>(채팅이 아니라 시트·슬라이드·웹앱 같은 &#39;완성물&#39;을 몇 시간에 걸쳐 만들어 주는 기능), 통합 데스크톱 앱, 음성 모델 <strong>GPT-Live-1</strong>까지 붙었어요.</li>
+<li><strong>강점</strong>: 생태계와 대중성이 압도적이고, 이제는 &#39;완성물&#39;을 뽑아내는 쪽으로 무게중심을 옮기고 있습니다. 범용으로 가장 무난해요.</li>
+<li><strong>약점</strong>: 안전 필터가 빡빡해서, 멀쩡한 요청이 막히는 <strong>과차단</strong>을 겪는 사람이 있어요. 영상 쪽은 Sora가 종료됐습니다.</li>
+</ul>
+<h3>Gemini (Google) — 가성비와 멀티모달</h3>
+<ul>
+<li><strong>라인업</strong>: 3 Pro(정식), 3.1 Pro(프리뷰), <strong>3.5 Flash</strong>(정식), 3.1 Flash-Lite. 그런데 정작 프런티어급인 <strong>3.5 Pro는 아직 안 나왔습니다</strong>. 이번 주 신모델 러시에서 유일하게 최상위 공백이 있는 곳이에요.</li>
+<li><strong>강점</strong>: 가성비가 좋고, 네이티브 멀티모달이 강합니다. 영상은 <strong>Veo 3.1</strong>, 이미지는 <strong>Nano Banana</strong>로 붙고, 구글 생태계 연동도 장점이에요.</li>
+<li><strong>약점</strong>: 프런티어 공백. 그리고 &quot;3.5 Flash가 3.1 Pro보다 최신&quot;인 것처럼 <strong>버전 서열이 헷갈리는</strong> 네이밍이 소비자 불만을 삽니다.</li>
+</ul>
+<h3>Grok (SpaceXAI) — 실시간과 효율</h3>
+<ul>
+<li><strong>라인업</strong>: <strong>grok-4.5</strong>(7/8·컨텍스트 500k·코딩 특화), grok-4.3(1M), grok-build-0.1. 한 가지 눈여겨볼 점은, <strong>최신 4.5의 컨텍스트(500k)가 직전 4.3(1M)보다 오히려 작다</strong>는 거예요. 긴 문서를 통째로 넣어야 한다면 이 부분을 확인하세요.</li>
+<li><strong>강점</strong>: X(트위터) 실시간 연동이 구조적으로 강하고, 토큰 효율과 가격이 인상적입니다. 툴 호출이 잦은 에이전트나 비용 민감한 작업에 매력적이에요.</li>
+<li><strong>약점</strong>: 안전·규제 쪽에 이슈가 여럿 걸려 있습니다(아래 &#39;안전&#39; 부분에서 사실만 정리). 회사가 방금 이름을 바꿔서 브랜드 정체성도 과도기예요.</li>
+</ul>
+<hr>
+<h2>그래서 뭘 언제 쓰나 (레인 가이드)</h2>
+<p>이 글에서 딱 하나만 가져가야 한다면 이 표예요. &quot;제일 좋은 AI&quot;를 고르는 게 아니라, <strong>작업마다 차선을 갈아타는</strong> 게 요즘 정답에 가깝습니다.</p>
+<table>
+<thead>
+<tr>
+<th>이런 작업이라면</th>
+<th>이걸 먼저</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>코딩·복잡한 추론·긴 리팩터링·정직한 거절이 필요할 때</td>
+<td><strong>Claude</strong></td>
+</tr>
+<tr>
+<td>문서·시트·웹앱 같은 완성물, 범용, 음성, 플러그인, 대중적인 도구</td>
+<td><strong>ChatGPT</strong></td>
+</tr>
+<tr>
+<td>영상·오디오 멀티모달, 초장문, 가성비/무료</td>
+<td><strong>Gemini</strong></td>
+</tr>
+<tr>
+<td>실시간 X, 비용 민감, 속도, 툴 호출 잦은 에이전트</td>
+<td><strong>Grok</strong></td>
+</tr>
+</tbody></table>
+<p>현실적인 통념은 **&quot;최소 두 개는 구독한다&quot;**입니다. 보통 Claude + ChatGPT를 축으로 두고, Gemini를 가성비·멀티모달 보완으로 붙이는 조합이 많아요. 하나로 다 되는 시대는 아직 아닙니다.</p>
+<hr>
+<h2>가격 한눈에 보기</h2>
+<p>$/1M 기준(입력·출력)입니다. 숫자만 봐도 시장이 얼마나 벌어져 있는지 보여요.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Claude</th>
+<th>ChatGPT (5.6)</th>
+<th>Grok</th>
+<th>Gemini</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>플래그십</td>
+<td>Fable 5 $10/$50</td>
+<td>Sol $5/$30</td>
+<td>4.5 $2/$6</td>
+<td>(3.5 Pro 대기)</td>
+</tr>
+<tr>
+<td>중급</td>
+<td>Opus 4.8 $5/$25 · Sonnet 5 $3/$15 (도입가 $2/$10, 8/31까지)</td>
+<td>Terra $2.50/$15</td>
+<td>4.3 $1.25/$2.50</td>
+<td>3.5 Flash $1.50/$9</td>
+</tr>
+<tr>
+<td>저가</td>
+<td>Haiku 4.5 $1/$5</td>
+<td>Luna $1/$6</td>
+<td>build-0.1 $1/$2</td>
+<td>3.1 Flash-Lite $0.25/$1.50</td>
+</tr>
+</tbody></table>
+<p>핵심만 뽑으면 <strong>플래그십 출력가는 낮은 쪽부터 Grok $6 → Gemini $12~18(현행 Pro 티어 기준) → GPT $30 → Claude $50</strong> 순입니다. 즉 Claude 플래그십은 제일 비싼 대신 코딩·추론에서 값을 하고, Grok는 같은 급 대비 훨씬 저렴하게 밀어붙이는 포지션이에요. 예산이 곧 선택의 절반입니다.</p>
+<hr>
+<h2>뭘 만들 수 있고 뭘 못 하나 (역량 매트릭스)</h2>
+<p>공식 정보 기준입니다.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>이미지</th>
+<th>영상</th>
+<th>네이티브 음성</th>
+<th>실시간 웹/SNS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Claude</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+<td>검색</td>
+</tr>
+<tr>
+<td>ChatGPT</td>
+<td>✅</td>
+<td>(Sora 종료)</td>
+<td>✅ GPT-Live-1</td>
+<td>검색</td>
+</tr>
+<tr>
+<td>Gemini</td>
+<td>✅ Nano Banana</td>
+<td>✅ Veo 3.1</td>
+<td>✅ Live 통역</td>
+<td>검색</td>
+</tr>
+<tr>
+<td>Grok</td>
+<td>✅ Imagine</td>
+<td>✅</td>
+<td>✅ 21종</td>
+<td>✅ X 실시간(구조적)</td>
+</tr>
+</tbody></table>
+<p>표를 보면 갈림이 뚜렷해요. 텍스트·코드만 놓고 보면 Claude가 최상위인데, <strong>그림 한 장·영상 한 편이 필요한 순간엔 Claude가 후보에서 빠집니다.</strong> 반대로 멀티모달을 통째로 원하면 Gemini나 Grok 쪽이 넓고요.</p>
+<hr>
+<h2>조금 더 깊이 — 이번 주 화제의 뒷이야기</h2>
+<p>여기서부터는 헤드라인만 보면 오해하기 쉬운 것들을, 확인된 사실 범위 안에서만 짚습니다. 자극적인 요약이 많이 돌아다녀서, 오히려 조심스럽게 적었어요.</p>
+<h3>&quot;정부가 AI를 승인했다&quot;? — 그건 아닙니다</h3>
+<p>GPT-5.6는 상무부 CAISI 검토를 거쳐 6/26 제한 프리뷰로 나왔다가 7/9 공개됐고, Claude Fable 5도 수출통제(6/12)에서 해제(6/30)를 거쳐 7/1 글로벌 복귀했습니다. 여기까지가 <strong>사실</strong>이에요.</p>
+<p>하지만 이걸 &quot;정부가 AI를 승인했다&quot;로 읽으면 틀립니다. <strong>백악관이 &quot;정식 허가는 필요하지도, 부여되지도 않았다&quot;며 &#39;승인&#39; 프레이밍을 공식적으로 반박</strong>했어요. OpenAI도 &quot;이런 절차가 상시 디폴트가 되면 안 된다&quot;고 선을 그었습니다. 그러니까 정확한 표현은 &quot;정부가 승인했다&quot;가 아니라 **&quot;검토를 거쳐 제한 배포됐다가 공개됐다&quot;**입니다. 이 구분, 생각보다 중요해요.</p>
+<h3>Grok 토큰 효율 — 인상적이지만, 효율과 정확도는 다릅니다</h3>
+<p>xAI <strong>자체 발표</strong>(독립 검증은 아님) 기준으로, grok-4.5는 SWE Bench Pro에서 과제당 평균 출력이 <strong>15,954토큰</strong>으로, Opus 4.8의 <strong>67,020토큰보다 약 4.2배 적었다</strong>고 합니다. 같은 일을 훨씬 적은 토큰으로 해낸다는 얘기라, 비용 관점에선 분명 매력적이에요.</p>
+<p>다만 여기서 흔히 착각하는 게 있어요. <strong>이건 효율 우위지 정확도 우위가 아닙니다.</strong> 같은 벤치의 해결률로 보면 Opus 69.2%·Fable 80.4%가 Grok 64.7%보다 위예요. 즉 &quot;적게 쓰고 빠르게&quot; 원하면 Grok, &quot;정확하게 끝까지&quot; 원하면 Claude 쪽이라는, 서로 다른 축의 얘기입니다.</p>
+<h3>Grok 안전·규제 — 조사가 여러 건 진행 중(미판결)</h3>
+<p>이 부분은 특히 조심스럽게 적을게요. 유죄로 단정할 수 있는 사안이 아니라, <strong>누가 무엇을 하고 있는지</strong>만 사실로 정리합니다.</p>
+<ul>
+<li>CCDH가 1/22 비동의 딥페이크 관련 문제를 <strong>추정</strong>했고, Common Sense Media는 1/27 아동 안전 평가에서 낮은 등급을 매겼습니다.</li>
+<li>이후 <strong>UK Ofcom(1/12 정식 조사)·EU 집행위(DSA)·아일랜드 DPC·캐나다 사생활보호청이 각각 조사에 착수</strong>했어요. 전부 <strong>진행 중이고 아직 판결·결론이 난 게 아닙니다.</strong></li>
+<li>RAND는 이 상황을 &quot;규제적 심판(regulatory reckoning)&quot;이라고 평했습니다.</li>
+</ul>
+<p>정리하면, Grok의 강점(실시간·효율)을 취하되 <strong>안전·규제 리스크가 관찰 중이라는 점은 감안하고 쓰는 게</strong> 지금으로선 합리적이에요.</p>
+<h3>Anthropic 한도 소송 — 미판결 주장(제소 단계)</h3>
+<p>Claude Max($100·$200) 요금제의 사용 한도가 광고보다 낮다는 이유로, <strong>Karl Kahn 대 Anthropic</strong> 집단소송이 2026년 6월 중순 캘리포니아 북부 연방법원에 제기됐습니다. 다만 이건 **미판결 주장(제소 단계)**이에요. 법원이 인정한 사실도, 판결이 난 것도 아닙니다. 원고 측 주장이 접수된 단계라는 것만 사실로 알아두면 됩니다.</p>
+<h3>리브랜드 — 이름이 왜 바뀌었나</h3>
+<p>SpaceX가 <strong>2026년 2월</strong> xAI를 전액 주식으로 인수했고($1.25조 규모), 6월 IPO(Bloomberg 보도 $135/주)를 거쳐 <strong>7/6 &#39;SpaceXAI&#39;로 리브랜드</strong>했습니다. 개발자 입장에서 안심할 부분은, <em><em>x.ai API 주소와 grok-</em> 모델 ID는 그대로 유지</em>*된다는 거예요. 이름은 바뀌었어도 코드에서 부르던 방식은 안 바뀝니다.</p>
+<hr>
+<h2>자주 나오는 질문 (FAQ)</h2>
+<p><strong>Q. AI 출시를 정부가 승인하나요?</strong>
+아니요. 위에서 짚었듯 백악관이 &#39;승인&#39; 프레이밍을 반박했습니다. 정확히는 검토를 거쳐 제한 배포됐다가 공개된 것이고, OpenAI도 &quot;이런 절차가 상시 디폴트가 되면 안 된다&quot;고 했어요.</p>
+<p><strong>Q. Grok이 정말 Opus급인가요?</strong>
+축을 나눠서 봐야 해요. <strong>토큰 효율·비용에선 앞섭니다.</strong> 하지만 <strong>정확도(해결률)에선 Claude·GPT가 위</strong>입니다(위 벤치 참고, 모두 자체 발표 기준). &quot;Grok이 더 낫다/못하다&quot;가 아니라 &quot;어느 축을 우선하느냐&quot;의 문제예요.</p>
+<p><strong>Q. Gemini 3.5 Pro는 왜 안 나오나요?</strong>
+현재 프런티어급 3.5 Pro는 미출시 상태입니다. 지연설이 돌지만 <strong>확인되지 않은 루머</strong>라, 여기선 &quot;아직 안 나왔다&quot;까지만 사실로 둘게요.</p>
+<p><strong>Q. 이미지도 못 만드는 Claude, 언제쯤 되나요?</strong>
+공개된 로드맵은 없습니다. 코딩·추론에선 최상위인데 이미지·영상·음성이 통째로 비어 있는 게 Claude의 역설이에요. 지금으로선 <strong>멀티모달이 필요하면 Gemini나 ChatGPT를 곁들이는</strong> 게 현실적입니다.</p>
+<p><strong>Q. ChatGPT Work가 사람 몫을 대체하나요?</strong>
+OpenAI는 &#39;assistant에서 employee로&#39;라는 프레이밍을 쓰고 있어요. 시트·슬라이드·웹앱 같은 완성물을 만들어 주는 방향이라 업무 자동화 폭이 넓어지는 건 맞지만, 실제로 어디까지 위임할 수 있는지는 각자 워크플로에서 직접 돌려봐야 감이 옵니다.</p>
+<hr>
+<h2>결론 — 그래서 이번 주에 뭘 해보면 될까요</h2>
+<p>&quot;제일 센 AI 하나&quot;를 찾는 시대는 지난 것 같아요. 코딩은 Claude, 완성물은 ChatGPT, 멀티모달·가성비는 Gemini, 실시간·저비용은 Grok — <strong>작업마다 레인을 갈아타는 사람이 결국 제일 잘 씁니다.</strong></p>
+<p>그래서 오늘, 딱 30초짜리 자가진단 하나 하고 가세요.</p>
+<ol>
+<li><strong>내가 이번 주 가장 많이 하는 AI 작업은 뭐지?</strong> (코딩 / 문서·완성물 / 이미지·영상 / 실시간·자동화)</li>
+<li>위 레인 가이드에서 거기에 해당하는 AI를 찾습니다.</li>
+<li><strong>지금 내가 그걸 쓰고 있나요?</strong> 아니라면, 오늘 그 작업 하나를 새 후보로 한 번 돌려보세요.</li>
+</ol>
+<p>돌려봤으면 결과를 알려주세요. <strong>&quot;내 주력 작업은 ○○인데, 원래 △△ 쓰다가 □□로 바꿔보니 이렇더라&quot;</strong> — 이 한 줄이 저한테도, 이 글을 읽는 다른 분한테도 제일 쓸모 있는 데이터예요. 댓글이든 인용이든 편하게 공유해 주시면 다음 정리에 반영할게요.</p>
+<p><em>(이 글의 수치·평가는 각 사의 공식 발표 시점 기준이며, 벤치마크는 명시된 경우 자체 발표입니다. 규제·소송 관련 내용은 진행 중이거나 미판결 사안으로, 사실 관계만 정리했습니다.)</em></p>
+</article>
+</div>
+<div style="max-width:760px;margin:48px auto 40px;padding:18px 22px;border:1px solid rgba(139,150,177,.35);border-radius:12px;text-align:center;font-family:'Noto Sans KR',sans-serif;font-size:14.5px;line-height:1.6;color:#8b96b1">
+
+<div style="margin-top:0;font-size:11.5px;opacity:.7"><a href="/" style="color:inherit;text-decoration:none">← dakman blog</a> · <a href="/privacy/" style="color:inherit">개인정보처리방침</a></div>
+</div>
+</body>
+</html>
