@@ -40,6 +40,13 @@ article pre{background:#10151f;border:1px solid var(--line);border-radius:10px;p
 article pre code{background:none;padding:0}
 article ul,article ol{margin:0 0 16px 22px}
 article blockquote{border-left:3px solid var(--teal);padding-left:16px;color:var(--mut);margin-bottom:16px}
+article strong{color:#fff;font-weight:700}
+/* 마크다운 표 (2026-07-10 — 모드 B 표 무스타일 사고 수정) */
+article table{width:100%;border-collapse:collapse;font-size:14.5px;margin:0 0 20px;border:1px solid var(--line);border-radius:10px;overflow:hidden;display:table}
+article thead th{background:var(--panel);color:var(--gold);font-family:'JetBrains Mono';font-size:12.5px;text-align:left;padding:11px 14px;border-bottom:2px solid var(--line)}
+article tbody td{padding:11px 14px;border-bottom:1px solid var(--line);color:#d5deef;vertical-align:top}
+article tbody tr:last-child td{border-bottom:none}
+article tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
 </style>
 </head>
 <body>
@@ -58,7 +65,7 @@ article blockquote{border-left:3px solid var(--teal);padding-left:16px;color:var
 <li><strong>7/1</strong> — Claude 플래그십 <strong>Fable 5</strong>가 글로벌 배포로 복귀했습니다. (이 앞뒤 사정은 아래 &#39;정부 게이트&#39; 부분에서 따로 다룰게요.)</li>
 <li><strong>7/6</strong> — <strong>SpaceX가 xAI를 &#39;SpaceXAI&#39;로 리브랜드</strong>했습니다. 회사 이름이 바뀐 거예요.</li>
 <li><strong>7/8</strong> — Grok의 새 모델 <strong>grok-4.5</strong>가 나왔습니다. 코딩 특화, 컨텍스트 500k.</li>
-<li><strong>7/9</strong> — OpenAI가 **GPT-5.6를 정식 출시(GA)**하고, 같은 날 <strong>ChatGPT Work</strong>도 공개했습니다. 채팅이 아니라 완성물(시트·슬라이드·웹앱)을 만들어 주는 쪽이에요. 덤으로, 전 연준 의장 **벤 버냉키(Ben Bernanke)**가 Anthropic Long-Term Benefit Trust에 합류한다는 소식도 이날 나왔습니다.</li>
+<li><strong>7/9</strong> — OpenAI가 <strong>GPT-5.6를 정식 출시(GA)</strong>하고, 같은 날 <strong>ChatGPT Work</strong>도 공개했습니다. 채팅이 아니라 완성물(시트·슬라이드·웹앱)을 만들어 주는 쪽이에요. 덤으로, 전 연준 의장 <strong>벤 버냉키(Ben Bernanke)</strong>가 Anthropic Long-Term Benefit Trust에 합류한다는 소식도 이날 나왔습니다.</li>
 </ul>
 <p>정리하면 <strong>Grok·GPT는 이번 주에 새로 쏟아냈고, Claude는 직전에 끝내고 소프트 업데이트, Gemini만 프런티어급 신모델 공백</strong>이라는 그림이에요.</p>
 <hr>
@@ -114,7 +121,7 @@ article blockquote{border-left:3px solid var(--teal);padding-left:16px;color:var
 <td><strong>Grok</strong></td>
 </tr>
 </tbody></table>
-<p>현실적인 통념은 **&quot;최소 두 개는 구독한다&quot;**입니다. 보통 Claude + ChatGPT를 축으로 두고, Gemini를 가성비·멀티모달 보완으로 붙이는 조합이 많아요. 하나로 다 되는 시대는 아직 아닙니다.</p>
+<p>현실적인 통념은 <strong>&quot;최소 두 개는 구독한다&quot;</strong>입니다. 보통 Claude + ChatGPT를 축으로 두고, Gemini를 가성비·멀티모달 보완으로 붙이는 조합이 많아요. 하나로 다 되는 시대는 아직 아닙니다.</p>
 <hr>
 <h2>가격 한눈에 보기</h2>
 <p>$/1M 기준(입력·출력)입니다. 숫자만 봐도 시장이 얼마나 벌어져 있는지 보여요.</p>
@@ -199,7 +206,7 @@ article blockquote{border-left:3px solid var(--teal);padding-left:16px;color:var
 <p>여기서부터는 헤드라인만 보면 오해하기 쉬운 것들을, 확인된 사실 범위 안에서만 짚습니다. 자극적인 요약이 많이 돌아다녀서, 오히려 조심스럽게 적었어요.</p>
 <h3>&quot;정부가 AI를 승인했다&quot;? — 그건 아닙니다</h3>
 <p>GPT-5.6는 상무부 CAISI 검토를 거쳐 6/26 제한 프리뷰로 나왔다가 7/9 공개됐고, Claude Fable 5도 수출통제(6/12)에서 해제(6/30)를 거쳐 7/1 글로벌 복귀했습니다. 여기까지가 <strong>사실</strong>이에요.</p>
-<p>하지만 이걸 &quot;정부가 AI를 승인했다&quot;로 읽으면 틀립니다. <strong>백악관이 &quot;정식 허가는 필요하지도, 부여되지도 않았다&quot;며 &#39;승인&#39; 프레이밍을 공식적으로 반박</strong>했어요. OpenAI도 &quot;이런 절차가 상시 디폴트가 되면 안 된다&quot;고 선을 그었습니다. 그러니까 정확한 표현은 &quot;정부가 승인했다&quot;가 아니라 **&quot;검토를 거쳐 제한 배포됐다가 공개됐다&quot;**입니다. 이 구분, 생각보다 중요해요.</p>
+<p>하지만 이걸 &quot;정부가 AI를 승인했다&quot;로 읽으면 틀립니다. <strong>백악관이 &quot;정식 허가는 필요하지도, 부여되지도 않았다&quot;며 &#39;승인&#39; 프레이밍을 공식적으로 반박</strong>했어요. OpenAI도 &quot;이런 절차가 상시 디폴트가 되면 안 된다&quot;고 선을 그었습니다. 그러니까 정확한 표현은 &quot;정부가 승인했다&quot;가 아니라 <strong>&quot;검토를 거쳐 제한 배포됐다가 공개됐다&quot;</strong>입니다. 이 구분, 생각보다 중요해요.</p>
 <h3>Grok 토큰 효율 — 인상적이지만, 효율과 정확도는 다릅니다</h3>
 <p>xAI <strong>자체 발표</strong>(독립 검증은 아님) 기준으로, grok-4.5는 SWE Bench Pro에서 과제당 평균 출력이 <strong>15,954토큰</strong>으로, Opus 4.8의 <strong>67,020토큰보다 약 4.2배 적었다</strong>고 합니다. 같은 일을 훨씬 적은 토큰으로 해낸다는 얘기라, 비용 관점에선 분명 매력적이에요.</p>
 <p>다만 여기서 흔히 착각하는 게 있어요. <strong>이건 효율 우위지 정확도 우위가 아닙니다.</strong> 같은 벤치의 해결률로 보면 Opus 69.2%·Fable 80.4%가 Grok 64.7%보다 위예요. 즉 &quot;적게 쓰고 빠르게&quot; 원하면 Grok, &quot;정확하게 끝까지&quot; 원하면 Claude 쪽이라는, 서로 다른 축의 얘기입니다.</p>
@@ -212,7 +219,7 @@ article blockquote{border-left:3px solid var(--teal);padding-left:16px;color:var
 </ul>
 <p>정리하면, Grok의 강점(실시간·효율)을 취하되 <strong>안전·규제 리스크가 관찰 중이라는 점은 감안하고 쓰는 게</strong> 지금으로선 합리적이에요.</p>
 <h3>Anthropic 한도 소송 — 미판결 주장(제소 단계)</h3>
-<p>Claude Max($100·$200) 요금제의 사용 한도가 광고보다 낮다는 이유로, <strong>Karl Kahn 대 Anthropic</strong> 집단소송이 2026년 6월 중순 캘리포니아 북부 연방법원에 제기됐습니다. 다만 이건 **미판결 주장(제소 단계)**이에요. 법원이 인정한 사실도, 판결이 난 것도 아닙니다. 원고 측 주장이 접수된 단계라는 것만 사실로 알아두면 됩니다.</p>
+<p>Claude Max($100·$200) 요금제의 사용 한도가 광고보다 낮다는 이유로, <strong>Karl Kahn 대 Anthropic</strong> 집단소송이 2026년 6월 중순 캘리포니아 북부 연방법원에 제기됐습니다. 다만 이건 <strong>미판결 주장(제소 단계)</strong>이에요. 법원이 인정한 사실도, 판결이 난 것도 아닙니다. 원고 측 주장이 접수된 단계라는 것만 사실로 알아두면 됩니다.</p>
 <h3>리브랜드 — 이름이 왜 바뀌었나</h3>
 <p>SpaceX가 <strong>2026년 2월</strong> xAI를 전액 주식으로 인수했고($1.25조 규모), 6월 IPO(Bloomberg 보도 $135/주)를 거쳐 <strong>7/6 &#39;SpaceXAI&#39;로 리브랜드</strong>했습니다. 개발자 입장에서 안심할 부분은, <em><em>x.ai API 주소와 grok-</em> 모델 ID는 그대로 유지</em>*된다는 거예요. 이름은 바뀌었어도 코드에서 부르던 방식은 안 바뀝니다.</p>
 <hr>
