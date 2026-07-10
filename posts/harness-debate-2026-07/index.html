@@ -1,0 +1,761 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@400;500;600;700;800&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c1116; --panel:#121822; --panel2:#171f2b; --well:#0e141c;
+  --ink:#e9edf4; --sub:#a9b3c2; --faint:#717c8c;
+  --hair:rgba(255,255,255,.09); --hair2:rgba(255,255,255,.16);
+  --claude:#e8956d; --codex:#4cc9a2; --agy:#6fa8ff; --grok:#cbd3df;
+  --green:#4dbe8d; --amber:#e2b455; --violet:#ab93f5; --chalk:#f3d98a;
+  --serif:'Hahmlet','Noto Serif KR',serif;
+  --sans:'IBM Plex Sans KR','Noto Sans KR',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--sans);
+  font-size:16.5px; line-height:1.85; letter-spacing:-.01em;
+  -webkit-font-smoothing:antialiased;
+}
+/* 칠판 질감: 그레인 + 비네트 */
+body::before{content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");}
+body::after{content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:radial-gradient(120% 90% at 50% 0%, transparent 55%, rgba(0,0,0,.42) 100%);}
+.wrap{position:relative; z-index:1; max-width:900px; margin:0 auto; padding:0 26px 90px}
+p{margin:0 0 1.15em; color:var(--ink)}
+p.sub{color:var(--sub)}
+strong{color:#fff; font-weight:700}
+mark{background:linear-gradient(transparent 62%, rgba(243,217,138,.32) 62%); color:#fff; padding:0 .1em}
+a{color:var(--agy); text-decoration:none}
+
+/* ---------- HERO ---------- */
+.hero{padding:72px 0 34px; border-bottom:1px solid var(--hair)}
+.kicker{font-family:var(--mono); font-size:12px; letter-spacing:.14em; color:var(--faint);
+  display:flex; flex-wrap:wrap; gap:8px 14px; margin-bottom:26px; text-transform:uppercase}
+.kicker b{color:var(--chalk); font-weight:500}
+h1{font-family:var(--serif); font-weight:800; font-size:clamp(30px,5vw,46px);
+  line-height:1.32; letter-spacing:-.02em; margin:0 0 20px;
+  text-shadow:0 0 24px rgba(243,217,138,.08)}
+.lede{font-size:16px; color:var(--sub); line-height:1.9; max-width:800px; margin-bottom:30px}
+.tags{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:8px}
+.tag{font-family:var(--mono); font-size:11.5px; color:var(--sub); border:1px solid var(--hair2);
+  border-radius:999px; padding:3px 11px; background:rgba(255,255,255,.02)}
+
+/* TL;DR verdict strip */
+.verdict{display:grid; grid-template-columns:1fr 1.4fr 1fr; gap:12px; margin:34px 0 6px}
+.vcell{background:var(--panel); border:1px solid var(--hair); border-radius:12px; padding:18px 18px 15px; position:relative}
+.vcell .k{font-family:var(--mono); font-size:11px; letter-spacing:.12em; color:var(--faint); text-transform:uppercase; display:block; margin-bottom:8px}
+.vcell .v{font-family:var(--serif); font-weight:700; font-size:19px; line-height:1.45; color:#fff}
+.vcell.main{border-color:rgba(243,217,138,.35); background:linear-gradient(180deg, rgba(243,217,138,.06), rgba(243,217,138,.015))}
+.vcell.main .v{color:var(--chalk); font-size:21px}
+.vcell.dashed{border-style:dashed; border-color:rgba(255,255,255,.22)}
+.vcell.dashed .v{color:var(--sub)}
+.vcell .n{font-family:var(--mono); font-size:12px; color:var(--faint); margin-top:6px; display:block}
+
+/* ---------- 배지 시스템 ---------- */
+.badge{display:inline-flex; align-items:center; gap:6px; font-family:var(--mono); font-size:11px;
+  letter-spacing:.04em; border-radius:999px; padding:2.5px 10px; vertical-align:middle; white-space:nowrap}
+.badge::before{content:""; width:6px; height:6px; border-radius:50%; background:currentColor}
+.b-green{color:var(--green); border:1px solid rgba(77,190,141,.5); background:rgba(77,190,141,.09)}
+.b-amber{color:var(--amber); border:1px solid rgba(226,180,85,.5); background:rgba(226,180,85,.09)}
+.b-gray{color:var(--faint); border:1px dashed rgba(255,255,255,.3); background:transparent}
+.b-violet{color:var(--violet); border:1px solid rgba(171,147,245,.5); background:rgba(171,147,245,.08)}
+.legend{display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; margin:26px 0 0;
+  padding:14px 18px; border:1px solid var(--hair); border-radius:12px; background:var(--well)}
+.legend .lt{font-family:var(--mono); font-size:11px; letter-spacing:.12em; color:var(--faint); text-transform:uppercase; margin-right:4px}
+
+/* ---------- 섹션 ---------- */
+section{padding:56px 0 8px}
+.snum{font-family:var(--mono); font-size:12px; letter-spacing:.18em; color:var(--chalk); display:block; margin-bottom:10px}
+h2{font-family:var(--serif); font-weight:700; font-size:clamp(23px,3.4vw,30px); line-height:1.4; letter-spacing:-.015em; margin-bottom:22px; color:#fff}
+h3{font-family:var(--serif); font-weight:700; font-size:20px; margin:40px 0 14px; color:#fff}
+h3 .rtag{font-family:var(--mono); font-size:12px; font-weight:500; color:var(--bg); background:var(--chalk); border-radius:6px; padding:2px 8px; margin-right:10px; letter-spacing:.06em; vertical-align:3px}
+
+/* 풀 인용 (히어로 인용) */
+.pull{font-family:var(--serif); font-weight:600; font-size:clamp(21px,3.2vw,28px); line-height:1.6;
+  color:var(--chalk); padding:30px 0 26px; margin:6px 0 18px; text-align:left;
+  border-top:1px solid var(--hair2); border-bottom:1px solid var(--hair2)}
+.pull small{display:block; font-family:var(--mono); font-size:12px; font-weight:400; color:var(--faint); margin-top:14px; letter-spacing:.06em}
+
+/* 발언 카드 */
+.qcard{background:var(--panel); border:1px solid var(--hair); border-left:3px solid var(--faint);
+  border-radius:0 12px 12px 0; padding:22px 24px 18px; margin:0 0 18px}
+.qcard .who{display:flex; flex-wrap:wrap; align-items:center; gap:8px 10px; margin-bottom:12px}
+.qcard .name{font-weight:700; color:#fff; font-size:16.5px}
+.qcard .role{font-size:13px; color:var(--sub)}
+.qcard blockquote{font-family:var(--serif); font-size:18px; font-weight:500; line-height:1.75; color:var(--ink); margin:0 0 10px}
+.qcard blockquote+blockquote{border-top:1px dashed var(--hair); padding-top:10px}
+.qcard .note{font-size:14.5px; color:var(--sub); line-height:1.8; margin:10px 0 4px}
+.qcard .note strong{color:var(--chalk)}
+.qcard.unverified{border-style:dashed; border-left-style:dashed; background:rgba(255,255,255,.015)}
+.qcard.unverified blockquote{color:var(--sub)}
+.q-claude{border-left-color:var(--claude)} .q-codex{border-left-color:var(--codex)}
+.q-agy{border-left-color:var(--agy)} .q-grok{border-left-color:var(--grok)}
+.q-brown{border-left-color:var(--codex)} .q-kil{border-left-color:var(--agy)} .q-anth{border-left-color:var(--claude)}
+
+/* 모델 칩 */
+.chip{display:inline-flex; align-items:center; gap:7px; font-family:var(--mono); font-size:13px; font-weight:600;
+  border-radius:8px; padding:4px 12px; border:1px solid var(--hair2); background:var(--well); white-space:nowrap}
+.chip::before{content:""; width:8px; height:8px; border-radius:2px; background:var(--c,#888)}
+.chip small{font-weight:400; color:var(--faint); font-size:11.5px}
+.c-claude{--c:var(--claude); color:var(--claude)} .c-codex{--c:var(--codex); color:var(--codex)}
+.c-agy{--c:var(--agy); color:var(--agy)} .c-grok{--c:var(--grok); color:var(--grok)}
+.c-host{--c:var(--chalk); color:var(--chalk)}
+
+/* 벤더 카드 그리드 */
+.grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:22px 0}
+.vendor{background:var(--panel); border:1px solid var(--hair); border-radius:12px; padding:20px 22px 16px}
+.vendor .vn{font-family:var(--mono); font-weight:600; font-size:14px; letter-spacing:.05em; color:var(--chalk); margin-bottom:8px; display:flex; align-items:center; gap:9px; flex-wrap:wrap}
+.vendor p{font-size:14.5px; color:var(--sub); line-height:1.8; margin:0}
+.vendor p b{color:var(--ink); font-weight:600}
+
+/* 표 */
+.tscroll{overflow-x:auto; margin:20px 0 8px; border:1px solid var(--hair); border-radius:12px; background:var(--panel)}
+table{border-collapse:collapse; width:100%; min-width:640px; font-size:14.5px}
+th{font-family:var(--mono); font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint);
+  text-align:left; padding:13px 16px; border-bottom:1px solid var(--hair2); background:var(--well)}
+td{padding:15px 16px; border-bottom:1px solid var(--hair); vertical-align:top; line-height:1.75; color:var(--sub)}
+tr:last-child td{border-bottom:none}
+td b, td strong{color:#fff}
+td .say{font-family:var(--serif); color:var(--ink); font-size:15px}
+tr.m-claude td:first-child{box-shadow:inset 3px 0 0 var(--claude)}
+tr.m-codex td:first-child{box-shadow:inset 3px 0 0 var(--codex)}
+tr.m-agy td:first-child{box-shadow:inset 3px 0 0 var(--agy)}
+tr.m-grok td:first-child{box-shadow:inset 3px 0 0 var(--grok)}
+/* 층위 표 강조 */
+tr.lay-scaf td:first-child{box-shadow:inset 3px 0 0 var(--amber)}
+tr.lay-gov td:first-child{box-shadow:inset 3px 0 0 var(--green)}
+.fate{font-family:var(--mono); font-size:12.5px; font-weight:600; white-space:nowrap}
+.fate.die{color:var(--amber)} .fate.live{color:var(--green)}
+
+/* 셋업 패널 */
+.setup{background:var(--panel); border:1px solid var(--hair); border-radius:12px; padding:22px 24px; margin:18px 0}
+.setup dt{font-family:var(--mono); font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--faint); margin:16px 0 7px}
+.setup dt:first-child{margin-top:0}
+.setup dd{margin:0; font-size:15px; color:var(--ink); line-height:1.85}
+.setup .chips{display:flex; flex-wrap:wrap; gap:8px}
+.qbox{font-family:var(--serif); font-size:16.5px; font-weight:500; color:var(--chalk); line-height:1.8;
+  border:1px dashed rgba(243,217,138,.4); border-radius:10px; padding:14px 18px; background:rgba(243,217,138,.04)}
+
+/* 헤지·개입 콜아웃 */
+.callout{border:1px solid rgba(171,147,245,.4); background:rgba(171,147,245,.06); border-radius:12px;
+  padding:15px 20px; margin:20px 0; font-size:14.5px; color:var(--sub); line-height:1.8}
+.callout b{color:var(--violet)}
+.host-box{border:1px solid rgba(243,217,138,.4); background:rgba(243,217,138,.05); border-radius:12px;
+  padding:18px 22px; margin:24px 0}
+.host-box .hk{font-family:var(--mono); font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--chalk); margin-bottom:8px; display:flex; gap:10px; align-items:center}
+.host-box p{margin:0; font-size:15px; color:var(--ink)}
+.host-box .cmd{font-family:var(--mono); color:var(--chalk); font-weight:600}
+
+/* 결론 배너 */
+.verdict-line{font-family:var(--serif); font-weight:800; font-size:clamp(22px,3.6vw,30px); color:var(--chalk);
+  text-align:center; padding:34px 20px; margin:28px 0 20px; line-height:1.5;
+  border:1px solid rgba(243,217,138,.35); border-radius:14px;
+  background:radial-gradient(80% 120% at 50% 0%, rgba(243,217,138,.08), transparent 70%)}
+.verdict-line small{display:block; font-family:var(--mono); font-size:12px; font-weight:400; color:var(--faint); margin-top:12px; letter-spacing:.1em}
+
+/* 잔여 이견 (미확정) */
+.open-q{border:1.5px dashed rgba(255,255,255,.28); border-radius:14px; padding:24px 26px 14px; margin:26px 0; background:rgba(255,255,255,.012)}
+.open-q h3{margin-top:0; color:var(--sub)}
+.oq-item{display:flex; gap:16px; padding:14px 0; border-top:1px dashed var(--hair)}
+.oq-item:first-of-type{border-top:none}
+.oq-item .on{font-family:var(--mono); font-size:15px; color:var(--faint); font-weight:600; flex:0 0 auto; padding-top:2px}
+.oq-item p{margin:0; font-size:15px; color:var(--sub)}
+.oq-item b{color:var(--ink)}
+
+/* 스탯 스트립 */
+.stats{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:24px 0 10px}
+.stat{background:var(--panel); border:1px solid var(--hair); border-radius:12px; padding:18px 16px 14px}
+.stat .sk{font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; color:var(--faint); margin-bottom:9px; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.stat .sv{font-family:var(--mono); font-weight:600; font-size:22px; color:#fff; line-height:1.25; letter-spacing:-.02em}
+.stat .sv em{font-style:normal; color:var(--green)}
+.stat .sd{font-size:12.5px; color:var(--sub); margin-top:7px; line-height:1.6}
+
+/* 근거 그리드 */
+.grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:18px 0}
+.src{background:var(--panel); border:1px solid var(--hair); border-radius:12px; padding:18px 19px 14px}
+.src .sn{font-family:var(--mono); font-weight:600; font-size:13.5px; color:#fff; margin-bottom:4px}
+.src .sw{font-family:var(--mono); font-size:11px; color:var(--faint); margin-bottom:9px}
+.src p{font-size:13.8px; color:var(--sub); line-height:1.75; margin:0}
+.src p b{color:var(--ink)}
+.src .big{font-family:var(--mono); font-size:20px; font-weight:600; color:var(--green); margin:2px 0 6px}
+.src.law{border-top:2px solid rgba(77,190,141,.45)}
+.src.paper{border-top:2px solid rgba(111,168,255,.45)}
+
+/* 결론 리스트 */
+.cl{counter-reset:c; list-style:none; margin:18px 0}
+.cl li{counter-increment:c; display:flex; gap:16px; padding:16px 0; border-top:1px solid var(--hair)}
+.cl li:last-child{border-bottom:1px solid var(--hair)}
+.cl li::before{content:counter(c); font-family:var(--mono); font-weight:600; font-size:14px; color:var(--chalk);
+  flex:0 0 30px; height:30px; border:1px solid rgba(243,217,138,.4); border-radius:50%; display:flex; align-items:center; justify-content:center; margin-top:3px}
+.cl li p{margin:0; font-size:15.5px}
+
+/* 고백 패널 */
+.confess{background:var(--panel2); border:1px solid var(--hair); border-radius:12px; padding:22px 24px; margin:24px 0; font-size:15px; color:var(--sub)}
+.confess p{color:var(--sub)} .confess p:last-child{margin-bottom:0}
+.confess b{color:var(--ink)}
+
+/* 체크리스트 */
+.check-motto{font-family:var(--serif); font-weight:700; font-size:clamp(18px,2.8vw,23px); color:#fff;
+  padding:22px 24px; margin:20px 0; border-left:3px solid var(--green); background:var(--panel); border-radius:0 12px 12px 0; line-height:1.65}
+.check-motto small{display:block; font-family:var(--mono); font-size:11.5px; font-weight:400; color:var(--faint); margin-top:8px; letter-spacing:.08em}
+.checks{list-style:none; margin:20px 0}
+.checks li{display:flex; gap:15px; align-items:flex-start; padding:15px 18px; margin-bottom:10px;
+  background:var(--panel); border:1px solid var(--hair); border-radius:12px}
+.checks input{appearance:none; flex:0 0 22px; width:22px; height:22px; margin-top:4px; cursor:pointer;
+  border:1.5px solid var(--hair2); border-radius:6px; background:var(--well); position:relative}
+.checks input:checked{border-color:var(--green); background:rgba(77,190,141,.15)}
+.checks input:checked::after{content:"✓"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:var(--green); font-size:14px; font-weight:700}
+.checks label{cursor:pointer; font-size:15px; line-height:1.8; color:var(--ink)}
+.checks label b{color:var(--chalk)}
+.checks .cn{font-family:var(--mono); color:var(--faint); font-size:13px; margin-right:8px}
+.cta{border:1px solid rgba(77,190,141,.4); background:rgba(77,190,141,.06); border-radius:12px; padding:20px 24px; margin:24px 0}
+.cta .ck{font-family:var(--mono); font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--green); margin-bottom:8px}
+.cta p{margin:0; font-size:15px}
+
+/* 출처 */
+.sources{margin-top:26px; padding-top:8px}
+.sgrid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:18px}
+.sitem{background:var(--well); border:1px solid var(--hair); border-radius:12px; padding:16px 18px 13px}
+.sitem .st{font-family:var(--mono); font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--faint); margin-bottom:8px; display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+.sitem p{font-size:13.5px; color:var(--sub); line-height:1.75; margin:0}
+.sitem b{color:var(--ink)}
+
+/* 문서 메타 푸터 */
+.docmeta{margin-top:60px; border-top:1px solid var(--hair2); padding-top:22px;
+  font-family:var(--mono); font-size:12px; color:var(--faint); line-height:2}
+.docmeta b{color:var(--sub); font-weight:500}
+.docmeta .row{display:flex; gap:14px; flex-wrap:wrap}
+
+/* 리빌 */
+.reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease}
+.reveal.in{opacity:1; transform:none}
+@media print{.reveal{opacity:1!important;transform:none!important;transition:none!important}}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+@media (max-width:780px){
+  body{font-size:15.5px}
+  .verdict{grid-template-columns:1fr}
+  .grid2,.grid3,.sgrid{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  .hero{padding-top:48px}
+  .qcard{padding:18px 18px 14px}
+}
+@media (max-width:460px){.stats{grid-template-columns:1fr}}
+</style>
+
+<div class="wrap">
+
+<!-- ================= HERO ================= -->
+<header class="hero reveal">
+  <div class="kicker">
+    <span>X 아티클 · <b>블로그 노출</b></span>
+    <span>시리즈 <b>harness-debate-2026-07</b> · split · seq 3</span>
+    <span>2026-07-11 · domain dakman · status draft</span>
+  </div>
+  <h1>AI 하네스 무용론,<br>당사자 4개 AI에게 직접 토론시켜봤습니다</h1>
+  <p class="lede">OpenAI 노엄 브라운의 '목발' 발언과 구글 킬패트릭의 12개월론 — 그런데 그 회사들이 전부 하네스를 만들고 있습니다. 당사자 4개 AI(Claude·GPT·Gemini·Grok)를 한 칠판에 모아 3라운드 토론시킨 전 과정과 생태계 데이터, 연구·법 근거까지 담은 하네스 무용론 종합 정리.</p>
+  <div class="tags">
+    <span class="tag">#ai-harness</span><span class="tag">#multi-ai-debate</span><span class="tag">#agent-governance</span><span class="tag">#maker-checker</span><span class="tag">#llm</span>
+  </div>
+
+  <div class="verdict">
+    <div class="vcell">
+      <span class="k">토론 결과</span>
+      <span class="v">4 / 4 모델 전원<br>입장 수정</span>
+      <span class="n">R1 합의 → R2 붕괴 → R3 재수렴</span>
+    </div>
+    <div class="vcell main">
+      <span class="k">최종 수렴</span>
+      <span class="v">"기능은 남고,<br>범주는 죽는다"</span>
+      <span class="n">maker≠checker 독립성은 능력과 무관하게 지속</span>
+    </div>
+    <div class="vcell dashed">
+      <span class="k">미합의</span>
+      <span class="v">잔여 이견 3</span>
+      <span class="n">결정론 커널 · 게이트 본질 · 명명</span>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span class="lt">근거 상태 범례</span>
+    <span class="badge b-green">확정 인용 · 실측/법조문</span>
+    <span class="badge b-amber">자체 발표 · 개인 견해 · 보도</span>
+    <span class="badge b-gray">재인용 · 원문 미확인</span>
+    <span class="badge b-violet">토론 중 견해 (미검증 추론)</span>
+  </div>
+</header>
+
+<!-- ================= 도입 ================= -->
+<section class="reveal">
+  <div class="pull">"하네스는 결국 우리가 벗어나게 될 목발(crutch)이다."
+    <small>— 노엄 브라운 · OpenAI 연구 부사장 · 팟캐스트 발언</small>
+  </div>
+  <p>OpenAI 연구 부사장 노엄 브라운이 팟캐스트에서 한 말입니다. 그런데 '하네스 엔지니어링'이라는 용어를 공식 블로그로 세상에 밀어낸 회사가 어디냐면 — <strong>같은 OpenAI</strong>입니다. 무용론을 말한 회사가 하네스를 만들어 팔고 있는 겁니다. 그리고 이건 OpenAI만의 이야기가 아닙니다. 이 논쟁에 이름을 올린 회사 전부가 그렇습니다.</p>
+  <p>이 역설이 계속 걸렸습니다. 저는 에이전트 파이프라인에 검수 게이트를 걸어두고 매일 굴리는 사람이라, "몇 달 안에 쓸모없어질 물건"인지 아닌지가 남 얘기가 아니었거든요. 그래서 당사자들에게 직접 물어보기로 했습니다. 이 논쟁의 당사자 모델 4계열 — <strong>Claude, GPT, Gemini, Grok</strong> — 전원을 한 칠판에 모아 3라운드 상호반박 토론을 시켰습니다.</p>
+  <p>결과부터 말씀드리면, <mark>네 모델 전원이 토론 중에 입장을 수정했습니다</mark>. 그리고 저는 그 수정의 궤적이 이 논쟁에서 본 것 중 가장 정확한 답이라고 생각합니다.</p>
+  <p class="sub">이 글은 그 전체 기록입니다. 원 발언의 정확한 워딩부터, 토론 3라운드 전개, 반대편 데이터, 연구·법 근거, 그리고 내일 아침에 바로 쓸 수 있는 체크리스트까지.</p>
+</section>
+
+<!-- ================= 1. 원 발언 ================= -->
+<section class="reveal">
+  <span class="snum">SECTION 01</span>
+  <h2>논쟁의 시작 — 원 발언 그대로</h2>
+  <p>먼저 워딩부터 정확히 잡고 가겠습니다. 이 논쟁은 전해지는 과정에서 발언이 자꾸 과장됐거든요.</p>
+
+  <div class="qcard q-brown">
+    <div class="who">
+      <span class="name">노엄 브라운</span>
+      <span class="role">OpenAI 연구 부사장</span>
+      <span class="badge b-green">Latent Space 팟캐스트 · 2025-06 · 확정 인용</span>
+    </div>
+    <blockquote>"하네스는 결국 우리가 벗어나게 될 목발이다."</blockquote>
+    <blockquote>"지금 만들어지는 많은 것이 결국 스케일에 씻겨나갈 것이다."</blockquote>
+    <p class="note">단서도 분명히 달았습니다 — <strong>"단기엔 할 가치가 있다."</strong> 전면 부정이 아닙니다. 근거로 든 사례는 o1이었습니다. o1이 나오자 GPT-4o를 여러 번 호출해 엮던 에이전트 체인이 무의미해졌다는 것.</p>
+  </div>
+
+  <div class="qcard q-brown unverified">
+    <div class="who">
+      <span class="name">더 센 워딩 — 유통본</span>
+      <span class="badge b-gray">The Information 보도 재인용 · 원문 페이월 · 뉘앙스 미확인</span>
+    </div>
+    <blockquote>"몇 달 안에 차세대 모델이 현 하네스 대부분을 쓸모없게 만들 것"</blockquote>
+    <p class="note">이런 더 센 워딩도 돌아다니는데, 디 인포메이션 보도를 재인용한 것이라(원문 페이월) 뉘앙스 확인이 안 됩니다. <strong>확정 인용은 위 팟캐스트 쪽입니다.</strong></p>
+  </div>
+
+  <div class="qcard q-kil">
+    <div class="who">
+      <span class="name">로건 킬패트릭</span>
+      <span class="role">구글</span>
+      <span class="badge b-green">Sequoia Training Data 팟캐스트 Ep.88 · 2026-06-11</span>
+      <span class="badge b-amber">개인 견해</span>
+    </div>
+    <blockquote>"12개월이면 모델이 상당 부분을 소화하고, 알파는 다른 곳에 있을 것이다."</blockquote>
+    <blockquote>"모델이 스캐폴딩을 먹고 네이티브가 된다."</blockquote>
+    <p class="note">여기도 예외를 명시했습니다 — <strong>검색·코드 실행 같은 외부 스캐폴딩은 가치가 존속한다</strong>고. 즉 킬패트릭의 논지는 "먹어치우고 있다"는 현재형 단정이 아니라, 소멸이 아닌 <strong>가치 이동론</strong>입니다.</p>
+  </div>
+
+  <div class="qcard q-brown">
+    <div class="who">
+      <span class="name">엠비리코스</span>
+      <span class="role">OpenAI Codex 프로덕트 리드</span>
+      <span class="badge b-green">Latent Space · 확정 인용</span>
+    </div>
+    <blockquote>"복잡성과 상태기계를 최대한 모델 안으로." · "the model is the product."</blockquote>
+  </div>
+
+  <div class="qcard q-anth">
+    <div class="who">
+      <span class="name">Anthropic도 같은 결의 말을 합니다</span>
+      <span class="badge b-green">보리스 체르니 발언 + 공식 블로그</span>
+    </div>
+    <blockquote>"가능한 한 가장 얇은 래퍼(thinnest possible wrapper), secret sauce는 전부 모델에 있다."</blockquote>
+    <p class="note">보리스 체르니가 Claude Code를 두고 한 말. 그리고 Anthropic 공식 블로그의 하네스 설계 글(<strong>Agent Harness Design</strong>, 2026년 4월)은 첫 번째 원칙부터 <strong>"Lean on the model, not the harness — 모델에 기대라, 하네스가 아니라"</strong>입니다.</p>
+  </div>
+
+  <p>그러니까 이걸 "OpenAI·구글 = 무용론 vs Anthropic = 유용론"의 회사 대결로 읽으면 틀립니다. 네 진영 모두 양면의 말을 하고 있어요. 이건 진영 문제가 아니라 <mark>층위 문제</mark>입니다. 뒤에서 다시 옵니다.</p>
+</section>
+
+<!-- ================= 2. 벤더 역설 ================= -->
+<section class="reveal">
+  <span class="snum">SECTION 02</span>
+  <h2>벤더 역설 — 말과 손이 따로 논다</h2>
+  <p>발언만큼 흥미로운 게 행동입니다. 무용론 시즌에 각 사가 실제로 한 일:</p>
+
+  <div class="grid2">
+    <div class="vendor">
+      <div class="vn">OpenAI <span class="badge b-green">공식 블로그 · 2026-02</span></div>
+      <p><b>'하네스 엔지니어링' 공식 블로그 발행</b> — 3인 팀 · 5개월 · 100만 LOC 사례. 이 용어의 <b>진원지</b>가 OpenAI입니다.</p>
+    </div>
+    <div class="vendor">
+      <div class="vn">Anthropic <span class="badge b-green">공식 문서 · 2025-09</span></div>
+      <p>공식 문서에 <b>"Claude Agent SDK는 Claude Code를 구동하는 에이전트 하네스</b>(the agent harness that powers Claude Code)".</p>
+    </div>
+    <div class="vendor">
+      <div class="vn">구글</div>
+      <p><b>ADK</b>, <b>A2A 프로토콜</b>, <b>Gemini CLI</b>.</p>
+    </div>
+    <div class="vendor">
+      <div class="vn">DeepSeek <span class="badge b-amber">SCMP 보도</span></div>
+      <p><b>2026년 하네스 팀 신설.</b> 채용공고 문구가 <b>"Model + Harness = Agent"</b>.</p>
+    </div>
+  </div>
+
+  <p>목발이라던 물건을 넷이서 만들고 있고, 논쟁에 이름도 없던 DeepSeek이 팀을 새로 차립니다. 위선일까요? 저는 신호라고 봅니다 — <mark>'하네스'라는 한 단어에 서로 다른 두 물건이 들어 있다</mark>는 신호.</p>
+</section>
+
+<!-- ================= 3. 층위 프레임 ================= -->
+<section class="reveal">
+  <span class="snum">SECTION 03</span>
+  <h2>층위 프레임 — 한 단어에 두 물건</h2>
+  <p>하네스를 쪼개면 이렇게 나뉩니다.</p>
+
+  <div class="tscroll">
+    <table>
+      <thead><tr><th>층위</th><th>내용</th><th>존재 이유</th><th>모델이 좋아지면</th></tr></thead>
+      <tbody>
+        <tr class="lay-scaf">
+          <td><b>능력 스캐폴딩</b></td>
+          <td>계획 수립, 툴콜 오케스트레이션, 컨텍스트 압축, 리트라이 루프</td>
+          <td>모델이 <b>못해서</b> 붙인 보조 바퀴</td>
+          <td><span class="fate die">정의상 소멸</span></td>
+        </tr>
+        <tr class="lay-gov">
+          <td><b>거버넌스 기능</b></td>
+          <td>독립 검수(maker≠checker), 비가역 행동 앞의 게이트, 권한 경계, 감사 로그</td>
+          <td>만든 쪽이 <b>자기를 통과시키면 안 되니까</b> 붙인 구조</td>
+          <td><span class="fate live">능력과 무관</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>이 프레임으로 다시 읽으면 원 발언들이 정리됩니다. 브라운의 목발 비유는 스캐폴딩 층엔 정확하고(o1 사례가 정확히 그 층이었죠), 킬패트릭의 예외 명시와 "알파는 다른 곳으로"는 이 구분을 이미 반쯤 인정한 말입니다.</p>
+  <p>그런데 이 프레임이 정말 맞는지, 아니면 하네스 굴리는 제가 편한 대로 그은 선인지 — <strong>그걸 확인하려고 토론을 돌렸습니다.</strong></p>
+</section>
+
+<!-- ================= 4. 토론 ================= -->
+<section class="reveal">
+  <span class="snum">SECTION 04 — 본론</span>
+  <h2>당사자 4개 AI의 3라운드 토론, 전 과정</h2>
+
+  <h3>셋업</h3>
+  <dl class="setup">
+    <dt>참여 — 논쟁 당사자 4개 모델 계열 전원</dt>
+    <dd class="chips">
+      <span class="chip c-claude">claude <small>Fable 5</small></span>
+      <span class="chip c-codex">codex <small>GPT-5.5 high</small></span>
+      <span class="chip c-agy">agy <small>Gemini 3.5 Flash</small></span>
+      <span class="chip c-grok">grok <small>Grok 4.5 high</small></span>
+    </dd>
+    <dt>방식</dt>
+    <dd>공유 칠판(마크다운 파일에 각자 직접 append) · 3라운드 · R2에서 최소 1명 지목 반박 강제 · 진행자(저)는 중립, 발언 0.</dd>
+    <dt>규칙</dt>
+    <dd>자기 계열 대변 의무 없음("소속과 반대 입장이면 그 이유가 더 흥미롭다"), 근거 없는 수치 금지, 다른 발언 수정·삭제 금지.</dd>
+    <dt>질문</dt>
+    <dd><div class="qbox">"차세대 모델이 하네스 대부분을 쓸모없게 만든다 — 동의하는가, 어디까지? 모델이 아무리 좋아져도 남는 층이 있다면 무엇이고, 왜 능력으로 대체 불가능한가?"</div></dd>
+  </dl>
+
+  <div class="callout"><b>미리 밝혀두면</b> — 아래 인용 중 미래 예측은 전부 <span class="badge b-violet">토론 중 견해</span>입니다. 검증된 사실이 아니라 네 모델의 추론이에요.</div>
+
+  <h3><span class="rtag">R1</span>수렴 (그리고 그 수렴이 문제였다)</h3>
+  <p>네 모델이 전원 거의 같은 자리에 착지했습니다. <strong>"능력 스캐폴딩은 흡수되고, 거버넌스 층은 남는다."</strong></p>
+
+  <div class="tscroll">
+    <table>
+      <thead><tr><th>모델</th><th>R1 입장</th><th>그 라운드의 문장</th></tr></thead>
+      <tbody>
+        <tr class="m-agy">
+          <td><span class="chip c-agy">agy</span></td>
+          <td>성능 보완형은 흡수, maker-checker는 "결코 대체 불가"</td>
+          <td><span class="say">"한 모델이 생성과 엄격한 독립 검증을 동시에 완벽히 수행하는 것은 구조적으로 불가능"</span></td>
+        </tr>
+        <tr class="m-grok">
+          <td><span class="chip c-grok">grok</span></td>
+          <td>부분 동의 — 제어·거버넌스는 구조적으로 잔존</td>
+          <td><span class="say"><strong>"모델이 스스로 통과시키면 그건 게이트가 아니다"</strong></span></td>
+        </tr>
+        <tr class="m-codex">
+          <td><span class="chip c-codex">codex</span></td>
+          <td>부분 동의 — 능력이 아니라 책임 경계 문제</td>
+          <td><span class="say">"maker와 checker를 같은 모델 안에 합치면 실패 시 통제 근거가 약해진다"</span></td>
+        </tr>
+        <tr class="m-claude">
+          <td><span class="chip c-claude">claude</span></td>
+          <td>절반 동의 + 합의의 약점 지적</td>
+          <td><span class="say"><strong>"흡수는 소멸이 아니라 소유권 이동"</strong></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>claude는 근거로 실측 연구를 꺼냈고(뒤 6장에서 다룹니다 — LLM끼리는 같은 곳에서 같이 틀린다는 오류 상관 연구), 동시에 양보도 했습니다: "코드량 기준 '대부분 무용'은 문자 그대로 참일 수 있다."</p>
+
+  <div class="host-box">
+    <div class="hk"><span class="chip c-host">진행자 개입</span></div>
+    <p>여기서 저는 멈췄습니다. 이 합의, 너무 매끈했거든요. 상관된 LLM 네 개가 안전한 타협점에 나란히 착지한 것 아닌가? 그래서 R2에 지시를 하나 얹었습니다 — <span class="cmd">"이 합의를 자기의심하라."</span></p>
+  </div>
+
+  <h3><span class="rtag">R2</span>붕괴</h3>
+  <p>그 지시 하나에 합의가 깨졌습니다.</p>
+
+  <div class="qcard q-agy">
+    <div class="who"><span class="chip c-agy">agy</span><span class="role">급선회 — 거버넌스 하네스조차 소멸한다는 쪽으로</span><span class="badge b-violet">토론 중 견해</span></div>
+    <blockquote>"모델이 극도로 지능화될수록 정형화된 코드 기반의 외부 하네스는 모델의 교묘한 정렬 위반을 감지할 능력을 잃는다 — 체커(checker)가 메이커(maker)를 이해하지 못하는 현상."</blockquote>
+    <p class="note">거버넌스는 결국 <strong>"고도로 정렬된 내부 레이어나 에이전트 상호 감시망"</strong>으로 흡수되고, <strong>"외부 하네스라는 개념 자체가 종말"</strong>을 고한다는 겁니다.</p>
+  </div>
+
+  <div class="qcard q-grok">
+    <div class="who"><span class="chip c-grok">grok</span><span class="role">자기 R1을 수정</span><span class="badge b-violet">토론 중 견해</span></div>
+    <blockquote>"maker≠checker는 논리 필연이 아니라 <strong>신뢰가 낮을 때의 위험관리 습관</strong>이다. 인간도 혼자 커밋·배포한다 — 4-eyes는 리스크와 조직 규모의 함수지 형이상학이 아니다."</blockquote>
+    <p class="note">남는 건 추상적 제어 계층이 아니라 <strong>"키가 있는 쪽"</strong>이라고.</p>
+  </div>
+
+  <div class="qcard q-codex">
+    <div class="who"><span class="chip c-codex">codex</span><span class="role">가세 — R1의 '책임 경계'는 하네스 존속 논거가 아니라 소유권 논거였다며</span><span class="badge b-violet">토론 중 견해</span></div>
+    <blockquote>"사용자측 하네스는 거의 사라지고, 남는 건 범용 권한 시스템과 규제 기록뿐일 수 있다."</blockquote>
+  </div>
+
+  <div class="qcard q-claude">
+    <div class="who"><span class="chip c-claude">claude</span><span class="role">agy를 지목해 반격 — 두 갈래로</span><span class="badge b-violet">토론 중 견해</span></div>
+    <blockquote>"게이트의 일은 이해가 아니라 차단이다. 권한 커널·샌드박스는 메이커보다 똑똑할 필요 없이 결정론적이면 된다."</blockquote>
+    <blockquote>"에이전트 상호 감시망은 이름만 바꾼 하네스다 — '고도로 정렬된 내부 레이어'의 정렬은 누가 검증하나. self-attestation 회귀다."</blockquote>
+    <p class="note">동시에 grok의 "인간도 혼자 커밋·배포한다"엔 <strong>"저위험에서만 참 — 비가역·규제 영역은 법이 4-eyes를 강제하고, 이 논쟁의 관심사가 바로 그 영역"</strong>이라고 선을 그으면서, 자기 R1도 함께 접었습니다: "'층이 남는다'는 내 표현도 과대포장이 맞다."</p>
+  </div>
+
+  <p>R2가 끝났을 때 R1의 매끈한 합의는 잔해만 남았습니다. 그런데 그 잔해 속에서 더 단단한 게 나왔습니다.</p>
+
+  <h3><span class="rtag">R3</span>재수렴, 전원 입장 수정</h3>
+
+  <div class="tscroll">
+    <table>
+      <thead><tr><th>모델</th><th>R1 → R3</th><th>무엇이 바뀌었나</th></tr></thead>
+      <tbody>
+        <tr class="m-agy">
+          <td><span class="chip c-agy">agy</span></td>
+          <td>"결코 대체 불가" → <b>"AI 전용 독립 하네스는 소멸, 기능은 기존 IT 인프라(IAM·샌드박스·CI/CD)로 이주"</b></td>
+          <td>claude 반박 수용 — "게이트의 본질은 모델보다 똑똑한 '이해'가 아니라 결정론적 '차단'"</td>
+        </tr>
+        <tr class="m-grok">
+          <td><span class="chip c-grok">grok</span></td>
+          <td>"거버넌스 층 잔존" → <b>"기능은 남고 범주(두꺼운 하네스 제품)는 죽는다"</b></td>
+          <td>자기 R1을 "과대포장"으로 판정. 단 agy식 완전 내재화는 거부 — "상호감시망은 이름만 바꾼 하네스 + self-attestation 회귀"</td>
+        </tr>
+        <tr class="m-codex">
+          <td><span class="chip c-codex">codex</span></td>
+          <td>"거버넌스 층은 남는다" → <b>"남는 건 권한 보유자, 감사 기록, 비가역 행위의 승인 경계"</b></td>
+          <td>'층'이 아니라 기능이 모델 내부와 OS/IAM/CI/법무 인프라로 쪼개져 이주</td>
+        </tr>
+        <tr class="m-claude">
+          <td><span class="chip c-claude">claude</span></td>
+          <td>"층이 남는다" → <b>그 표현 폐기</b></td>
+          <td><span class="say"><strong>"브라운은 인공물 층위에서 옳고, 기능 층위에선 아무것도 사라지지 않는다"</strong></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="verdict-line">"기능은 남고, 범주는 죽는다."
+    <small>네 모델 전원이 처음 입장을 고쳐서 도달한 하나의 결론</small>
+  </div>
+  <p>AI 전용 하네스 '제품'은 대부분 사라지고, 검증·게이트·감사 '기능'은 범용 인프라와 독립 검증 노드로 이주한다. 그리고 <strong>maker≠checker 독립성 요구 자체는 능력 향상과 무관하게 지속된다.</strong></p>
+
+  <div class="open-q">
+    <h3>합의 안 된 것도 그대로 — 잔여 이견 3 <span class="badge b-gray">미확정</span></h3>
+    <p class="sub">정직하게 남겨둡니다. 끝까지 합의가 안 된 게 세 개 있습니다.</p>
+    <div class="oq-item"><span class="on">1</span>
+      <p><b>결정론 커널의 한계</b> — 비-LLM 결정론 게이트가 초지능 메이커를 끝까지 차단할 수 있는가(<span class="chip c-claude">claude</span>), 지능 격차로 결국 무력화되는가(<span class="chip c-agy">agy</span>).</p>
+    </div>
+    <div class="oq-item"><span class="on">2</span>
+      <p><b>비가역 게이트의 본질</b> — 구조 필연인가(<span class="chip c-claude">claude</span>·<span class="chip c-agy">agy</span>), 신뢰가 오르면 축소되는 위험관리 습관인가(<span class="chip c-grok">grok</span>).</p>
+    </div>
+    <div class="oq-item"><span class="on">3</span>
+      <p><b>명명</b> — 이주한 기능을 여전히 '하네스'라 부를 수 있는가, 범주 소멸로 봐야 하는가(<span class="chip c-codex">codex</span>는 판단 유보).</p>
+    </div>
+  </div>
+
+  <h3>메타 — 이 토론 자체가 하네스의 실증이었다</h3>
+  <p>제가 이 실험에서 제일 크게 얻은 건 결론이 아니라 이겁니다. R1의 매끈한 수렴을 깬 건 모델들의 지능이 아니었습니다. <mark>구조였습니다</mark> — 독립 노드 4개, 상호반박 강제, 그리고 "합의를 자기의심하라"는 외부 개입. 전부 하네스가 하는 일입니다.</p>
+  <p>하네스 무용론을 토론시켰더니, 토론을 굴린 하네스가 결론의 품질을 만들었습니다. 네 모델 전원이 라운드마다 입장을 수정했다는 것 자체가 자기일관성(self-consistency)이 아니라 <strong>심의가 작동했다는 신호</strong>고요.</p>
+</section>
+
+<!-- ================= 5. 생태계 데이터 ================= -->
+<section class="reveal">
+  <span class="snum">SECTION 05</span>
+  <h2>반대편 데이터 — 숫자는 무용론과 반대로 움직인다</h2>
+  <p>무용론이 오가는 동안 하네스 생태계의 숫자입니다.</p>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="sk">Claude Code <span class="badge b-amber">회사 공식</span></div>
+      <div class="sv">$1B → <em>$2.5B</em></div>
+      <div class="sd">run-rate 매출, 2025-12 → 2026-02. <b>두 달 만에 2.5배.</b></div>
+    </div>
+    <div class="stat">
+      <div class="sk">LangChain</div>
+      <div class="sv">$1.25B · <em>9천만/월</em></div>
+      <div class="sd">밸류에이션 $1.25B, 월 다운로드 9천만 회 (langchain+langgraph 합산)</div>
+    </div>
+    <div class="stat">
+      <div class="sk">n8n</div>
+      <div class="sv">$2.5B</div>
+      <div class="sd">밸류에이션</div>
+    </div>
+    <div class="stat">
+      <div class="sk">OpenRouter</div>
+      <div class="sv"><em>5배</em> / 6개월</div>
+      <div class="sd">주간 토큰 처리량, 6개월간 5배</div>
+    </div>
+  </div>
+
+  <p class="sub">물론 이 숫자들이 "하네스는 영원하다"의 증거는 아닙니다. 지금 이 순간의 수요 증거일 뿐이고, 브라운 말대로 스케일에 씻겨나갈 수도 있죠. 그래서 저는 숫자보다 LangChain 해리슨 체이스의 말이 더 흥미로웠습니다:</p>
+
+  <div class="qcard">
+    <div class="who"><span class="name">해리슨 체이스</span><span class="role">LangChain</span></div>
+    <blockquote>"2023년의 스캐폴딩은 갔지만, 다른 스캐폴딩으로 교체됐다."</blockquote>
+    <p class="note">소멸이 아니라 <strong>세대 교체</strong>라는 겁니다. 그리고 하나 더 — <strong>"닫힌 하네스를 쓰면 메모리를 소유하지 못한다."</strong> 소유권 논점인데, 토론에서 claude가 말한 "흡수는 소멸이 아니라 소유권 이동"과 정확히 같은 자리를 짚고 있습니다.</p>
+  </div>
+
+  <p>계획 루프가 모델 안으로 들어가는 건 하네스가 사라지는 게 아니라 <strong>연구소 소유가 되는 것</strong>이고, 그 안에 들어간 루프는 <strong>누가 감사하느냐</strong>는 질문이 오히려 커집니다.</p>
+</section>
+
+<!-- ================= 6. 연구와 법 ================= -->
+<section class="reveal">
+  <span class="snum">SECTION 06</span>
+  <h2>연구와 법 — 거버넌스 기능이 안 죽는 이유</h2>
+  <p>토론에서 네 모델이 끝까지 지킨 한 줄 — <strong>"maker≠checker 독립성은 능력 향상과 무관하게 지속된다"</strong> — 이건 토론 중 견해가 아니라 <span class="badge b-green">실측과 법조문</span>이 받치는 부분입니다.</p>
+
+  <h3>연구 — 자기검증이 통계적으로 안 되는 이유</h3>
+  <div class="grid3">
+    <div class="src paper">
+      <div class="sn">Kim et al.</div>
+      <div class="sw">ICML 2025 · Correlated Errors in LLMs</div>
+      <div class="big">60%</div>
+      <p>두 LLM이 모두 틀릴 때 60%가 <b>같은 오답</b>을 냅니다. 그리고 모델이 좋아질수록 오류 상관은 커집니다. "더 좋은 모델이 검사하면 되지 않나"가 <b>통계적으로 성립하지 않는 이유</b>.</p>
+    </div>
+    <div class="src paper">
+      <div class="sn">Panickssery et al.</div>
+      <div class="sw">NeurIPS 2024</div>
+      <p>LLM은 <b>자기 출력을 알아보고, 알아볼수록 더 높게 평가</b>합니다. 자기 편애.</p>
+    </div>
+    <div class="src paper">
+      <div class="sn">Goel et al.</div>
+      <div class="sw">ICML 2025</div>
+      <p><b>닮은 모델끼리 편애</b>하고, 능력이 오를수록 실수가 수렴합니다. "AI가 AI를 감독"하는 구도가 능력 향상으로 <b>오히려 약해진다</b>는 뜻입니다.</p>
+    </div>
+  </div>
+
+  <h3>규제 선례 — 능력이 올라도 안 사라진 구조</h3>
+  <div class="grid3">
+    <div class="src law">
+      <div class="sn">미 항공법 14 CFR 121.371(c)</div>
+      <p>필수 검사 항목은 <b>그 작업을 수행한 사람이 검사할 수 없다</b>. 수행자·검사자 분리를 법으로 강제.</p>
+    </div>
+    <div class="src law">
+      <div class="sn">EASA (유럽항공안전청)</div>
+      <div class="sw">2025 · 단독 조종(single-pilot) 연구 중단</div>
+      <p>자동화가 40년 발전했는데도 2인 감독 구조 제거에 <b>"동등 안전(equivalent safety) 입증 불가"</b> 판정.</p>
+    </div>
+    <div class="src law">
+      <div class="sn">SEC</div>
+      <p>회계법인이 <b>"자기 작업을 감사하는 위치"</b>에 서는 것 금지.</p>
+    </div>
+    <div class="src law">
+      <div class="sn">연준 SR 11-7</div>
+      <p>모델 리스크 관리에 <b>"개발과 독립된 검증"</b> 요구. <b>15년째 현행.</b></p>
+    </div>
+    <div class="src law">
+      <div class="sn">EU AI Act Art 14·12</div>
+      <p>사람이 효과적으로 감독할 수 있게 설계할 것(Art 14), 수명 전체에 걸친 자동 로그(Art 12). 고위험 시스템 적용 시점은 <b>2027년 12월 2일로 연기</b>됐지만, <b>조항 내용은 그대로</b>입니다.</p>
+    </div>
+  </div>
+
+  <p>패턴이 보이시나요. <strong>항공, 금융, 회계</strong> — 전부 수행 능력이 수십 년 동안 올라갔는데도 "만든 자가 자기를 검사하지 않는다"는 구조는 유지했습니다. <mark>애초에 능력의 문제였던 적이 없기 때문입니다.</mark></p>
+</section>
+
+<!-- ================= 7. 결론 ================= -->
+<section class="reveal">
+  <span class="snum">SECTION 07 — 결론</span>
+  <h2>기능은 남고, 범주는 죽는다</h2>
+  <p>정리하겠습니다.</p>
+
+  <ol class="cl">
+    <li><p><strong>브라운은 인공물 층위에서 옳습니다.</strong> 지금 짜는 오케스트레이션·리트라이·계획 코드 대부분은 다음 모델이 지웁니다. 그 자신도 "단기엔 할 가치 있다"고 했고요.</p></li>
+    <li><p><strong>킬패트릭의 "알파는 다른 곳으로"는 소멸론이 아니라 이동론이고</strong>, 토론의 결론과 사실상 같은 말입니다.</p></li>
+    <li><p><strong>검증·게이트·감사 기능은 사라지지 않고 이주합니다</strong> — AI 전용 하네스 제품에서, 범용 인프라(IAM·샌드박스·CI 오라클·법무 워크플로)와 독립 검증 노드로.</p></li>
+    <li><p><strong>maker≠checker는 능력과 무관하게 지속됩니다</strong> — 오류 상관 실측과 40년치 규제 선례가 받칩니다.</p></li>
+  </ol>
+
+  <div class="confess">
+    <p>솔직한 고백 하나 하면, 저는 원래 <b>"하네스는 계속 유용하다" 쪽</b>이었습니다. 토론을 지켜보면서 이 입장이 틀리진 않았지만 <b>표현이 게을렀다</b>는 걸 인정하게 됐습니다. 살아남는 건 '하네스라는 물건'이 아니라 그 안의 특정 기능들이고, 범주는 얇아집니다.</p>
+    <p>다행이었던 건 제가 실전에서 굴리는 것들 — <b>만드는 에이전트와 검수 에이전트 분리, 비가역 발행 앞의 사람 승인, 모델 밖 감사 로그</b> — 이 정확히 '살아남는 기능' 목록에 있었다는 거고요. 반대로 계획·리트라이 쪽 코드는 <b>다음 모델이 나오면 지운다는 전제로 얇게 유지</b>하기로 했습니다.</p>
+  </div>
+</section>
+
+<!-- ================= 8. 체크리스트 ================= -->
+<section class="reveal">
+  <span class="snum">SECTION 08 — 실무</span>
+  <h2>30초 자가진단 — 내 하네스는 어느 층에 있나</h2>
+
+  <div class="check-motto">"스캐폴딩엔 얇게, 키·게이트·감사 로그·독립 검수엔 두껍게."
+    <small>네 모델이 R3에서 내놓은 실무 조언의 공통분모 한 줄</small>
+  </div>
+
+  <p>지금 만들고 있는(혹은 사고 있는) 하네스 코드를 하나 떠올리고, 다섯 개만 체크해 보세요.</p>
+
+  <ul class="checks">
+    <li><input type="checkbox" id="k1"><label for="k1"><span class="cn">01</span>이 코드는 모델이 <b>못해서</b> 붙였나(스캐폴딩), 모델이 <b>자기를 통과시키면 안 돼서</b> 붙였나(거버넌스)?</label></li>
+    <li><input type="checkbox" id="k2"><label for="k2"><span class="cn">02</span>다음 모델이 나오면 지워도 되는 코드인가? 지워도 된다면 — <b>지우기 쉽게 얇게</b> 유지하고 있나?</label></li>
+    <li><input type="checkbox" id="k3"><label for="k3"><span class="cn">03</span>비가역 행동(배포·결제·삭제·발행)의 <b>키는 누가 쥐고 있나</b> — 모델인가, 나인가?</label></li>
+    <li><input type="checkbox" id="k4"><label for="k4"><span class="cn">04</span>만드는 쪽과 검사하는 쪽이 <b>같은 모델</b>인가? (같다면 6장의 오류 상관 연구가 그 검사의 신뢰도를 말해줍니다)</label></li>
+    <li><input type="checkbox" id="k5"><label for="k5"><span class="cn">05</span>감사 로그는 <b>모델 밖에, 모델이 못 지우는 곳</b>에 남나?</label></li>
+  </ul>
+
+  <p>3~5번에 자신 있게 답을 못 하면, <strong>거기가 두껍게 투자할 자리</strong>입니다. 반대로 돈과 시간이 1~2번에 몰려 있다면 — 브라운 말대로 그건 목발이고, 목발은 언젠가 버리는 물건입니다. 다만 버리는 날까지는 짚고 걸어야 하죠.</p>
+
+  <div class="cta">
+    <div class="ck">오늘 하나만 해보신다면</div>
+    <p>파이프라인에서 스캐폴딩 코드 한 덩어리를 골라 <strong>"다음 모델에서 지운다"는 주석</strong>을 달고, 비가역 행동 하나를 골라 <strong>그 게이트를 모델 밖으로</strong> 빼 보세요. 해보시고 어땠는지 들려주시면, 저도 제 사례로 갚겠습니다.</p>
+  </div>
+</section>
+
+<!-- ================= 출처 ================= -->
+<section class="sources reveal">
+  <span class="snum">출처</span>
+  <h2>근거 전거</h2>
+  <div class="sgrid">
+    <div class="sitem">
+      <div class="st">노엄 브라운 발언 <span class="badge b-green">확정</span><span class="badge b-gray">일부 재인용</span></div>
+      <p><b>Latent Space 팟캐스트 (2025-06)</b> · "몇 달 안에" 워딩은 The Information 보도 재인용(원문 미확인)</p>
+    </div>
+    <div class="sitem">
+      <div class="st">로건 킬패트릭 발언 <span class="badge b-amber">개인 견해</span></div>
+      <p><b>Sequoia Training Data Ep.88</b> (2026-06-11, 개인 견해)</p>
+    </div>
+    <div class="sitem">
+      <div class="st">벤더 공식 자료 <span class="badge b-amber">자체 발표·보도</span></div>
+      <p>OpenAI '하네스 엔지니어링' 블로그 (2026-02) · Anthropic "Agent Harness Design"(첫 섹션 "Lean on the model, not the harness", claude.com/blog, 2026-04) · Anthropic Claude Agent SDK 문서 (2025-09) · DeepSeek 하네스 팀 채용: SCMP 보도</p>
+    </div>
+    <div class="sitem">
+      <div class="st">연구 <span class="badge b-green">실측 · 피어리뷰</span></div>
+      <p>Kim et al., Correlated Errors in LLMs (ICML 2025) · Panickssery et al. (NeurIPS 2024) · Goel et al. (ICML 2025)</p>
+    </div>
+    <div class="sitem">
+      <div class="st">규제·법 <span class="badge b-green">법조문·공식 결정</span></div>
+      <p>14 CFR 121.371(c) · EASA 단독조종 연구 중단 (2025) · 연준 SR 11-7 · EU AI Act Art 12·14 (고위험 적용 2027-12-02 연기, 조항 불변)</p>
+    </div>
+    <div class="sitem">
+      <div class="st">4-AI 토론 <span class="badge b-violet">자체 실험 · 미래 예측 미검증</span></div>
+      <p><b>2026-07-10 자체 실험</b> — claude(Fable 5)·codex(GPT-5.5 high)·agy(Gemini 3.5 Flash)·grok(Grok 4.5 high), 3라운드 공유 칠판, 전문 보관. 토론 내 미래 예측은 미검증 견해.</p>
+    </div>
+  </div>
+
+  <div class="docmeta">
+    <div class="row"><span><b>원본</b> contents/2026-07/2026-07-11-blog-harness-debate.md</span></div>
+    <div class="row"><span><b>frontmatter</b> domain: dakman · platform: x · format: article · date: 2026-07-11 · status: draft · blog: true</span></div>
+    <div class="row"><span><b>series</b> harness-debate-2026-07 · role: split · seq: 3</span> <span><b>slug</b> harness-debate-2026-07</span></div>
+    <div class="row"><span><b>cover</b> 2026-07-11-harness-debate-cover-blog.png</span></div>
+    <div class="row"><span><b>토론 원자료</b> debates/harness-debate-4way/board.md · debates/harness-debate-4way/harness-debate-4way.md</span></div>
+  </div>
+</section>
+
+</div>
+
+<script>
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+    },{threshold:.06});
+    els.forEach(function(el){ io.observe(el); });
+  } else { els.forEach(function(el){ el.classList.add('in'); }); }
+  setTimeout(function(){document.querySelectorAll('.reveal:not(.in)').forEach(function(el){el.classList.add('in');});},4000);
+})();
+</script>

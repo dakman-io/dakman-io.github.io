@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://dakman-io.github.io/</loc></url>
+  <url><loc>https://dakman-io.github.io/posts/harness-debate-2026-07/</loc></url>
   <url><loc>https://dakman-io.github.io/posts/ai-4way-2026-07/</loc></url>
   <url><loc>https://dakman-io.github.io/posts/bigtech-design-systems/</loc></url>
   <url><loc>https://dakman-io.github.io/posts/ai-slop-anatomy/</loc></url>
   <url><loc>https://dakman-io.github.io/posts/fable5-convergence/</loc></url>
   <url><loc>https://dakman-io.github.io/posts/dakman-roster/</loc></url>
   <url><loc>https://dakman-io.github.io/posts/local-ai-comic-pipeline/</loc></url>
+  <url><loc>https://dakman-io.github.io/tags/ai-harness/</loc></url>
+  <url><loc>https://dakman-io.github.io/tags/multi-ai-debate/</loc></url>
+  <url><loc>https://dakman-io.github.io/tags/agent-governance/</loc></url>
+  <url><loc>https://dakman-io.github.io/tags/maker-checker/</loc></url>
+  <url><loc>https://dakman-io.github.io/tags/llm/</loc></url>
   <url><loc>https://dakman-io.github.io/tags/AI/</loc></url>
   <url><loc>https://dakman-io.github.io/tags/Claude/</loc></url>
   <url><loc>https://dakman-io.github.io/tags/ChatGPT/</loc></url>
