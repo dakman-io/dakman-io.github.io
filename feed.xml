@@ -4,6 +4,13 @@
   <link>https://dakman-io.github.io/</link>
   <description>개발 · AI 실전기 — 삽질과 완성의 기록</description>
   <item>
+    <title>AI 모델 여럿 섞으면 더 똑똑해질까 — 67개 모델이 말한 '공동 실패 한계'</title>
+    <link>https://dakman-io.github.io/posts/cofailure-ceiling-x/</link>
+    <guid>https://dakman-io.github.io/posts/cofailure-ceiling-x/</guid>
+    <description>여러 LLM을 조합하면 약점을 메워 성능이 오른다는 통념을, 21개 기업 67개 모델을 분석한 논문이 정면으로 반박합니다. 어려운 문제에선 모델들이 '같이' 틀린다는 공동 실패 한계 이야기, 그리고 제가 검증 파이프라인에서 LLM 조합만 믿지 않고 비-LLM 오라클에 정박하는 이유.</description>
+    <pubDate>Sat, 11 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>AI 하네스 무용론, 당사자 4개 AI에게 직접 토론시켜봤습니다</title>
     <link>https://dakman-io.github.io/posts/harness-debate-2026-07/</link>
     <guid>https://dakman-io.github.io/posts/harness-debate-2026-07/</guid>

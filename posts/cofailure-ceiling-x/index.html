@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<title>AI 모델 여럿 섞으면 더 똑똑해질까 — 67개 모델이 말한 '공동 실패 한계' — dakman blog</title>
+<meta name="description" content="여러 LLM을 조합하면 약점을 메워 성능이 오른다는 통념을, 21개 기업 67개 모델을 분석한 논문이 정면으로 반박합니다. 어려운 문제에선 모델들이 '같이' 틀린다는 공동 실패 한계 이야기, 그리고 제가 검증 파이프라인에서 LLM 조합만 믿지 않고 비-LLM 오라클에 정박하는 이유.">
+<link rel="canonical" href="https://dakman-io.github.io/posts/cofailure-ceiling-x/">
+<link rel="alternate" type="application/rss+xml" title="dakman blog" href="/feed.xml">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI 모델 여럿 섞으면 더 똑똑해질까 — 67개 모델이 말한 '공동 실패 한계'">
+<meta property="og:description" content="여러 LLM을 조합하면 약점을 메워 성능이 오른다는 통념을, 21개 기업 67개 모델을 분석한 논문이 정면으로 반박합니다. 어려운 문제에선 모델들이 '같이' 틀린다는 공동 실패 한계 이야기, 그리고 제가 검증 파이프라인에서 LLM 조합만 믿지 않고 비-LLM 오라클에 정박하는 이유.">
+<meta property="og:url" content="https://dakman-io.github.io/posts/cofailure-ceiling-x/">
+<meta property="og:image" content="https://dakman-io.github.io/content-assets/2026-07/2026-07-12-cofailure-ceiling-x-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"AI 모델 여럿 섞으면 더 똑똑해질까 — 67개 모델이 말한 '공동 실패 한계'","datePublished":"2026-07-12","image":["https://dakman-io.github.io/content-assets/2026-07/2026-07-12-cofailure-ceiling-x-cover.png"]}</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8V9J4DVLJ3"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-8V9J4DVLJ3');</script>
+<style>
+:root{--bg:#0a0d13;--panel:#10141d;--line:#242c3f;--ink:#e8edf8;--mut:#8b96b1;--teal:#2fe0cd;--gold:#ffc648}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',sans-serif;line-height:1.75}
+.wrap{max-width:760px;margin:0 auto;padding:0 22px 40px}
+header.top{padding:26px 0;border-bottom:1px solid var(--line);margin-bottom:40px}
+header.top a{color:var(--teal);text-decoration:none;font-family:'JetBrains Mono';font-size:13px}
+h1{font-size:clamp(26px,4.5vw,38px);font-weight:900;line-height:1.3;color:#fff;margin-bottom:14px}
+.meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:var(--mut);font-size:13.5px;margin-bottom:36px;font-family:'JetBrains Mono'}
+.tag{color:var(--teal);text-decoration:none}
+article{font-size:16px;color:#d5deef}
+article h2{font-size:23px;color:#fff;margin:38px 0 14px;padding-bottom:8px;border-bottom:1px dashed var(--line)}
+article h3{font-size:19px;color:#fff;margin:28px 0 10px}
+article p{margin-bottom:16px}
+article a{color:var(--teal)}
+article img{max-width:100%;border-radius:10px;border:1px solid var(--line);margin:10px 0}
+article code{font-family:'JetBrains Mono';font-size:.88em;background:#1a2130;color:var(--teal);padding:2px 6px;border-radius:4px}
+article pre{background:#10151f;border:1px solid var(--line);border-radius:10px;padding:16px;overflow-x:auto;margin-bottom:16px}
+article pre code{background:none;padding:0}
+article ul,article ol{margin:0 0 16px 22px}
+article blockquote{border-left:3px solid var(--teal);padding-left:16px;color:var(--mut);margin-bottom:16px}
+article strong{color:#fff;font-weight:700}
+/* 마크다운 표 (2026-07-10 — 모드 B 표 무스타일 사고 수정) */
+article table{width:100%;border-collapse:collapse;font-size:14.5px;margin:0 0 20px;border:1px solid var(--line);border-radius:10px;overflow:hidden;display:table}
+article thead th{background:var(--panel);color:var(--gold);font-family:'JetBrains Mono';font-size:12.5px;text-align:left;padding:11px 14px;border-bottom:2px solid var(--line)}
+article tbody td{padding:11px 14px;border-bottom:1px solid var(--line);color:#d5deef;vertical-align:top}
+article tbody tr:last-child td{border-bottom:none}
+article tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top"><a href="/">← dakman blog</a></header>
+  <h1>AI 모델 여럿 섞으면 더 똑똑해질까 — 67개 모델이 말한 '공동 실패 한계'</h1>
+  <div class="meta"><span>2026-07-12</span><a class="tag" href="/tags/ai/">#ai</a><a class="tag" href="/tags/multi-agent/">#multi-agent</a><a class="tag" href="/tags/ensemble/">#ensemble</a><a class="tag" href="/tags/co-failure/">#co-failure</a><a class="tag" href="/tags/verification/">#verification</a><a class="tag" href="/tags/benchmark/">#benchmark</a></div>
+  <article><h1>AI 모델 여럿 섞으면 더 똑똑해질까 — 67개 모델이 말한 &#39;공동 실패 한계&#39;</h1>
+<p>세 줄 요약 ↓</p>
+<ol>
+<li>여러 AI 모델을 섞으면 약점을 메워 더 똑똑해진다는 건, 쉬운 문제에서만 맞는 얘기예요.</li>
+<li>어려운 문제에선 최신 모델들이 &#39;같이&#39; 틀립니다 — 어떤 조합으로도 이 천장은 못 넘습니다.</li>
+<li>그래서 저는 LLM 조합만 믿지 않고, 테스트·타입체크·1차 출처·사람 게이트 같은 &#39;AI가 아닌 심판&#39;에 정박합니다.</li>
+</ol>
+<hr>
+<p>AI 모델을 여러 개 섞으면 서로 약점을 메워서 더 똑똑해진다 — 저도 그렇게 믿고 파이프라인을 짰습니다.</p>
+<p>그런데 최근에 논문 한 편이 여기에 찬물을 끼얹었어요. 한 줄로 옮기면 이렇습니다.</p>
+<p><strong>&quot;어려운 문제에서는, 여러 모델이 사이좋게 같이 틀린다.&quot;</strong></p>
+<p>논문 제목은 「When Does Combining Language Models Help?」(arXiv 2606.27288, 2026년 6월, 저자 Josef Chen). <strong>21개 기업의 첨단 LLM 67개</strong>를 놓고, 이걸 섞으면 정말 더 나아지는지를 수학적으로 따진 연구예요. 국내에선 AI타임스(박찬 기자, 7월 11일)가 정리해 줬고요. 저는 원 논문(arXiv)과 국내 보도를 같이 대조해 봤습니다. 이제 막 나온 프리프린트 한 편이라 절대 진리로 받을 생각은 없지만, 짚는 지점이 제 실무와 정확히 겹쳐서 공유합니다.</p>
+<h2>핵심 한 줄 — &#39;공동 실패 한계&#39;</h2>
+<p>논문의 심장은 이겁니다.</p>
+<blockquote>
+<p>여러 모델을 아무리 잘 조합해도, <strong>모든 모델이 같은 문제에서 동시에 틀리는 비율(β)</strong> 만큼은 절대 못 건집니다.</p>
+</blockquote>
+<p>즉 라우팅을 하든, 투표를 시키든, 캐스케이드(어려우면 상위 모델로 넘기기)를 짜든 — 정확도는 <strong>(1 − β)</strong> 를 넘을 수 없습니다. β는 &#39;전부 다 틀린 문제&#39;의 비율이니까, 거기 걸린 문제는 어떤 조합으로도 정답이 안 나와요. 아무도 정답을 안 갖고 있으니까요.</p>
+<p>여기서 오는 결론이 반직관적입니다. <strong>모델을 계속 더 붙인다고 정확도가 무한히 올라가지 않습니다.</strong> 천장이 있고, 그 천장은 &#39;모델 수&#39;가 아니라 &#39;모델들이 같이 틀리는 비율&#39;이 정합니다.</p>
+<p><img src="/content-assets/2026-07/2026-07-12-cofailure-ceiling-x-chart.png" alt="공동 실패 한계 — 모델을 아무리 늘려도 정확도는 (1−β) 천장을 넘지 못한다"></p>
+<h2>흔한 오해 세 가지</h2>
+<p>제가 갖고 있던 통념도 여기 다 들어 있었어요.</p>
+<p><strong>오해 1 — &quot;모델끼리 실수가 안 겹치면(상관관계가 낮으면) 섞는 이득이 크다.&quot;</strong>
+논문은 이 진단 지표(쌍별 오류 상관관계 ρ) 하나만으론 β를 알 수 없다고 합니다. 겉보기엔 서로 다른 문제에서 틀리는 것 같아도, <strong>정말 어려운 문제 앞에선 다 같이 무너진다</strong>는 거예요. 평소 실수가 안 겹친다고 안심하다가, 결정적인 문제에서 한꺼번에 틀립니다.</p>
+<p><strong>오해 2 — &quot;성능 다른 모델들 다수결로 합치면 안전하다.&quot;</strong>
+오히려 떨어질 수 있습니다. 못하는 모델들이 표로 우수한 모델의 정답을 뒤집거든요. AI타임스는 이 경우 평균 정확도가 <strong>약 10%포인트 하락</strong>한다고 전합니다. 머릿수로 밀어붙이는 다수결이 독이 되는 순간이죠.</p>
+<p><strong>오해 3 — &quot;많이 붙일수록 좋다.&quot;</strong>
+논문의 마지막 문장이 이걸 정리합니다. <em>&quot;이득은 모델을 더 붙이는 데서 오는 게 아니라, 모델들이 서로 다른 문제에서 틀리는 데서 온다.&quot;</em> 중요한 건 <strong>수가 아니라 &#39;서로 다르게 실수하는 다양성&#39;</strong> 입니다. 그런데 요즘 최신 모델들은 실력이 상향 평준화되면서, 어려운 문제에선 비슷하게 틀리는 경향이 있어요.</p>
+<h2>숫자가 말해주는 것</h2>
+<p>말로만 하면 흐릿하니 논문이 잰 수치 몇 개만 옮길게요 (arXiv 원문 기준).</p>
+<ul>
+<li><strong>수학(자유서술형)</strong>: 다들 &#39;공동 실패는 2.3% 정도겠지&#39; 예상했는데, 실측은 <strong>5.2%</strong>. 예상보다 두 배 넘게 자주 같이 틀렸습니다(논문은 약 2.5배 과소평가, 신뢰구간 1.7~3.4배).</li>
+<li><strong>코드 생성</strong>: 공동 실패율 <strong>7.9%</strong>.</li>
+<li><strong>GPQA 다이아몬드(고난도 과학)</strong>: 여기가 제일 흥미로웠어요. <strong>같은 문제</strong>를 객관식으로 내면 공동 실패가 잘 안 보이는데, <strong>자유서술형으로 바꾸자 12.7%로 튀어나왔습니다.</strong> 난이도가 아니라 <strong>&#39;답의 형식&#39;</strong> 이 공동 실패를 키운 거예요. 객관식은 다섯 개 중 하나 찍기라 우연히 맞을 여지가 있지만, 서술형은 정답을 진짜로 알아야 하니 모델들의 공통된 빈틈이 그대로 드러납니다.</li>
+</ul>
+<p><img src="/content-assets/2026-07/2026-07-12-cofailure-ceiling-x-stats.png" alt="수학·코드·GPQA 공동 실패율 — 예상보다 잦고, '답의 형식'이 공동 실패를 키운다"></p>
+<p>이 마지막 지점이 제겐 경고였습니다. <strong>평가를 쉽게 냈다가 공동 실패를 못 보고 지나칠 수 있다</strong>는 거니까요.</p>
+<h2>제 파이프라인에 대입하면</h2>
+<p>저는 콘텐츠를 만들 때 &#39;만드는 AI&#39;와 &#39;검사하는 AI&#39;를 분리해서, 만든 놈이 자기 걸 통과시키지 못하게 합니다. 서로 다른 모델에게 교차로 검수를 시키기도 하고요. 이 독립성이 자기승인 편향을 잡아주는 게 제 규율의 핵심이었어요.</p>
+<p>그런데 이 논문은 그 전제에 단서를 답니다. <strong>LLM끼리의 교차 검증에도 천장이 있다.</strong> 어려운 문제에선 검사하는 모델도 만드는 모델과 &#39;같이&#39; 틀릴 수 있으니까요. 모델을 더 많이 부른다고 이 천장이 사라지지 않습니다.</p>
+<p>그래서 제가 내린 결론은 이겁니다.</p>
+<ul>
+<li><strong>LLM 조합만으론 안 된다.</strong> 그래서 저는 &#39;AI가 아닌 심판&#39;에 정박합니다 — 테스트, 타입체크, 1차 출처 확인, 그리고 비가역 행동 앞의 사람 게이트. LLM끼리는 같이 틀려도, 이 심판들은 모델과 독립이라 같이 안 틀립니다.</li>
+<li><strong>여러 모델 토론도 &#39;수&#39;가 목적이 아니다.</strong> 노리는 건 &#39;서로 다르게 실수하는 다양성&#39;이지, 모델을 몇 개 불렀느냐가 아니에요. 실은 똑같이 틀리는 모델 열 개보다, 다르게 틀리는 모델 셋이 낫습니다.</li>
+</ul>
+<h2>그래서 뭘 하면 되나</h2>
+<p>논문이 준 실무 처방이 꽤 구체적이라 그대로 옮깁니다.</p>
+<ul>
+<li><strong>멀티에이전트를 짜기 전에, 공동 실패율부터 재라.</strong> 화려한 라우팅을 붙이기 전에 &quot;이 조합이 대체 얼마나 같이 틀리는가&quot;를 먼저 봐야 합니다.</li>
+<li><strong>클로퍼-피어슨(Clopper-Pearson) 경계</strong>를 쓰면, 평가 로그에 남은 &#39;전부 틀린 횟수&#39;만 세도 이 조합이 낼 수 있는 <strong>최대 정확도를 추가 비용 없이 수학적으로 추정</strong>할 수 있다고 합니다. 라우터를 학습시키기 전에 천장을 미리 아는 거죠.</li>
+<li><strong>작업 종류로 나눠라.</strong> SQL·JSON·정보 추출처럼 정답이 명확한 일은 <strong>비싼 다중 조합보다 단일 최고 모델</strong>이 대개 더 효율적입니다. 조합의 이점은 정답이 애매한 생성형 작업 쪽에 있고요.</li>
+</ul>
+<h2>30초 자가진단</h2>
+<p>여러분이 여러 모델을 라우팅·투표·앙상블로 쓰고 있다면, 딱 하나만 물어보세요.</p>
+<p><strong>&quot;우리가 모델을 더 붙이는 이유가 &#39;다르게 틀리는 다양성&#39; 때문인가, 아니면 그냥 &#39;수&#39; 때문인가?&quot;</strong></p>
+<ul>
+<li>수 때문이다 → 어려운 문제에선 같이 틀릴 가능성이 큽니다. 천장부터 재보세요.</li>
+<li>다양성 때문이다 → 방향은 맞아요. 그렇다면 그 다양성을 실제로 재고 있는지 확인하세요.</li>
+</ul>
+<p>그리고 바로 재보고 싶으면, 여러분이 쓰는 AI에 이 프롬프트를 붙여넣어 보세요.</p>
+<blockquote>
+<p>우리가 여러 AI 모델을 라우팅·투표·앙상블로 쓰는 부분을 찾아줘. 각각에 대해 (1) 모든 모델이 같은 입력에서 동시에 틀리는 &#39;공동 실패율&#39;을 지금 측정하고 있는지, (2) 안 재고 있다면 평가 로그에서 그 비율을 어떻게 집계할 수 있는지, (3) 이 조합이 &#39;단일 최고 모델&#39;보다 실제로 나은 근거가 있는지를 표로 정리해줘. 정답이 명확한 작업(SQL·JSON·추출)과 정답이 애매한 생성형 작업을 나눠서.</p>
+</blockquote>
+<p>돌려보고 나온 답 중에 제일 뜨끔했던 한 줄, 답글로 알려주세요. 저는 &quot;GPQA를 객관식으로만 재고 있었다&quot;에서 제일 뜨끔했습니다.</p>
+</article>
+</div>
+<div style="max-width:760px;margin:48px auto 40px;padding:18px 22px;border:1px solid rgba(139,150,177,.35);border-radius:12px;text-align:center;font-family:'Noto Sans KR',sans-serif;font-size:14.5px;line-height:1.6;color:#8b96b1">
+이 글의 대화는 X에서 이어져요 — <a href="https://x.com/dakman_io/article/2076651663780384768" rel="noopener" target="_blank" style="color:#2fe0cd;font-weight:700;text-decoration:none">원문에서 답글 남기기 ↗</a>
+<div style="margin-top:8px;font-size:11.5px;opacity:.7"><a href="/" style="color:inherit;text-decoration:none">← dakman blog</a> · <a href="/privacy/" style="color:inherit">개인정보처리방침</a></div>
+</div>
+</body>
+</html>
