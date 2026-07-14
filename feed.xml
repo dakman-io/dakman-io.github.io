@@ -4,6 +4,13 @@
   <link>https://dakman-io.github.io/</link>
   <description>개발 · AI 실전기 — 삽질과 완성의 기록</description>
   <item>
+    <title>페이스는 이해 속도다 — AI 시대의 이해 부채</title>
+    <link>https://dakman-io.github.io/posts/human-ai-collaboration-pace/</link>
+    <guid>https://dakman-io.github.io/posts/human-ai-collaboration-pace/</guid>
+    <description>AI가 산출물을 아무리 빨리 쏟아내도 진도는 내가 이해한 만큼만 나갑니다. 산출물은 진도가 아니라는 재정의, 기술 부채보다 갚기 어려운 '이해 부채', 그리고 자기 말로 설명 못 하면 다음으로 안 넘어가는 '이해 게이트'까지 — 사람+AI 협업의 페이스 원칙.</description>
+    <pubDate>Sun, 12 Jul 2026 15:00:00 GMT</pubDate>
+  </item>
+  <item>
     <title>AI 모델 여럿 섞으면 더 똑똑해질까 — 67개 모델이 말한 '공동 실패 한계'</title>
     <link>https://dakman-io.github.io/posts/cofailure-ceiling-x/</link>
     <guid>https://dakman-io.github.io/posts/cofailure-ceiling-x/</guid>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f4efe4;
+  --paper-2:#ede6d6;
+  --ink:#1b1712;
+  --ink-soft:#4a4238;
+  --line:#d8cdb6;
+  --rust:#c14a1f;
+  --rust-deep:#9a3813;
+  --teal:#1f6b5c;
+  --gold-safe:#a8791f;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Noto Sans KR',sans-serif;
+  line-height:1.85;
+  font-size:18px;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(193,74,31,.05), transparent 40%),
+    radial-gradient(circle at 88% 92%, rgba(31,107,92,.05), transparent 42%);
+}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.028'/%3E%3C/svg%3E");}
+.wrap{max-width:760px;margin:0 auto;padding:0 26px;position:relative;z-index:2}
+
+/* ── Masthead ── */
+header.hero{padding:82px 0 46px;border-bottom:2px solid var(--ink)}
+.kicker{font-size:12.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--rust-deep);font-weight:700;margin-bottom:26px;display:flex;align-items:center;gap:12px}
+.kicker::before{content:"";width:34px;height:2px;background:var(--rust)}
+h1{font-family:'Gowun Batang',serif;font-weight:700;font-size:clamp(36px,7vw,60px);line-height:1.12;letter-spacing:-.01em;margin-bottom:8px}
+h1 .dim{display:block;font-size:.56em;color:var(--ink-soft);font-weight:400;margin-top:14px;letter-spacing:0}
+.byline{margin-top:30px;font-size:13.5px;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}
+.byline .tag{background:var(--ink);color:var(--paper);padding:3px 11px;border-radius:2px;font-size:11.5px;letter-spacing:.08em;font-weight:500}
+
+/* ── TL;DR ── */
+.tldr{margin:44px 0;background:var(--ink);color:var(--paper);padding:34px 34px 30px;border-radius:4px;position:relative;overflow:hidden}
+.tldr::after{content:"";position:absolute;top:0;right:0;width:130px;height:130px;background:radial-gradient(circle at top right,rgba(193,74,31,.5),transparent 70%)}
+.tldr .lbl{font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-safe);font-weight:700;margin-bottom:20px}
+.tldr ol{list-style:none;counter-reset:t;position:relative;z-index:1}
+.tldr li{counter-increment:t;position:relative;padding-left:44px;margin-bottom:16px;font-size:16.5px;line-height:1.7;color:#efe7d6}
+.tldr li:last-child{margin-bottom:0}
+.tldr li::before{content:counter(t);position:absolute;left:0;top:1px;width:28px;height:28px;border:1.5px solid var(--gold-safe);color:var(--gold-safe);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Gowun Batang',serif;font-size:14px;font-weight:700}
+
+/* ── Lede ── */
+.lede{padding:20px 0 8px}
+.lede .drop{font-family:'Gowun Batang',serif;font-size:25px;line-height:1.55;font-weight:700;color:var(--ink);margin-bottom:6px}
+.lede .drop.b{color:var(--rust-deep)}
+p{margin:0 0 20px}
+.body p{color:var(--ink-soft)}
+.body strong{color:var(--ink);font-weight:700}
+
+/* ── Section heads ── */
+h2{font-family:'Gowun Batang',serif;font-weight:700;font-size:clamp(24px,4.4vw,31px);line-height:1.25;margin:54px 0 22px;padding-top:30px;border-top:1px solid var(--line);position:relative}
+h2::before{content:"";position:absolute;top:-1px;left:0;width:56px;height:3px;background:var(--rust)}
+
+/* ── Principles ── */
+.principles{margin:26px 0 8px;display:flex;flex-direction:column;gap:2px}
+.pr{background:var(--paper-2);border-left:4px solid var(--teal);padding:22px 24px;border-radius:0 4px 4px 0}
+.pr:nth-child(2){border-left-color:var(--rust)}
+.pr:nth-child(3){border-left-color:var(--gold-safe)}
+.pr:nth-child(4){border-left-color:var(--ink)}
+.pr .no{font-family:'Gowun Batang',serif;font-size:13px;font-weight:700;letter-spacing:.2em;color:var(--teal);text-transform:uppercase}
+.pr:nth-child(2) .no{color:var(--rust)}
+.pr:nth-child(3) .no{color:var(--gold-safe)}
+.pr:nth-child(4) .no{color:var(--ink)}
+.pr h3{font-family:'Gowun Batang',serif;font-size:21px;font-weight:700;margin:4px 0 10px;color:var(--ink)}
+.pr p{margin:0;font-size:16px;color:var(--ink-soft);line-height:1.72}
+
+/* ── Debt compare ── */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0}
+.compare .col{padding:24px 22px;border-radius:5px}
+.compare .tech{background:var(--paper-2);border:1px solid var(--line)}
+.compare .under{background:linear-gradient(160deg,#2a1409,#3a1c0d);color:#f0e2d2}
+.compare .cap{font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;margin-bottom:12px}
+.compare .tech .cap{color:var(--ink-soft)}
+.compare .under .cap{color:var(--rust)}
+.compare h4{font-family:'Gowun Batang',serif;font-size:19px;margin-bottom:8px;font-weight:700}
+.compare .tech h4{color:var(--ink)}
+.compare .under h4{color:#fff}
+.compare p{font-size:14.5px;line-height:1.66;margin:0}
+.compare .tech p{color:var(--ink-soft)}
+.compare .under p{color:#d8c4b2}
+.verdict{text-align:center;font-family:'Gowun Batang',serif;font-size:19px;font-weight:700;color:var(--rust-deep);margin:6px 0 8px;padding:16px;background:var(--paper-2);border-radius:4px;border:1px dashed var(--rust)}
+
+/* ── Figure: gap diagram ── */
+figure.gap{margin:34px 0;background:#fbf8f0;border:1px solid var(--line);border-radius:6px;padding:26px 22px 18px}
+figure.gap svg{width:100%;height:auto;display:block}
+figcaption{font-size:13px;color:var(--ink-soft);text-align:center;margin-top:14px;line-height:1.6}
+figcaption b{color:var(--rust-deep)}
+
+/* ── Anecdote pullquote ── */
+.pull{margin:32px 0;padding:28px 30px;background:var(--paper-2);border-radius:5px;position:relative}
+.pull::before{content:"\201C";position:absolute;top:-6px;left:16px;font-family:'Gowun Batang',serif;font-size:80px;color:var(--rust);opacity:.28;line-height:1}
+.pull p{font-family:'Gowun Batang',serif;font-size:22px;line-height:1.5;font-weight:700;color:var(--ink);margin:0;padding-left:20px}
+
+/* ── Gate checklist ── */
+.gate{margin:26px 0;counter-reset:g;list-style:none}
+.gate li{counter-increment:g;position:relative;padding:16px 18px 16px 62px;background:var(--paper-2);border-radius:4px;margin-bottom:8px;font-size:16px;color:var(--ink-soft);line-height:1.6}
+.gate li strong{color:var(--ink)}
+.gate li::before{content:counter(g);position:absolute;left:16px;top:14px;width:32px;height:32px;background:var(--ink);color:var(--paper);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Gowun Batang',serif;font-weight:700;font-size:15px}
+.gate-note{font-size:15px;color:var(--ink-soft);background:#fbf8f0;border-left:3px solid var(--ink);padding:14px 18px;border-radius:0 4px 4px 0;margin-top:6px}
+.gate-note strong{color:var(--ink)}
+
+/* ── Recap + CTA ── */
+.recap{margin:30px 0;padding:26px 26px;background:var(--ink);color:var(--paper);border-radius:5px}
+.recap p{color:#e7dcc8;font-size:16.5px;margin:0}
+.cta{margin:26px 0 10px;padding:30px 28px;border:2px solid var(--rust);border-radius:6px;background:#fbf3ee}
+.cta .h{font-family:'Gowun Batang',serif;font-size:22px;font-weight:700;color:var(--rust-deep);margin-bottom:14px}
+.cta p{color:var(--ink-soft);font-size:16.5px;margin-bottom:14px}
+.cta p:last-child{margin-bottom:0}
+.cta strong{color:var(--ink)}
+
+footer{margin:44px 0 70px;padding-top:22px;border-top:2px solid var(--ink);font-size:12.5px;color:var(--ink-soft);letter-spacing:.03em;display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:space-between}
+footer .src{opacity:.8}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+@media print{.reveal{opacity:1!important;transform:none!important;transition:none!important}}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+@media (max-width:640px){
+  body{font-size:16.5px}
+  .compare{grid-template-columns:1fr}
+  header.hero{padding:56px 0 36px}
+  .tldr{padding:26px 22px}
+}
+</style>
+<title>페이스는 이해 속도다 — AI 시대의 이해 부채 — dakman blog</title>
+<meta name="description" content="AI가 산출물을 아무리 빨리 쏟아내도 진도는 내가 이해한 만큼만 나갑니다. 산출물은 진도가 아니라는 재정의, 기술 부채보다 갚기 어려운 '이해 부채', 그리고 자기 말로 설명 못 하면 다음으로 안 넘어가는 '이해 게이트'까지 — 사람+AI 협업의 페이스 원칙.">
+<link rel="canonical" href="https://dakman-io.github.io/posts/human-ai-collaboration-pace/">
+<link rel="alternate" type="application/rss+xml" title="dakman blog" href="/feed.xml">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="페이스는 이해 속도다 — AI 시대의 이해 부채">
+<meta property="og:description" content="AI가 산출물을 아무리 빨리 쏟아내도 진도는 내가 이해한 만큼만 나갑니다. 산출물은 진도가 아니라는 재정의, 기술 부채보다 갚기 어려운 '이해 부채', 그리고 자기 말로 설명 못 하면 다음으로 안 넘어가는 '이해 게이트'까지 — 사람+AI 협업의 페이스 원칙.">
+<meta property="og:url" content="https://dakman-io.github.io/posts/human-ai-collaboration-pace/">
+<meta property="og:image" content="https://dakman-io.github.io/content-assets/2026-07/2026-07-13-collaboration-pace-x-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"페이스는 이해 속도다 — AI 시대의 이해 부채","datePublished":"2026-07-13","image":["https://dakman-io.github.io/content-assets/2026-07/2026-07-13-collaboration-pace-x-cover.png"]}</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8V9J4DVLJ3"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-8V9J4DVLJ3');</script>
+</head>
+<body>
+<div class="grain"></div>
+<div class="wrap">
+
+  <header class="hero reveal">
+    <div class="kicker">dakman · 사람+AI 협업 원칙</div>
+    <h1>페이스는 이해 속도다<span class="dim">AI 시대의 이해 부채</span></h1>
+    <div class="byline">
+      <span class="tag">원칙</span>
+      <span>2026.07.12</span>
+      <span>#AI #협업 #생산성 #이해부채</span>
+    </div>
+  </header>
+
+  <div class="tldr reveal">
+    <div class="lbl">세 줄 요약 ↓</div>
+    <ol>
+      <li>AI가 산출물을 아무리 빨리 쏟아내도, 우리 진도는 내가 이해한 만큼만 나갑니다. 페이스의 기준은 산출 속도가 아니라 이해 속도예요.</li>
+      <li>안 읽고 넘어간 코드는 '이해 부채'로 쌓이는데, 이건 기술 부채보다 갚기가 더 어렵습니다. 리팩토링으로 못 갚고, 처음부터 다시 배우는 수밖에 없거든요.</li>
+      <li>그래서 저는 설계 한 덩어리가 끝날 때마다 자기 말로 설명해보고, 막히면 다음으로 안 넘어갑니다.</li>
+    </ol>
+  </div>
+
+  <section class="lede reveal">
+    <p class="drop">AI가 세 배 빨리 짜준다고, 우리 진도도 세 배 빨라진 걸까요.</p>
+    <p class="drop b">아니면 그냥, 세 배 빨리 이해 못 하는 코드가 쌓이고 있는 걸까요.</p>
+  </section>
+
+  <section class="body reveal">
+    <p>요즘 이게 계속 걸려요. AI한테 일을 시키면 산출물은 확실히 빨리 나와요. 근데 그 속도랑 내가 그걸 이해하는 속도가 자꾸 벌어지더라고요. 그래서 저희끼리 규칙을 하나 세웠어요. 페이스의 기준을 산출 속도가 아니라 이해 속도로 잡자는 거요.</p>
+    <p>전에 한 번, 이해가 병목이라는 얘기를 한 적이 있어요. 그때 '인지 부채'라는 통용어도 잠깐 빌려 썼고요. 근데 그건 '왜 이해가 중요한가'에 가까운 얘기였어요. 이번엔 그거 말고, 제가 이해 부채라고 따로 부르는 것 — 그게 팀 페이스를 어떻게 정하는지 얘기예요. 겪어보니 이걸 페이스 기준으로 안 잡으면, 일이 빨라 보이기만 하고 실제로는 안 나가더라고요.</p>
+  </section>
+
+  <figure class="gap reveal" aria-label="산출 속도와 이해 속도의 갭 다이어그램">
+    <svg viewBox="0 0 620 300" role="img">
+      <defs>
+        <linearGradient id="gapfill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#c14a1f" stop-opacity=".22"/>
+          <stop offset="1" stop-color="#c14a1f" stop-opacity=".02"/>
+        </linearGradient>
+      </defs>
+      <!-- axes -->
+      <line x1="54" y1="30" x2="54" y2="252" stroke="#c9bda3" stroke-width="1.5"/>
+      <line x1="54" y1="252" x2="588" y2="252" stroke="#c9bda3" stroke-width="1.5"/>
+      <text x="46" y="26" text-anchor="end" font-family="'Noto Sans KR'" font-size="12" fill="#7a7060">양</text>
+      <text x="588" y="272" text-anchor="end" font-family="'Noto Sans KR'" font-size="12" fill="#7a7060">시간 →</text>
+      <!-- gap fill between curves -->
+      <path d="M54,244 C210,150 360,60 566,40 L566,206 C360,214 210,224 54,238 Z" fill="url(#gapfill)"/>
+      <!-- output curve (steep) -->
+      <path d="M54,244 C210,150 360,60 566,40" fill="none" stroke="#c14a1f" stroke-width="3.4" stroke-linecap="round"/>
+      <!-- understanding curve (gentle) -->
+      <path d="M54,238 C210,224 360,214 566,206" fill="none" stroke="#1f6b5c" stroke-width="3.4" stroke-linecap="round"/>
+      <!-- labels -->
+      <circle cx="566" cy="40" r="4.5" fill="#c14a1f"/>
+      <text x="558" y="34" text-anchor="end" font-family="'Noto Sans KR'" font-weight="700" font-size="14" fill="#9a3813">AI 산출 속도</text>
+      <circle cx="566" cy="206" r="4.5" fill="#1f6b5c"/>
+      <text x="558" y="224" text-anchor="end" font-family="'Noto Sans KR'" font-weight="700" font-size="14" fill="#1f6b5c">내 이해 속도</text>
+      <!-- gap bracket -->
+      <line x1="300" y1="102" x2="300" y2="219" stroke="#9a3813" stroke-width="1.3" stroke-dasharray="4 3"/>
+      <text x="312" y="166" font-family="'Gowun Batang',serif" font-weight="700" font-size="16" fill="#9a3813">이해 부채</text>
+    </svg>
+    <figcaption>산출은 가파르게 오르고 이해는 완만하게 오릅니다. 그 벌어진 간격이 <b>이해 부채</b>예요.</figcaption>
+  </figure>
+
+  <h2 class="reveal">우리가 세운 원칙 네 개</h2>
+  <div class="principles reveal">
+    <div class="pr">
+      <div class="no">원칙 1</div>
+      <h3>페이스 기준은 이해 속도다</h3>
+      <p>AI가 하루에 함수 열 개를 뽑아줘도, 그중 셋만 제가 자기 말로 설명할 수 있으면 그날 진도는 셋이에요. 나머지 일곱은 아직 제 게 아니고요. 산출량이 아니라 이해량으로 그날의 속도를 잽니다.</p>
+    </div>
+    <div class="pr">
+      <div class="no">원칙 2</div>
+      <h3>결정은 사람이 한다</h3>
+      <p>AI한테 초안도, 설명도, 반론도 다 시켜요. 근데 '이걸로 가자'는 버튼은 제가 눌러요. 그것도 내용을 이해한 다음에만요. 아무리 빨라져도 결정을 AI한테 넘기지는 않아요.</p>
+    </div>
+    <div class="pr">
+      <div class="no">원칙 3</div>
+      <h3>산출물은 진도가 아니다</h3>
+      <p>문서 폴더가 두꺼워지고 커밋이 쌓이는 걸 진도라고 착각하기 쉬워요. 근데 그건 그냥 산출물이 쌓인 거예요. 진도는 제가 자기 말로 설명할 수 있는 범위가 넓어진 만큼이에요.</p>
+    </div>
+    <div class="pr">
+      <div class="no">원칙 4</div>
+      <h3>이해 게이트</h3>
+      <p>설계 한 덩어리가 끝나면 일단 멈춰요. 그리고 그걸 자기 말로 설명해봐요. 막히면 아직 안 끝난 거예요. 설명이 될 때까지 다음 단계로 안 넘어갑니다.</p>
+    </div>
+  </div>
+
+  <h2 class="reveal">이해 부채가 기술 부채보다 무서운 이유</h2>
+  <div class="body reveal">
+    <p>이해 안 하고 넘어간 건 빚으로 쌓여요. 저는 이걸 <strong>'이해 부채'</strong>라고 불러요.</p>
+    <p>여기서 하나 짚고 갈게요. 요즘 <strong>'인지 부채(Cognitive Debt)'</strong>라는 말이 있죠. AI한테 생각을 자꾸 맡기면 사고력 자체가 둔해진다는, MIT 쪽에서 나온 얘기요. 근데 제가 말하는 건 그거랑 좀 달라요. 능력이 퇴화하는 게 아니라, 특정 시스템을 이해 못 한 채 그대로 쌓이는 거요. 그래서 이해 부채라고 따로 부릅니다. 이렇게 보면 확실해요 — 뇌는 멀쩡한데 AI로 짜놓은 이 시스템만 하나도 모를 수 있고, 거꾸로 이 시스템은 훤히 아는데 그동안 사고력이 무뎌졌을 수도 있어요. 둘이 따로 놀거든요. 그래서 다른 빚이에요. <strong>인지 부채는 사람 머리에 붙는 빚</strong>이고, <strong>이해 부채는 산출물에 붙는 빚</strong> — 기술 부채 바로 옆자리예요.</p>
+  </div>
+  <div class="compare reveal">
+    <div class="col tech">
+      <div class="cap">기술 부채</div>
+      <h4>갚는 길이 있다</h4>
+      <p>시간 내서 리팩토링하면 돼요. 급하게 짜놓은 코드도 나중에 손보면 됩니다.</p>
+    </div>
+    <div class="col under">
+      <div class="cap">이해 부채</div>
+      <h4>지름길이 없다</h4>
+      <p>코드를 아무리 예쁘게 고쳐도, 제가 이해 못 한 상태는 그대로거든요. 방법은 하나, 처음부터 다시 배우는 것.</p>
+    </div>
+  </div>
+  <div class="verdict reveal">그래서 이해 부채가 기술 부채보다 더 무섭다고 봐요 — 하나는 리팩토링으로, 하나는 재학습으로만 갚으니까요.</div>
+
+  <h2 class="reveal">잘 짜인 코드를 통째로 버린 적이 있어요</h2>
+  <div class="body reveal">
+    <p>이걸 한 번 크게 겪었어요.</p>
+    <p>복잡한 프로덕션 시스템을 설계하던 중이었는데, 코드 자체는 멀쩡했어요. 구조도 잡혀 있고, 계약 검사도 붙어 있고, 문제 생기면 자동으로 멈추는 장치까지 다 있었어요. 품질만 보면 나무랄 데가 없었죠.</p>
+    <p>근데 제가 그 판을 다 못 따라갔어요. AI가 뽑아낸 속도를 제 이해가 못 쫓아간 거예요. 산출물은 계속 쌓이는데, 그걸 이해하고 있는 사람이 없는 상태가 이어졌어요.</p>
+    <p>결국 어떻게 됐냐면, 전면 재시작했어요. 코드 품질이 나빠서가 아니라, 제가 이해를 못 해서요. 잘 짜인 코드가 통째로 버려진 거예요.</p>
+  </div>
+  <div class="pull reveal">
+    <p>이해 못 하는 코드는 아무리 잘 짜여 있어도 내 게 아니구나. 그 판은 유지도 확장도 안 되더라고요.</p>
+  </div>
+
+  <h2 class="reveal">그래서 규칙을 하나 정했어요 — 이해 게이트</h2>
+  <div class="body reveal"><p>지금은 이렇게 해요.</p></div>
+  <ol class="gate reveal">
+    <li>설계 단위 하나(컴포넌트든 결정이든)가 끝나면 <strong>일단 멈춘다.</strong></li>
+    <li>그걸 남한테 설명하듯 <strong>자기 말로 소리 내서</strong> 말해본다.</li>
+    <li>막히는 지점이 있으면, <strong>거기가 아직 이해 못 한 곳</strong>이다.</li>
+    <li>그 지점이 풀리기 전엔 <strong>다음 단계로 안 넘어간다.</strong></li>
+  </ol>
+  <div class="gate-note reveal">설명이 안 되는 건 <strong>'아직 안 끝난 것'</strong>으로 칩니다. 화면에 코드가 다 있어도요. 별거 아닌 규칙 같은데, 이걸 넣은 뒤로 이해 못 한 채 넘어가는 일이 확 줄었어요.</div>
+
+  <h2 class="reveal">오늘 하나만 해보세요</h2>
+  <div class="recap reveal">
+    <p>정리하면 이래요. 산출물이 쌓이는 속도는 진도가 아니에요. 진도는 내가 이해한 만큼이고, 이해 부채는 기술 부채보다 갚기 어려워요. 그래서 결정은 끝까지 사람이, 그것도 이해한 다음에 내려요.</p>
+  </div>
+  <div class="cta reveal">
+    <div class="h">오늘 딱 하나만.</div>
+    <p>AI가 만들어준 산출물 하나를 고르세요. 코드든 문서든 뭐든요. 그리고 그걸 <strong>자기 말로 설명해보세요.</strong> 옆 사람한테 말하듯이요. 술술 되면 그건 진짜 내 진도예요. 근데 중간에 막히면, 거기가 이해 부채가 쌓인 지점이고요.</p>
+    <p>막히는 데가 있었으면 댓글에 뭐가 막혔는지 적어봐도 좋아요. 저도 매번 어딘가에서 막히거든요.</p>
+  </div>
+
+  <footer class="reveal">
+    <span>페이스는 이해 속도다 — AI 시대의 이해 부채</span>
+    <span class="src">dakman · collaboration-pace</span>
+  </footer>
+
+</div>
+<script>
+(function(){
+  var els=document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+  var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}});},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+  els.forEach(function(e,i){setTimeout(function(){io.observe(e);},Math.min(i*40,300));});
+  setTimeout(function(){document.querySelectorAll('.reveal:not(.in)').forEach(function(e){e.classList.add('in');});},4000);
+})();
+</script>
+<div style="max-width:760px;margin:48px auto 40px;padding:18px 22px;border:1px solid rgba(139,150,177,.35);border-radius:12px;text-align:center;font-family:'Noto Sans KR',sans-serif;font-size:14.5px;line-height:1.6;color:#8b96b1">
+이 글의 대화는 X에서 이어져요 — <a href="https://x.com/dakman_io/article/2077008328925044736" rel="noopener" target="_blank" style="color:#2fe0cd;font-weight:700;text-decoration:none">원문에서 답글 남기기 ↗</a>
+<div style="margin-top:8px;font-size:11.5px;opacity:.7"><a href="/" style="color:inherit;text-decoration:none">← dakman blog</a> · <a href="/privacy/" style="color:inherit">개인정보처리방침</a></div>
+</div>
+</body>
+</html>
